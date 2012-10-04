@@ -38,11 +38,6 @@
  * termes.
  */
 
-//
-//  RGDetailViewController.h
-//  iParapheur
-//
-
 #import <UIKit/UIKit.h>
 #import "ADLParapheurWallDelegateProtocol.h"
 #import "JSONKit.h"

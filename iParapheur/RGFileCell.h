@@ -38,12 +38,6 @@
  * termes.
  */
 
-//
-//  RGFileCell.h
-//  iParapheur
-//
-
-
 #import <UIKit/UIKit.h>
 #import "CustomBadge.h"
 

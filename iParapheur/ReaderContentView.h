@@ -49,6 +49,7 @@
 @property (nonatomic, readonly, strong) ReaderContentPage *contentPage;
 @property (nonatomic, readonly, strong) ReaderContentThumb *thumbView;
 @property (nonatomic, readonly, strong) UIView *containerView;
+@property (nonatomic, readonly) NSMutableArray *pointsAdded;
 
 - (id)initWithFrame:(CGRect)frame fileURL:(NSURL *)fileURL page:(NSUInteger)page password:(NSString *)phrase;
 - (id)initWithFrame:(CGRect)frame fileURL:(NSURL *)fileURL page:(NSUInteger)page contentPageClass:(Class)aClass password:(NSString *)phrase;

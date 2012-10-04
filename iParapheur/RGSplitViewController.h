@@ -38,11 +38,6 @@
  * termes.
  */
 
-//
-//  RGSplitViewController.h
-//  iParapheur
-//
-
 #import <UIKit/UIKit.h>
 #import "ADLParapheurWallDelegateProtocol.h"
 #import "RGDetailViewController.h"

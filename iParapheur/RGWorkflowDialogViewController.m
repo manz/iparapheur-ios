@@ -42,10 +42,13 @@
 //  RGWorkflowDialogViewController.m
 //  iParapheur
 //
+//
 
 #import "RGWorkflowDialogViewController.h"
 #import "ADLIParapheurWall.h"
 #import "ADLCollectivityDef.h"
+#import "ADLNotifications.h"
+#import "ADLSingletonState.h"
 
 @interface RGWorkflowDialogViewController ()
 
@@ -71,6 +74,7 @@
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view.
+
 }
 
 - (void)viewDidUnload
@@ -81,6 +85,7 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
+
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
@@ -107,6 +112,7 @@
                           [NSArray arrayWithObjects:dossierRef, nil], @"dossiers",
                           [annotationPublique text], @"annotPub",
                           [annotationPrivee text], @"annotPriv",
+                          [[ADLSingletonState sharedSingletonState] bureauCourant], @"bureauCourant",
                           nil];
     
     ADLCollectivityDef *collDef = [ADLCollectivityDef copyDefaultCollectity];

@@ -38,11 +38,6 @@
  * termes.
  */
 
-//
-//  RGWorkflowDialogViewController.h
-//  iParapheur
-//
-
 #import <UIKit/UIKit.h>
 #import "ADLParapheurWallDelegateProtocol.h"
 
@@ -54,5 +49,7 @@
 @property (retain, nonatomic) IBOutlet UITextView *annotationPublique;
 
 @property (retain, nonatomic) IBOutlet UIButton *finishButton;
+
+@property (retain, nonatomic) NSString *bureauCourant;
 
 @end

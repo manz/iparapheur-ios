@@ -38,12 +38,6 @@
  * termes.
  */
 
-//
-//  ADLIParapheurController.h
-//  iParapheur
-//
-
-
 #import <Foundation/Foundation.h>
 #import "JSONKit.h"
 #import "Reachability.h"
@@ -60,6 +54,7 @@
 #define GETBUREAUX_API          @"getBureaux"
 #define GETDOSSIERSHEADERS_API  @"getDossiersHeaders"
 #define GETDOSSIER_API          @"getDossier"
+#define GETANNOTATIONS_API      @"getAnnotations"
 
 /* editing api */
 #define APPROVE_API             @"approve"

@@ -38,10 +38,6 @@
  * termes.
  */
 
-//
-//  ADLParapheurControllerProtocol.h
-//  MGSplitView
-//
 
 #import <Foundation/Foundation.h>
 #import "ADLDocument.h"

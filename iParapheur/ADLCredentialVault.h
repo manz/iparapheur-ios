@@ -38,10 +38,6 @@
  * termes.
  */
 
-//
-//  ADLCredentialVaults.h
-//  iParapheur
-//
 
 #import <Foundation/Foundation.h>
 

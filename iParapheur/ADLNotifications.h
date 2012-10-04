@@ -38,6 +38,9 @@
  * termes.
  */
 
+
+
 #define kDossierSelected @"dossierSelected"
 #define kSelectBureauAppeared @"selectBureauAppeared"
+#define kSelectedBureau @"selectedBureau"
 #define kshowDocumentWithIndex @"showDocumentWithIndex"

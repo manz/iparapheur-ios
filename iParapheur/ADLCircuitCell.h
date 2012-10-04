@@ -38,11 +38,6 @@
  * termes.
  */
 
-//
-//  ADLCircuitCell.h
-//  iParapheur
-//
-
 #import <UIKit/UIKit.h>
 
 @interface ADLCircuitCell : UITableViewCell

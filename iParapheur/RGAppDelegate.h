@@ -38,10 +38,6 @@
  * termes.
  */
 
-//
-//  RGAppDelegate.h
-//  iParapheur
-//
 
 #import <UIKit/UIKit.h>
 

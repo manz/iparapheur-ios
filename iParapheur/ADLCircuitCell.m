@@ -43,7 +43,6 @@
 //  iParapheur
 //
 
-
 #import "ADLCircuitCell.h"
 
 @implementation ADLCircuitCell

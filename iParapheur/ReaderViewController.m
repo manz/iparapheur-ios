@@ -157,6 +157,9 @@
 				NSURL *fileURL = document.fileURL;
 				NSString *phrase = document.password;
 				contentView = [[ReaderContentView alloc] initWithFrame:viewRect fileURL:fileURL page:number contentPageClass:[self classForViewPages] password:phrase];
+                
+                contentView.contentPage.superScrollView = theScrollView;
+                
 				[self didAddContentView:contentView forPage:number];
 				[theScrollView addSubview:contentView];
 				[contentViews setObject:contentView forKey:key];
@@ -352,8 +355,17 @@
 	// setup the scroll view
 	CGRect viewRect = self.view.bounds;
 	self.theScrollView = [[UIScrollView alloc] initWithFrame:viewRect];
-	
-	theScrollView.scrollsToTop = NO;
+	self.theScrollView.scrollEnabled = YES;
+    self.theScrollView.pagingEnabled = YES;
+    self.theScrollView.delegate = self;
+    
+    self.theScrollView.panGestureRecognizer.enabled = YES;
+    self.theScrollView.panGestureRecognizer.cancelsTouchesInView = NO;
+
+    
+    
+	//theScrollView.scrollsToTop = NO;
+    /*
 	theScrollView.pagingEnabled = YES;
 	theScrollView.delaysContentTouches = NO;
 	theScrollView.showsVerticalScrollIndicator = NO;
@@ -363,9 +375,10 @@
 	theScrollView.backgroundColor = [UIColor clearColor];
 	theScrollView.userInteractionEnabled = YES;
 	theScrollView.autoresizesSubviews = YES;
-	theScrollView.delegate = self;
+	theScrollView.delegate = self;*/
 
-	[self.view addSubview:theScrollView];
+    [self setView:theScrollView];
+	//[self.view addSubview:theScrollView];
 	
 	// setup the toolbal at top
 	CGRect toolbarRect = viewRect;
@@ -387,6 +400,7 @@
 		[self.view addSubview:mainPagebar];
 	}
 	*/
+    /*
 	UITapGestureRecognizer *singleTapOne = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleSingleTap:)];
 	singleTapOne.numberOfTouchesRequired = 1; singleTapOne.numberOfTapsRequired = 1; singleTapOne.delegate = self;
 	
@@ -395,12 +409,28 @@
 	
 	UITapGestureRecognizer *doubleTapTwo = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleDoubleTap:)];
 	doubleTapTwo.numberOfTouchesRequired = 2; doubleTapTwo.numberOfTapsRequired = 2; doubleTapTwo.delegate = self;
+    */
+    // insert here handleDrag
+    // in handleDrag
+    // if hitTest fails do nothing
+    // if hitTest is in an annotation
+    // maybe we should switch to annotate mode and reset zoom to 0
+    
+    // by Default _isAnnotateEnabled = NO;
+    // -(void) toggleMode {
+    // _isAnnotateEnabled = ! _isAnnotateEnabled
+    // }
+    
+    // _isAnnotationEnabled == NO
+    // handleSingleTap -> if currentContentView annotationHitTest answers TRUE Displays the text
+    // how should we display annotations (as SingleViews over the contentView seems more resonable we need too much interaction with the
+    
 	
-	[singleTapOne requireGestureRecognizerToFail:doubleTapOne]; // Single tap requires double tap to fail
+	//[singleTapOne requireGestureRecognizerToFail:doubleTapOne]; // Single tap requires double tap to fail
 	
-	[self.view addGestureRecognizer:singleTapOne]; 
-	[self.view addGestureRecognizer:doubleTapOne]; 
-	[self.view addGestureRecognizer:doubleTapTwo]; 
+	//[self.view addGestureRecognizer:singleTapOne];
+	//[self.view addGestureRecognizer:doubleTapOne];
+	//[self.view addGestureRecognizer:doubleTapTwo];
 	
 	self.contentViews = [NSMutableDictionary new];
 	self.lastHideTime = [NSDate new];
@@ -523,10 +553,10 @@
 }
 
 #pragma mark - UIScrollViewDelegate methods
-
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView
 {
-	DXLog(@"");
+	
+    DXLog(@"");
 	__block NSInteger page = 0;
 
 	CGFloat contentOffsetX = scrollView.contentOffset.x;
@@ -563,7 +593,7 @@
 
 	if ([touch.view isKindOfClass:[UIScrollView class]]) return YES;
 
-	return NO;
+	return YES;
 }
 
 #pragma mark UIGestureRecognizer action methods

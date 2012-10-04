@@ -38,11 +38,6 @@
  * termes.
  */
 
-//
-//  ADLCollectivityDef.h
-//  iParapheur
-//
-
 #import <Foundation/Foundation.h>
 
 /*

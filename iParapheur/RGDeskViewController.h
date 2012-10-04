@@ -38,10 +38,6 @@
  * termes.
  */
 
-//
-//  RGDeskViewController.h
-//  iParapheur
-//
 
 #import <UIKit/UIKit.h>
 #import "ADLParapheurWallDelegateProtocol.h"

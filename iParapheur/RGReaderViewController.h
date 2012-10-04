@@ -38,11 +38,6 @@
  * termes.
  */
 
-//
-//  RGReaderViewController.h
-//  iParapheur
-//
-
 #import <UIKit/UIKit.h>
 #import "ReaderViewController.h"
 

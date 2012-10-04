@@ -38,11 +38,6 @@
  * termes.
  */
 
-//
-//  ADLDocument.h
-//  iParapheur
-//
-
 #import <Foundation/Foundation.h>
 
 @interface ADLDocument : NSObject

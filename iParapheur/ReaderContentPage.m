@@ -341,6 +341,9 @@
 			for (NSInteger pageNumber = 1; pageNumber <= pageCount; pageNumber++)
 			{
 				CGPDFPageRef pageRef = CGPDFDocumentGetPage(_PDFDocRef, pageNumber);
+                
+                
+                
 				CGPDFDictionaryRef pageDictionaryFromPage = CGPDFPageGetDictionary(pageRef);
 				if (pageDictionaryFromPage == pageDictionaryFromDestArray) // Found it
 				{
@@ -391,6 +394,8 @@
 	return result;
 }
 
+
+
 #pragma mark ReaderContentPage instance methods
 
 - (id)initWithFrame:(CGRect)frame
@@ -404,7 +409,7 @@
 		if ((self = [super initWithFrame:frame]))
 		{
 			//self.autoresizesSubviews = NO;
-			self.userInteractionEnabled = NO;
+			//self.userInteractionEnabled = YES;
 			self.clearsContextBeforeDrawing = NO;
 			self.contentMode = UIViewContentModeRedraw;
 			self.autoresizingMask = UIViewAutoresizingNone;
@@ -424,7 +429,8 @@
 	DXLog(@"");
 	
 	CGRect viewRect = CGRectZero; // View rect
-	
+
+    
 	if (fileURL != nil) // Check for non-nil file URL
 	{
 		_PDFDocRef = CGPDFDocumentCreateX((__bridge CFURLRef)fileURL, phrase);
@@ -493,7 +499,7 @@
 	
 	id view = [self initWithFrame:viewRect]; // UIView setup
 	
-	if (view != nil) [self buildAnnotationLinksList]; // Links
+	//if (view != nil) [self buildAnnotationLinksList]; // Links
 	
 	return view;
 }
@@ -507,8 +513,25 @@
 		CGPDFPageRelease(_PDFPageRef), _PDFPageRef = NULL;
 		CGPDFDocumentRelease(_PDFDocRef), _PDFDocRef = NULL;
 	}
+    
+    [super dealloc];
 }
 
+
+#pragma mark - CGPDFPageRef informations
+
+#if 0
+-(CGRect) getPageCropBox {
+    if (_PDFPageRef != NULL) {
+        return CGPDFPageGetBoxRect(_PDFPageRef, kCGPDFCropBox);
+    }
+    return NULL;
+}
+
+-(CGPoint) convertPixelPointToView:(CGPoint)point {
+
+}
+#endif
 
 
 #pragma mark - CATiledLayer delegate methods
@@ -524,24 +547,43 @@
 		drawPDFDocRef = CGPDFDocumentRetain(_PDFDocRef);
 		drawPDFPageRef = CGPDFPageRetain(_PDFPageRef);
 	}
-	
+    
+    CGRect pageRect = CGPDFPageGetBoxRect(_PDFPageRef, kCGPDFCropBox);
+    
+    
+    	
 	CGContextSetRGBFillColor(context, 1.0f, 1.0f, 1.0f, 1.0f);			// White
 	CGContextFillRect(context, CGContextGetClipBoundingBox(context));
 	
 	// Go ahead and render the PDF page into the context
 	if (drawPDFPageRef != NULL) {
+        
 		CGContextTranslateCTM(context, 0.0f, self.bounds.size.height);
 		CGContextScaleCTM(context, 1.0f, -1.0f);
+        //CGContextSaveGState(context);
 		CGContextConcatCTM(context, CGPDFPageGetDrawingTransform(drawPDFPageRef, kCGPDFCropBox, self.bounds, 0, true));
 		CGContextSetRenderingIntent(context, kCGRenderingIntentDefault);
 		CGContextSetInterpolationQuality(context, kCGInterpolationDefault);
-		CGContextDrawPDFPage(context, drawPDFPageRef);
-	}
-	
+		CGContextDrawPDFPage(context, drawPDFPageRef);                
+    }
+    
+    
 	// Cleanup
 	CGPDFPageRelease(drawPDFPageRef);
 	CGPDFDocumentRelease(drawPDFDocRef);
 }
+/*
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
+	[super touchesBegan:touches withEvent:event];
+}
+ */
+
+
+
+
+
+
 
 @end
 
@@ -581,6 +623,7 @@
 	
 	return self;
 }
+
 
 
 @end

@@ -42,12 +42,14 @@
 //  RGDetailViewController.m
 //  iParapheur
 //
+//
 
 #import "RGDetailViewController.h"
 #import "ADLIParapheurWall.h"
 #import "ADLCredentialVault.h"
 #import "RGDeskCustomTableViewCell.h"
 #import "ADLNotifications.h"
+#import "ADLSingletonState.h"
 
 #import "LGViewHUD.h"
 
@@ -286,6 +288,9 @@
     RGDeskViewController *controller = [[self storyboard] instantiateViewControllerWithIdentifier:@"DeskViewController"];
     [controller setDeskRef:[bureau objectForKey:@"nodeRef"]];
     [[self navigationController] pushViewController:controller animated:YES];
+    [[self navigationController] setTitle:[bureau objectForKey:@"name"]];
+    
+    [[ADLSingletonState sharedSingletonState] setBureauCourant:[bureau objectForKey:@"nodeRef"]];
 }
 
 #pragma mark - Pull to refresh delegeate implementation

@@ -38,12 +38,6 @@
  * termes.
  */
 
-//
-//  RGDeskCustomTableViewCell.h
-//  iParapheur
-//
-
-
 #import <UIKit/UIKit.h>
 #import "CustomBadge.h"
 

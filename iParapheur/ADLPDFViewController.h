@@ -38,11 +38,6 @@
  * termes.
  */
 
-//
-//  ADLPDFViewController.h
-//  iParapheur
-//
-
 #import <UIKit/UIKit.h>
 #import "ADLParapheurWallDelegateProtocol.h"
 #import "ReaderViewController.h"
@@ -50,6 +45,8 @@
 
 @property (retain, nonatomic) IBOutlet UIView *container;
 @property (retain, nonatomic) NSDictionary *dossier;
+@property (retain, nonatomic) NSString *dossierRef;
+
 @property (retain, nonatomic) ReaderViewController* readerViewController;
 @property (nonatomic, retain)  UIView* originalView;
 @property (retain, nonatomic) UIPopoverController *documentsPopover;

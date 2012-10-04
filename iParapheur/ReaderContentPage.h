@@ -24,12 +24,12 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ADLDrawingView.h"
 
 /**
  *	A class responsible with drawing one page of a PDF document
  */
-@interface ReaderContentPage : UIView
+@interface ReaderContentPage : ADLDrawingView
 {
 @private
 	CGPDFDocumentRef _PDFDocRef;
@@ -40,9 +40,15 @@
 	CGFloat _pageHeight;
 	CGFloat _pageOffsetX;
 	CGFloat _pageOffsetY;
+    
+    CGRect _annotRect;
 }
 
+
+
 @property (nonatomic, readonly, strong) NSMutableArray *links;
+
+
 
 - (id)initWithURL:(NSURL *)fileURL page:(NSInteger)page password:(NSString *)phrase;
 

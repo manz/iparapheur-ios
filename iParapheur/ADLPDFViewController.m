@@ -43,6 +43,7 @@
 //  iParapheur
 //
 
+
 #import "ADLPDFViewController.h"
 #import "ReaderContentView.h"
 #import "ADLIParapheurWall.h"
@@ -101,13 +102,20 @@
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
     [wall setDelegate:self];
     
+    _dossierRef = dossierRef;
+    
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:dossierRef,
                           @"dossierRef", nil];
     
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:GETDOSSIER_API withArgs:args andCollectivity:def];
+    
+    [wall request:GETANNOTATIONS_API withArgs:args andCollectivity:def];
+    
+    
     [def release];
+    //[args release];
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
@@ -181,6 +189,7 @@
     if ([s isEqual:GETDOSSIER_API]) {
         _dossier = [[answer objectForKey:@"data"] copy];
         [self displayDocumentAt: 0];
+        
         LGViewHUD *hud = [LGViewHUD defaultHUD];
         hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
         hud.topText=@"";
@@ -188,7 +197,12 @@
         hud.activityIndicatorOn=YES;
         
         [hud showInView:self.view];
+    
+    }
+    else if ([s isEqualToString:GETANNOTATIONS_API]) {
+        NSDictionary *annotations = [[answer objectForKey:@"annotations"] copy];
         
+        NSLog(@"annotations %@", annotations);
     }
     
 }
@@ -236,6 +250,36 @@
     [[self view] addSubview:[_readerViewController view]];
      
     [[LGViewHUD defaultHUD] setHidden:YES];
+    
+    
+    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
+    [wall setDelegate:self];
+            
+    NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                          _dossierRef,
+                          @"dossierRef",
+                          nil];
+    
+    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
+    
+    [wall request:GETANNOTATIONS_API withArgs:args andCollectivity:def];
+    
+    
+    [def release];
+    //[args release];
+    
+    LGViewHUD *hud = [LGViewHUD defaultHUD];
+    hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
+    hud.topText=@"";
+    hud.bottomText=@"Chargement ...";
+    hud.activityIndicatorOn=YES;
+    
+    [hud showInView:self.view];
+    
+  //  self.navigationItem.leftBarButtonItem = _documentsButton;
+  //  self.navigationItem.rightBarButtonItem = _detailsButton;
+    
+  //  [[self navigationController] popToRootViewControllerAnimated:YES];
 
 }
 
