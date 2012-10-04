@@ -106,13 +106,12 @@
                           initWithObjectsAndKeys:
                           [NSArray arrayWithObjects:dossierRef, nil], @"dossiers",
                           [annotationPublique text], @"annotPub",
-                          [annotationPrivee text], @"annotPrivee",
+                          [annotationPrivee text], @"annotPriv",
                           nil];
     
-    ADLCollectivityDef *collDef = [[ADLCollectivityDef alloc] init];
+    ADLCollectivityDef *collDef = [ADLCollectivityDef copyDefaultCollectity];
     
-    [collDef setHost:V4_HOST];
-    [collDef setUsername:@"eperalta"];
+
     if ([action isEqualToString:@"viser"]) {
         [wall request:@"visa" withArgs:args andCollectivity:collDef];
     }

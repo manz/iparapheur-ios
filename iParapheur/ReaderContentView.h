@@ -25,6 +25,7 @@
 
 #import <UIKit/UIKit.h>
 
+#import "ReaderContentPage.h"
 #import "ReaderThumbView.h"
 
 @class ReaderContentView;
@@ -33,31 +34,26 @@
 
 @protocol ReaderContentViewDelegate <NSObject>
 
-@required // Delegate protocols
-
+@required
 - (void)contentView:(ReaderContentView *)contentView touchesBegan:(NSSet *)touches;
 
 @end
 
 @interface ReaderContentView : UIScrollView <UIScrollViewDelegate>
 {
-@private // Instance variables
-
-	ReaderContentPage *theContentView;
-
-	ReaderContentThumb *theThumbView;
-
-	UIView *theContainerView;
-
+@private
 	CGFloat zoomAmount;
 }
 
-@property (nonatomic, assign, readwrite) id <ReaderContentViewDelegate> message;
+@property (nonatomic, unsafe_unretained, readwrite) id <ReaderContentViewDelegate> message;
+@property (nonatomic, readonly, strong) ReaderContentPage *contentPage;
+@property (nonatomic, readonly, strong) ReaderContentThumb *thumbView;
+@property (nonatomic, readonly, strong) UIView *containerView;
 
 - (id)initWithFrame:(CGRect)frame fileURL:(NSURL *)fileURL page:(NSUInteger)page password:(NSString *)phrase;
+- (id)initWithFrame:(CGRect)frame fileURL:(NSURL *)fileURL page:(NSUInteger)page contentPageClass:(Class)aClass password:(NSString *)phrase;
 
 - (void)showPageThumb:(NSURL *)fileURL page:(NSInteger)page password:(NSString *)phrase guid:(NSString *)guid;
-
 - (id)singleTap:(UITapGestureRecognizer *)recognizer;
 
 - (void)zoomIncrement;
@@ -73,8 +69,5 @@
 //
 
 @interface ReaderContentThumb : ReaderThumbView
-{
-@private // Instance variables
-}
 
 @end

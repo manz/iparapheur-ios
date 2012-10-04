@@ -40,9 +40,8 @@
 
 //
 //  ADLParapheurControllerProtocol.h
-//  iParapheur
+//  MGSplitView
 //
-
 
 #import <Foundation/Foundation.h>
 #import "ADLDocument.h"

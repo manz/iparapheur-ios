@@ -89,8 +89,16 @@
         [alertView release];
         //storing ticket ? lacks the host and login information
         //we should add it into the request process ?
-        [[ADLCredentialVault sharedCredentialVault] addCredentialForHost:V4_HOST
-                                                                andLogin:@"eperalta" withTicket:[[answer    objectForKey:@"data"] objectForKey:@"ticket"]];
+        
+        ADLCredentialVault *vault = [ADLCredentialVault sharedCredentialVault];
+        
+        ADLCollectivityDef *collectivityDef = [ADLCollectivityDef copyDefaultCollectity];
+        
+        [vault addCredentialForHost:[collectivityDef host] andLogin:[collectivityDef username] withTicket:[[answer objectForKey:@"data"] objectForKey:@"ticket"]];
+        
+        [collectivityDef release];
+        
+
         
     }
     else if ([s isEqual:GETBUREAUX_API]) {

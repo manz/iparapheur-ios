@@ -43,21 +43,19 @@
 //  iParapheur
 //
 
-
 #import "RGDocumentsView.h"
 #import "ADLDocument.h"
 #import "ADLIParapheurWall.h"
 #import "ReaderDocument.h"
 #import "ReaderViewController.h"
+#import "ADLNotifications.h"
 
 @interface RGDocumentsView ()
 
 @end
 
 @implementation RGDocumentsView
-@synthesize splitViewController = _splitViewController;
 @synthesize documents = _documents;
-@synthesize popoverController = __popoverController;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -91,7 +89,7 @@
 }
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"DocumentCell";
+    static NSString *CellIdentifier = @"";
     
     UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
@@ -102,7 +100,6 @@
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     NSDictionary *document = [_documents objectAtIndex:[indexPath row]];
-    // NSLog(@"%@", [dossier objectForKey:@"titre"]);
     
     [[cell textLabel] setText:[document objectForKey:@"name"]];
     
@@ -110,70 +107,8 @@
 }
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *document = [_documents objectAtIndex:[indexPath row]];
-    
-    
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
-    
-    
-    ADLCollectivityDef *def = [[ADLCollectivityDef alloc] init];
-    
-    [def setHost:V4_HOST];
-    [def setUsername:@"eperalta"];
-    if ([[document objectForKey:@"visuelPdfUrl"] isEqual:@""]) {
-    [wall downloadDocumentWithNodeRef:[document objectForKey:@"downloadUrl"] andCollectivity:def];
-    }
-else {
-   [wall downloadDocumentWithNodeRef:[document objectForKey:@"visuelPdfUrl"] andCollectivity:def]; 
-}
-}
-
-#pragma mark - Wall delegate
-- (void)didEndWithRequestAnswer:(NSDictionary*)answer{
-}
-
-- (void)didEndWithUnReachableNetwork{
-}
-
-- (void)didEndWithUnAuthorizedAccess {
-}
-
-- (void)didEndWithDocument:(ADLDocument*) document {
-   // [[self popoverController] dismissPopoverAnimated:YES];
-    NSFileManager *fileManager = [NSFileManager defaultManager];
-    NSFileHandle *file;
-    
-    NSArray *documentsPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    
-	NSString *docPath = [documentsPaths objectAtIndex:0]; // stringByDeletingLastPathComponent];
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@", docPath, @"myfile.bin"];
-    [fileManager createFileAtPath:filePath contents:nil attributes:nil];
-    
-    file = [NSFileHandle fileHandleForWritingAtPath: filePath];
-    [file writeData:[document documentData]];
-    
-    
-    ReaderDocument *readerDocument = [[ReaderDocument alloc] initWithFilePath:filePath password:nil];
-    
-    ReaderViewController *readerViewController = [[ReaderViewController alloc] initWithReaderDocument:readerDocument];
-    [readerViewController setDelegate:self];
-    
-    readerViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
-    readerViewController.modalPresentationStyle = UIModalPresentationFullScreen;
-    [__popoverController dismissPopoverAnimated:NO];
-    
-    //- (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion
-
-    [_splitViewController presentModalViewController:readerViewController animated:YES];
-    [readerDocument release];
-    [readerViewController release];
-
-}
-
-- (void) dismissReaderViewController:(ReaderViewController *)viewController {
-    // do nothing for now
-    [_splitViewController dismissModalViewControllerAnimated:YES];
+    NSNumber *docIndex = [NSNumber numberWithInteger:[indexPath row]];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kshowDocumentWithIndex object:docIndex];
     
 }
 

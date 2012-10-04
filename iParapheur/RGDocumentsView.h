@@ -47,11 +47,11 @@
 #import "ADLParapheurWallDelegateProtocol.h"
 #import "ReaderViewController.h"
 
-@interface RGDocumentsView : UITableViewController<ADLParapheurWallDelegateProtocol, ReaderViewControllerDelegate> {
+@interface RGDocumentsView : UITableViewController {
     
 }
     
 @property (retain, nonatomic) NSArray *documents;
-@property (retain, nonatomic) UISplitViewController *splitViewController;
-@property (retain, nonatomic) UIPopoverController *popoverController;
+
+
 @end

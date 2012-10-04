@@ -32,8 +32,7 @@
 
 @protocol ReaderMainToolbarDelegate <NSObject>
 
-@required // Delegate protocols
-
+@required
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar doneButton:(UIButton *)button;
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar thumbsButton:(UIButton *)button;
 - (void)tappedInToolbar:(ReaderMainToolbar *)toolbar printButton:(UIButton *)button;
@@ -44,15 +43,14 @@
 
 @interface ReaderMainToolbar : UIXToolbarView
 {
-@private // Instance variables
-
+@private
 	UIButton *markButton;
-
 	UIImage *markImageN;
 	UIImage *markImageY;
 }
 
-@property (nonatomic, assign, readwrite) id <ReaderMainToolbarDelegate> delegate;
+@property (nonatomic, unsafe_unretained, readwrite) id <ReaderMainToolbarDelegate> delegate;
+@property (nonatomic) NSString *title;
 
 - (id)initWithFrame:(CGRect)frame document:(ReaderDocument *)object;
 

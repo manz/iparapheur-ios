@@ -23,52 +23,31 @@
 //	CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 //
 
-#import <Foundation/Foundation.h>
+#import "CGPDFDocument.h"
 
 @interface ReaderDocument : NSObject <NSCoding>
-{
-@private // Instance variables
 
-	NSString *_guid;
+@property (nonatomic, readonly, copy) NSString *guid;
+@property (nonatomic, readonly, strong) NSDate *fileDate;
+@property (nonatomic, readonly, copy) NSString *fileName;
+@property (nonatomic, readonly, strong) NSURL *fileURL;
 
-	NSDate *_fileDate;
+@property (nonatomic, strong) NSDate *lastOpen;
+@property (nonatomic, readonly, strong) NSNumber *fileSize;
+@property (nonatomic) NSInteger epPageCount;
+@property (nonatomic, strong) NSNumber *pageNumber;
 
-	NSDate *_lastOpen;
+@property (nonatomic, readonly, strong) NSMutableIndexSet *bookmarks;
+@property (nonatomic, readonly, copy) NSString *password;
 
-	NSNumber *_fileSize;
++ (NSString *)GUID;
 
-	NSNumber *_pageCount;
-
-	NSNumber *_pageNumber;
-
-	NSMutableIndexSet *_bookmarks;
-
-	NSString *_fileName;
-
-	NSString *_password;
-
-	NSURL *_fileURL;
-}
-
-@property (nonatomic, retain, readonly) NSString *guid;
-@property (nonatomic, retain, readonly) NSDate *fileDate;
-@property (nonatomic, retain, readwrite) NSDate *lastOpen;
-@property (nonatomic, retain, readonly) NSNumber *fileSize;
-@property (nonatomic, retain, readonly) NSNumber *pageCount;
-@property (nonatomic, retain, readwrite) NSNumber *pageNumber;
-@property (nonatomic, retain, readonly) NSMutableIndexSet *bookmarks;
-@property (nonatomic, retain, readonly) NSString *fileName;
-@property (nonatomic, retain, readonly) NSString *password;
-@property (nonatomic, retain, readonly) NSURL *fileURL;
-
-+ (ReaderDocument *)withDocumentFilePath:(NSString *)filename password:(NSString *)phrase;
-
++ (ReaderDocument *)newWithDocumentFilePath:(NSString *)filename password:(NSString *)phrase;
 + (ReaderDocument *)unarchiveFromFileName:(NSString *)filename password:(NSString *)phrase;
 
 - (id)initWithFilePath:(NSString *)fullFilePath password:(NSString *)phrase;
 
 - (void)saveReaderDocument;
-
 - (void)updateProperties;
 
 @end

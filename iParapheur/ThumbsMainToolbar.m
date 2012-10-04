@@ -25,6 +25,7 @@
 
 #import "ReaderConstants.h"
 #import "ThumbsMainToolbar.h"
+#import "CGPDFDocument.h"
 
 @implementation ThumbsMainToolbar
 
@@ -48,18 +49,14 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
+	DXLog(@"");
 
 	return [self initWithFrame:frame title:nil];
 }
 
 - (id)initWithFrame:(CGRect)frame title:(NSString *)title
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
+	DXLog(@"");
 
 	if ((self = [super initWithFrame:frame]))
 	{
@@ -89,7 +86,7 @@
 
 		titleX += (DONE_BUTTON_WIDTH + BUTTON_SPACE); titleWidth -= (DONE_BUTTON_WIDTH + BUTTON_SPACE);
 
-#if (READER_BOOKMARKS == TRUE) // Option
+#if READER_BOOKMARKS // Option
 
 		CGFloat showControlX = (viewWidth - (SHOW_CONTROL_WIDTH + BUTTON_SPACE));
 
@@ -107,7 +104,7 @@
 
 		[showControl addTarget:self action:@selector(showControlTapped:) forControlEvents:UIControlEventValueChanged];
 
-		[self addSubview:showControl]; [showControl release];
+		[self addSubview:showControl]; 
 
 		titleWidth -= (SHOW_CONTROL_WIDTH + BUTTON_SPACE);
 
@@ -131,29 +128,19 @@
 			titleLabel.minimumFontSize = 14.0f;
 			titleLabel.text = title;
 
-			[self addSubview:titleLabel]; [titleLabel release];
+			[self addSubview:titleLabel]; 
 		}
 	}
 
 	return self;
 }
 
-- (void)dealloc
-{
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
-
-	[super dealloc];
-}
 
 #pragma mark UISegmentedControl action methods
 
 - (void)showControlTapped:(UISegmentedControl *)control
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
+	DXLog(@"");
 
 	[delegate tappedInToolbar:self showControl:control];
 }
@@ -162,9 +149,7 @@
 
 - (void)doneButtonTapped:(UIButton *)button
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
+	DXLog(@"");
 
 	[delegate tappedInToolbar:self doneButton:button];
 }

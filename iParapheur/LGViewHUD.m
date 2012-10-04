@@ -53,7 +53,7 @@ static LGViewHUD* defaultHUD = nil;
 		backgroundView.backgroundColor=[UIColor blackColor];
 		backgroundView.alpha=kHUDDefaultAlphaValue;
 		
-		offset=frame.size.width/3.0;
+		//offset=frame.size.width/3.0;
 		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width/4.0, frame.size.height/4.0, 
 																  frame.size.width/2.0, frame.size.height/2.0)];
 		imageView.contentMode=UIViewContentModeCenter;
@@ -199,9 +199,6 @@ static LGViewHUD* defaultHUD = nil;
 	displayTimer = [[NSTimer timerWithTimeInterval:delayDuration target:self selector:@selector(displayTimeOut:) 
 										  userInfo:[NSNumber numberWithInt:animation] repeats:NO] retain];
 	[[NSRunLoop mainRunLoop] addTimer:displayTimer forMode:NSRunLoopCommonModes];
-	//displayTimer = [[NSTimer scheduledTimerWithTimeInterval:delayDuration target:self 
-//												   selector:@selector(displayTimeOut:) 
-//												   userInfo:[NSNumber numberWithInt:animation] repeats:NO] retain];	
 }
 
 -(void) displayTimeOut:(NSTimer*)timer {

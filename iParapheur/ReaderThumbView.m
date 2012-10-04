@@ -1,6 +1,6 @@
 //
 //	ReaderThumbView.m
-//	Reader v2.5.4
+//	Reader v2.5.5
 //
 //	Created by Julius Oklamcak on 2011-09-01.
 //	Copyright © 2011-2012 Julius Oklamcak. All rights reserved.
@@ -24,6 +24,7 @@
 //
 
 #import "ReaderThumbView.h"
+#import "CGPDFDocument.h"
 
 @implementation ReaderThumbView
 
@@ -36,26 +37,21 @@
 
 - (id)initWithFrame:(CGRect)frame
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
-
-	if ((self = [super initWithFrame:frame]))
-	{
-		self.autoresizesSubviews = NO;
+	if ((self = [super initWithFrame:frame])) {
+		//self.autoresizesSubviews = NO;
 		self.userInteractionEnabled = NO;
 		self.contentMode = UIViewContentModeRedraw;
 		self.autoresizingMask = UIViewAutoresizingNone;
-		self.backgroundColor = [UIColor clearColor];
+		self.backgroundColor = [UIColor whiteColor];
 
 		imageView = [[UIImageView alloc] initWithFrame:self.bounds];
 
 		imageView.autoresizesSubviews = NO;
 		imageView.userInteractionEnabled = NO;
 		imageView.contentMode = UIViewContentModeScaleAspectFit;
-		imageView.autoresizingMask = UIViewAutoresizingNone;
-		imageView.backgroundColor = [UIColor clearColor];
-
+		imageView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		//imageView.backgroundColor = [UIColor clearColor];
+		
 		[self addSubview:imageView];
 	}
 
@@ -64,55 +60,46 @@
 
 - (void)dealloc
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
-
-	[imageView release], imageView = nil;
-
-	[super dealloc];
+	imageView = nil;
 }
 
 - (void)showImage:(UIImage *)image
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
-
 	imageView.image = image; // Show image
 }
 
 - (void)showTouched:(BOOL)touched
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
+	DXLog(@"");
 }
 
 - (void)removeFromSuperview
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
-
+	DXLog(@"");
 	_targetTag = 0; // Clear target tag
-
-	[self.operation cancel], self.operation = nil;
-
+	
+	[self.operation cancel];
+	self.operation = nil;
 	[super removeFromSuperview];
 }
 
 - (void)reuse
 {
-#ifdef DEBUGX
-	NSLog(@"%s", __FUNCTION__);
-#endif
-
+	DXLog(@"");
 	_targetTag = 0; // Clear target tag
-
-	[self.operation cancel], self.operation = nil;
-
+	
+	[self.operation cancel];
+	self.operation = nil;
 	imageView.image = nil; // Release image
+}
+
+
+
+#pragma mark - Overrides
+- (void)setFrame2:(CGRect)aFrame
+{
+	[super setFrame:aFrame];
+	[imageView setFrame:self.bounds];
 }
 
 @end

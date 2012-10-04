@@ -40,8 +40,9 @@
 
 //
 //  ADLIParapheurController.m
-//  iParapheur
+//  MGSplitView
 //
+
 
 #import "ADLIParapheurWall.h"
 #import "ADLMacroes.h"
@@ -64,7 +65,7 @@ static ADLIParapheurWall *sharedWall = nil;
 
 
 -(id) init {
-    serialQueue = dispatch_queue_create("com.example.iParapheur.serial", DISPATCH_QUEUE_SERIAL);
+    serialQueue = dispatch_queue_create("org.adullact.iParapheur.serial", DISPATCH_QUEUE_SERIAL);
     dispatch_retain(serialQueue);
     
     return self;
@@ -107,12 +108,12 @@ static ADLIParapheurWall *sharedWall = nil;
         currentRequest = req;
         
         if (alf_ticket != nil) {
-            requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@/parapheur/api/%@?alf_ticket=%@", [def host], req, alf_ticket]]; 
+            requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@/alfresco/service/parapheur/api/%@?alf_ticket=%@", [def host], req, alf_ticket]]; 
         }
         else {
-            requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@/parapheur/api/%@", [def host], req]];
+            requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@/alfresco/service/parapheur/api/%@", [def host], req]];
         }
-        NSLog(@"%@", [NSString stringWithFormat:@"http://%@/parapheur/api/%@", [def host], req]);
+        NSLog(@"%@", [NSString stringWithFormat:@"http://%@/alfresco/service/parapheur/api/%@", [def host], req]);
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
         [requestURL release];
         
@@ -183,13 +184,13 @@ static ADLIParapheurWall *sharedWall = nil;
         //NSString *nodeRefPath = [nodeRef stringByReplacingOccurrencesOfString:@"://" withString:@"/"];
         
         if (alf_ticket != nil) {
-            requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@%@?alf_ticket=%@", [def host], nodeRef, alf_ticket]]; 
+            requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@/alfresco/service%@?alf_ticket=%@", [def host], nodeRef, alf_ticket]]; 
         }
         else {
             NSLog(@"Error while DL/ing the document");
         }
         
-        NSLog(@"%@", [NSString stringWithFormat:@"http://%@%@?alf_ticket=%@", [def host], nodeRef, alf_ticket]);
+        NSLog(@"%@", [NSString stringWithFormat:@"http://%@/alfresco/service%@?alf_ticket=%@", [def host], nodeRef, alf_ticket]);
      /*   
         NSLog(@"%@", [NSString stringWithFormat:@"http://%@/parapheur/api/%@", [def host], req]);
       */
@@ -197,26 +198,15 @@ static ADLIParapheurWall *sharedWall = nil;
        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
         [requestURL release];
         
-        // [request setCachePolicy:NSURLCacheStorageAllowed];
-        /*
-        NSDictionary *requestArgs = [NSDictionary dictionaryWithDictionary:args];
-        */
         [request setHTTPMethod:@"GET"];
-        //[request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-        //[request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
-        
-        
-        // NSLog(@"%@", [requestArgs JSONString]);
-        //[request setHTTPBody:[requestArgs JSONData]];
         
         isDownloadingDocument = YES;
-        
         
         NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         [connection scheduleInRunLoop:[NSRunLoop currentRunLoop]
                               forMode:NSDefaultRunLoopMode];
         
-        receivedData=[[NSMutableData data] retain];
+        receivedData= [[NSMutableData data] retain];
         
         [request release]; 
         
@@ -227,11 +217,6 @@ static ADLIParapheurWall *sharedWall = nil;
                   password:(NSString*)password
 
 {
-    /*
-     NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:username, @"username",
-     password, @"password", nil];
-     */
-    
     
     return;
 }
@@ -284,6 +269,7 @@ static ADLIParapheurWall *sharedWall = nil;
         
         NSString *req = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
         NSLog(@"%@", req);
+        [req release];
     }
 }
 
@@ -335,19 +321,9 @@ static ADLIParapheurWall *sharedWall = nil;
 -(void) parseResponse:(NSString*) response {
     NSDictionary* responseObject = [response objectFromJSONString];
     NSMutableDictionary* retVal = [NSMutableDictionary dictionaryWithDictionary:responseObject];
-    NSString *code = [responseObject objectForKey:@"code"];
     
     [retVal setObject:currentRequest forKey:@"_req"];
-    /*
-    if ([code isEqualToString:@"KO"]) {
-        if (delegate != nil) {
-            [delegate didEndWithUnAuthorizedAccess];
-        }
-        else {
-            [self didEndWithUnAuthorizedAccess];
-        }
-    }
-    */
+
     if (delegate != nil) {
         dispatch_queue_t mainQueue = dispatch_get_main_queue();
         
@@ -383,7 +359,7 @@ static ADLIParapheurWall *sharedWall = nil;
 }
 
 - (void) didEndWithUnReachableNetwork {
-    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error", @"Alert title when network error happens") message:NSLocalizedString(@"Unable to reach host, please check your network settings.", @"Text displayed in the UIAlertView when the application can't reach geo-u.com") delegate:nil cancelButtonTitle:NSLocalizedString(@"Dismiss", @"Alert view dismiss button") otherButtonTitles:nil];
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"Network Error", @"Alert title when network error happens") message:NSLocalizedString(@"Unable to reach host, please check your network settings.", @"Text displayed in the UIAlertView when the application can't reach the server") delegate:nil cancelButtonTitle:NSLocalizedString(@"Dismiss", @"Alert view dismiss button") otherButtonTitles:nil];
     [alertView show];
     [alertView release];
 }

@@ -43,7 +43,6 @@
 //  iParapheur
 //
 
-
 #import "RGReaderViewController.h"
 
 @interface RGReaderViewController ()

@@ -72,5 +72,6 @@
 @property (nonatomic, retain) NSString *host;
 @property (nonatomic, retain) NSString *username;
 
++(ADLCollectivityDef*) copyDefaultCollectity;
 
 @end

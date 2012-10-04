@@ -78,8 +78,11 @@
 @property (retain, nonatomic) IBOutlet UIButton *viserButton;
 @property (retain, nonatomic) IBOutlet UIButton *rejectButton;
 
+@property (retain, nonatomic) NSDictionary *dossier;
+
 
 @property (nonatomic, retain) NSString *dossierRef;
 - (IBAction)showVisuelPDF:(id)sender;
+- (void)refreshViewWithDossier:(NSDictionary*)dossier;
 
 @end

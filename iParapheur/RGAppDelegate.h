@@ -43,7 +43,6 @@
 //  iParapheur
 //
 
-
 #import <UIKit/UIKit.h>
 
 @interface RGAppDelegate : UIResponder <UIApplicationDelegate>

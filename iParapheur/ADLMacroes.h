@@ -40,7 +40,7 @@
 
 //
 //  ADLMacroes.h
-//  iParapheur
+//  MGSplitView
 //
 
 #ifdef DEBUG

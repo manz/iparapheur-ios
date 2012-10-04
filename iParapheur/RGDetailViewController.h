@@ -47,12 +47,15 @@
 #import "ADLParapheurWallDelegateProtocol.h"
 #import "JSONKit.h"
 #import "RGDeskViewController.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface RGDetailViewController : UITableViewController <UISplitViewControllerDelegate, ADLParapheurWallDelegateProtocol, UITableViewDataSource> {
+@interface RGDetailViewController : UITableViewController <EGORefreshTableHeaderDelegate ,UISplitViewControllerDelegate, ADLParapheurWallDelegateProtocol, UITableViewDataSource> {
 }
 
 @property (nonatomic, retain) NSArray *deskArray;
 @property (strong, nonatomic) id detailItem;
+@property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
+@property (nonatomic) BOOL loading;
 
 -(void)loadBureaux;
 

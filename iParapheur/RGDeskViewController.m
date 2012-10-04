@@ -47,6 +47,9 @@
 #import "ADLIParapheurWall.h"
 #import "RGMasterViewController.h"
 #import "LGViewHUD.h"
+#import "RGFileCell.h"
+#import "ISO8601DateFormatter.h"
+#import "ADLNotifications.h"
 
 @implementation RGDeskViewController
 
@@ -61,11 +64,30 @@
     [super viewDidLoad];
     [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"TableViewPaperBackground.png"]]];
     
+    _loading = NO;
+    
+    
+    if (_refreshHeaderView == nil) {
+        
+		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+		view.delegate = self;
+		[self.tableView addSubview:view];
+		_refreshHeaderView = view;
+		[view release];
+        
+	}
+    
+    
+    
+	//  update the last update date
+	[_refreshHeaderView refreshLastUpdatedDate];
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
-
+    
+    
     currentPage = 0;
     filesArray = [[NSMutableArray alloc] init];
     [self loadDossiersWithPage:currentPage];
@@ -76,8 +98,8 @@
 -(void)loadDossiersWithPage:(int)page {
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
     [wall setDelegate:self];
-    //{"bureauRef":bureauRef, "page":page, "pageSize":pageSize}
-    NSString *pageStr = @"0" ;//[NSString stringWithFormat:@"%d", page];
+
+    NSString *pageStr = @"0";
     
     NSDictionary *args = [[NSDictionary alloc]
                           initWithObjectsAndKeys:
@@ -87,10 +109,7 @@
                           nil];
     
     [pageStr release];
-    ADLCollectivityDef *collDef = [[ADLCollectivityDef alloc] init];
-    
-    [collDef setHost:V4_HOST];
-    [collDef setUsername:@"eperalta"];
+    ADLCollectivityDef *collDef = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:GETDOSSIERSHEADERS_API withArgs:args andCollectivity:collDef];
     [args release];
@@ -118,12 +137,12 @@
 }
 
 -(UITableViewCell*) tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    static NSString *CellIdentifier = @"DeskCell";
+    static NSString *CellIdentifier = @"FileCell";
     
-    UITableViewCell *cell = (UITableViewCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    RGFileCell *cell = (RGFileCell *)[tableView dequeueReusableCellWithIdentifier:CellIdentifier];
     
     if(cell == nil) {
-        cell = [[[UITableViewCell alloc] init] autorelease];
+        cell = [[[RGFileCell alloc] init] autorelease];
     }
     
     [cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
@@ -131,9 +150,28 @@
     NSDictionary *dossier = [filesArray objectAtIndex:[indexPath row]];
     // NSLog(@"%@", [dossier objectForKey:@"titre"]);
     
-    [[cell textLabel] setText:[dossier objectForKey:@"titre"]];
+    [[cell filenameLabel] setText:[dossier objectForKey:@"titre"]];
+    [[cell typeLabel] setText:[NSString stringWithFormat:@"%@ / %@", [dossier objectForKey:@"type"], [dossier objectForKey:@"sousType"]]];
     
-    
+    NSString *dateLimite = [dossier objectForKey:@"dateLimite"];
+    if (dateLimite != nil) {
+        ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
+        //[formatter setDateFormat:@"yyyy'-'MM'-'dd'T'HH:mm:ss'Z'"];
+        NSDate *dueDate = [formatter dateFromString:dateLimite];
+        
+        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        [outputFormatter setDateFormat:@"dd MMM"];
+        
+        NSString *fdate = [[outputFormatter stringFromDate:dueDate] retain];
+        [[cell retardBadge] setBadgeText:fdate];
+        [[cell retardBadge] autoBadgeSizeWithString: [NSString stringWithFormat:@" %@ ", fdate]];
+        [[cell retardBadge] setHidden:NO];
+        [fdate release];
+
+    }
+    else {
+        [[cell retardBadge] setHidden:YES];
+    }
     
     return cell;
 }
@@ -146,16 +184,19 @@
     
     NSString *dossierRef = [file objectForKey:@"dossierRef"];
     
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDossierSelected object:dossierRef];
+    /*
     UINavigationController *nav = (UINavigationController*)[[[self splitViewController] viewControllers] lastObject];
     
     
     [[[nav viewControllers] objectAtIndex:0] setDossierRef:dossierRef];
-    
-    [[[[nav viewControllers] objectAtIndex:0] textView] setText:dossierRef];
+    */
+    //[[[[nav viewControllers] objectAtIndex:0] textView] setText:dossierRef];
     
     // [[self navigationController] pushViewController:controller animated:YES];
     /* wrooong */
 }
+
 
 
 
@@ -165,6 +206,10 @@
     NSLog(@"Dossiers Headers Recieved ?");
     /*
     [self setFilesArray:[[answer objectForKey:@"data"] objectForKey:@"dossiers"]];*/
+    
+    _loading = NO;
+    
+    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
     
     if (currentPage > 0) {
         [filesArray removeLastObject];
@@ -218,8 +263,22 @@
         
     }
     else {
-        NSDictionary *filters = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"*%@*",searchText], @"cm:name", nil];
+      
+        /*
+         NSDictionary *filters = [[NSDictionary alloc] initWithObjectsAndKeys:
+                                 [NSArray arrayWithObjects:
+                                  [[NSDictionary alloc] initWithObjectsAndKeys:
+                                   [NSString stringWithFormat:@"*%@*",searchText], @"cm:name",nil],
+                                  [[NSDictionary alloc] initWithObjectsAndKeys:
+                                   [NSString stringWithFormat:@"%@",searchText], @"cm:name", nil],
+                                  nil],
+                                 "or", nil];
+         */
         
+        NSDictionary *filters = [[NSDictionary alloc] initWithObjectsAndKeys:
+         [NSString stringWithFormat:@"*%@*",searchText], @"cm:name",nil];
+                
+
         args = [[NSDictionary alloc]
                 initWithObjectsAndKeys:
                 deskRef, @"bureauRef",
@@ -227,14 +286,13 @@
                 [NSNumber numberWithInteger:0], @"page",
                 @"15", @"pageSize",
                 nil];
+        
+        [filters release];
     }
     
     
     [pageStr release];
-    ADLCollectivityDef *collDef = [[ADLCollectivityDef alloc] init];
-    
-    [collDef setHost:V4_HOST];
-    [collDef setUsername:@"eperalta"];
+    ADLCollectivityDef *collDef = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:GETDOSSIERSHEADERS_API withArgs:args andCollectivity:collDef];
     [args release];
@@ -255,6 +313,38 @@
 - (void)searchBar:(UISearchBar *)searchBar textDidChange:(NSString *)searchText {
 
 }
+
+#pragma mark - Pull to refresh delegeate implementation
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
+    [self loadDossiersWithPage:0];
+}
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
+    return _loading;
+    
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+    
+	return [NSDate date]; // should return date data source was last changed
+    
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    
+	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    
+}
+
 
 - (void)dealloc {
     [loadMoreButton release];

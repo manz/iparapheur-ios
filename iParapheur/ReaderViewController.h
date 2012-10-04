@@ -37,41 +37,42 @@
 
 @protocol ReaderViewControllerDelegate <NSObject>
 
-@optional // Delegate protocols
-
+@optional
 - (void)dismissReaderViewController:(ReaderViewController *)viewController;
 
 @end
+
 
 @interface ReaderViewController : UIViewController <UIScrollViewDelegate, UIGestureRecognizerDelegate, MFMailComposeViewControllerDelegate,
 													ReaderMainToolbarDelegate, ReaderMainPagebarDelegate, ReaderContentViewDelegate,
 													ThumbsViewControllerDelegate>
 {
 @private // Instance variables
-
-	ReaderDocument *document;
-
-	UIScrollView *theScrollView;
-
-	ReaderMainToolbar *mainToolbar;
-
-	ReaderMainPagebar *mainPagebar;
-
-	NSMutableDictionary *contentViews;
-
 	UIPrintInteractionController *printInteraction;
-
+	
 	NSInteger currentPage;
-
 	CGSize lastAppearSize;
-
-	NSDate *lastHideTime;
-
 	BOOL isVisible;
 }
 
-@property (nonatomic, assign, readwrite) id <ReaderViewControllerDelegate> delegate;
+@property (nonatomic, unsafe_unretained, readwrite) id <ReaderViewControllerDelegate> delegate;
+@property (nonatomic, strong, readonly) ReaderDocument *document;
+
+@property (nonatomic, strong) UIScrollView *theScrollView;
+@property (nonatomic, strong) ReaderMainToolbar *mainToolbar;
+@property (nonatomic, strong) ReaderMainPagebar *mainPagebar;
+@property (nonatomic, strong) NSMutableDictionary *contentViews;
+
+@property (nonatomic, readonly, strong) NSDate *lastHideTime;
 
 - (id)initWithReaderDocument:(ReaderDocument *)object;
+
+- (void)didAddContentView:(ReaderContentView *)aContentView forPage:(NSInteger)pageNumber;
+- (NSData *)documentData;
+
+- (void)updateScrollViewContentViews;
+
+- (Class)classForViewPages;
+
 
 @end

@@ -47,6 +47,7 @@
 #import "ADLIParapheurWall.h"
 #import "ADLCredentialVault.h"
 #import "RGDeskCustomTableViewCell.h"
+#import "ADLNotifications.h"
 
 #import "LGViewHUD.h"
 
@@ -107,52 +108,63 @@
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib
     _deskArray = [[NSMutableArray alloc] init];
+    _loading = NO;
+    
+    if (_refreshHeaderView == nil) {
+        
+		EGORefreshTableHeaderView *view = [[EGORefreshTableHeaderView alloc] initWithFrame:CGRectMake(0.0f, 0.0f - self.tableView.bounds.size.height, self.view.frame.size.width, self.tableView.bounds.size.height)];
+		view.delegate = self;
+		[self.tableView addSubview:view];
+		_refreshHeaderView = view;
+		[view release];
+        
+	}
+    
+	//  update the last update date
+	[_refreshHeaderView refreshLastUpdatedDate];
     
     [self configureView];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
+    
     if ([_deskArray count] == 0) {
     //    _deskArray = [[NSMutableArray alloc] init];
-        
         
         ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
         [wall setDelegate:self];
         
-        NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:@"eperalta", @"username", @"secret", @"password", nil];
+        NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] stringForKey:@"login_preference"], @"username", [[NSUserDefaults standardUserDefaults] stringForKey:@"password_preference"], @"password", nil];
         
-        ADLCollectivityDef *def = [[ADLCollectivityDef alloc] init];
-        
-        [def setHost:V4_HOST];
-        [def setUsername:@"eperalta"];
+        ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
         
         [wall request:LOGIN_API withArgs:args andCollectivity:def];
         [def release];
     }
+    [[NSNotificationCenter defaultCenter] postNotificationName:kSelectBureauAppeared object:nil];
+
 }
 
-- (void)loadBureaux
+- (void)loadBureaux:(BOOL)displayHUD
 {
-    //FIXME: hardcored stuff
-
+    _loading = YES;
+    
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
     [wall setDelegate:self];
+    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
-    NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:@"eperalta", @"username", nil];
-    
-    ADLCollectivityDef *def = [[ADLCollectivityDef alloc] init];
-    
-    LGViewHUD *hud = [LGViewHUD defaultHUD];
-    hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
-    hud.topText=@"";
-    hud.bottomText=@"Chargement ...";
-    hud.activityIndicatorOn=YES;
-    [hud showInView:self.view];
+    NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:[def username], @"username", nil];
     
     
-    [def setHost:V4_HOST];
-    [def setUsername:@"eperalta"];
+    if (displayHUD == NO) {
+        LGViewHUD *hud = [LGViewHUD defaultHUD];
+        hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
+        hud.topText=@"";
+        hud.bottomText=@"Chargement ...";
+        hud.activityIndicatorOn=YES;
+        [hud showInView:self.view];
+    }
     
     [wall request:GETBUREAUX_API withArgs:args andCollectivity:def];
     [def release];
@@ -194,12 +206,20 @@
 
 - (void)didEndWithRequestAnswer:(NSDictionary*)answer{
     NSString *s = [answer objectForKey:@"_req"];
+    _loading = NO;
+    
+    [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
+    
     if ([s isEqual:LOGIN_API]) {
         
         ADLCredentialVault *vault = [ADLCredentialVault sharedCredentialVault];
-        [vault addCredentialForHost:V4_HOST andLogin:@"eperalta" withTicket:[[answer objectForKey:@"data"] objectForKey:@"ticket"]];
+        ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
         
-        [self loadBureaux];
+        [vault addCredentialForHost:[def host] andLogin:[def username] withTicket:[[answer objectForKey:@"data"] objectForKey:@"ticket"]];
+        
+        [self loadBureaux:YES];
+
+        [def release];
     }
     else if ([s isEqual:GETBUREAUX_API]) {
         NSArray *array = [[answer objectForKey:@"data"] objectForKey:@"bureaux"];
@@ -266,6 +286,37 @@
     RGDeskViewController *controller = [[self storyboard] instantiateViewControllerWithIdentifier:@"DeskViewController"];
     [controller setDeskRef:[bureau objectForKey:@"nodeRef"]];
     [[self navigationController] pushViewController:controller animated:YES];
+}
+
+#pragma mark - Pull to refresh delegeate implementation
+
+- (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
+    [self loadBureaux:NO];
+}
+- (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
+    return _loading;
+    
+}
+
+- (NSDate*)egoRefreshTableHeaderDataSourceLastUpdated:(EGORefreshTableHeaderView*)view{
+    
+	return [NSDate date]; // should return date data source was last changed
+    
+}
+
+#pragma mark -
+#pragma mark UIScrollViewDelegate Methods
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView{
+    
+	[_refreshHeaderView egoRefreshScrollViewDidScroll:scrollView];
+    
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate{
+    
+	[_refreshHeaderView egoRefreshScrollViewDidEndDragging:scrollView];
+    
 }
 
 @end

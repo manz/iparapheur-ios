@@ -43,12 +43,13 @@
 //  iParapheur
 //
 
-
 #import <UIKit/UIKit.h>
 #import "ADLParapheurWallDelegateProtocol.h"
 #import "RGMasterViewController.h"
+#import "EGORefreshTableHeaderView.h"
 
-@interface RGDeskViewController : UITableViewController <UISplitViewControllerDelegate, ADLParapheurWallDelegateProtocol, UITableViewDataSource, UISearchBarDelegate> {
+@interface RGDeskViewController : UITableViewController <EGORefreshTableHeaderDelegate,
+    UISplitViewControllerDelegate, ADLParapheurWallDelegateProtocol, UITableViewDataSource, UISearchBarDelegate> {
     NSMutableArray *filesArray;
     NSString *deskRef;
     int currentPage;
@@ -57,8 +58,13 @@
 @property (nonatomic, retain) NSString* deskRef;
 @property (nonatomic, retain) NSArray* filesArray;
 @property (nonatomic, retain) IBOutlet RGMasterViewController* detailViewController;
+@property (nonatomic, retain) UIView* originalView;
+
 @property (retain, nonatomic) IBOutlet UIButton *loadMoreButton;
 @property (retain, nonatomic) IBOutlet UISearchBar *searchBar;
+
+@property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
+@property (nonatomic) BOOL loading;
 
 - (IBAction)loadNextResultsPage:(id)sender;
 

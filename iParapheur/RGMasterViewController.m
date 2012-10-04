@@ -41,6 +41,7 @@
 //
 //  RGMasterViewController.m
 //  iParapheur
+//
 
 #import "RGMasterViewController.h"
 #import "RGWorkflowDialogViewController.h"
@@ -52,6 +53,8 @@
 #import "ADLIParapheurWall.h"
 #import "ADLCredentialVault.h"
 #import "ADLCollectivityDef.h"
+#import "ADLCircuitCell.h"
+#import "ISO8601DateFormatter.h"
 
 #import "LGViewHUD.h"
 
@@ -117,6 +120,15 @@
     [[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"TableViewPaperBackground.png"]]];
     
     [self hidesEveryThing];
+    [[self dossierName] setText:[_dossier objectForKey:@"titre"]];
+    [[self typeLabel] setText:[_dossier objectForKey:@"type"]];
+    [[self sousTypeLabel] setText:[_dossier objectForKey:@"sousType"]];
+    dossierRef = [_dossier objectForKey:@"dossierRef"];
+    documents = [[_dossier objectForKey:@"documents"] retain];
+    self.navigationItem.rightBarButtonItem = documentsButtonItem;
+    [self getCircuit];
+    [self showsEveryThing];
+    
     
 }
 
@@ -128,6 +140,9 @@
     [self setDossierNameLabel:nil];
     [self setSousTypeValueLabel:nil];
     [self setTypeValueLabel:nil];
+    
+    //unregister observer
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -141,6 +156,12 @@
     }
 }
 
+- (void) dossierSelected:(NSNotification*)notification {
+    NSString *selectedDossierRef  = [notification object];
+   
+    [self setDossierRef:selectedDossierRef];
+}
+
 - (void) setDossierRef:(NSString *)_dossierRef {
     dossierRef = [_dossierRef retain];
     
@@ -150,10 +171,7 @@
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:_dossierRef,
                           @"dossierRef", nil];
     
-    ADLCollectivityDef *def = [[ADLCollectivityDef alloc] init];
-    
-    [def setHost:V4_HOST];
-    [def setUsername:@"eperalta"];
+    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:GETDOSSIER_API withArgs:args andCollectivity:def];
     [def release];
@@ -191,15 +209,58 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"DeskCell"];
+    static NSString *CellIdentifier = @"CircuitCell";
+    ADLCircuitCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+    
     if (cell == nil) {
-        cell = [[UITableViewCell alloc] init];
+        cell = [[[ADLCircuitCell alloc] init] autorelease];
     }
+    
     NSDictionary *object = [_objects objectAtIndex:indexPath.row];
-    cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [object objectForKey:@"parapheurName"], [object objectForKey:@"actionDemandee"]];
+   // cell.textLabel.text = [NSString stringWithFormat:@"%@ (%@)", [object objectForKey:@"parapheurName"], [object objectForKey:@"actionDemandee"]];
+    
+    [[cell parapheurName] setText:[object objectForKey:@"parapheurName"]];
+    if ([[object objectForKey:@"approved"] intValue] == 1) {
+    [[cell validateurName] setText:[object objectForKey:@"signataire"]];
+    }
+    else {
+        [[cell validateurName] setText:nil];
+    }
+    
+    ISO8601DateFormatter *formatter = [[ISO8601DateFormatter alloc] init];
+    
+    NSString *validationDateIso = [object objectForKey:@"dateValidation"];
+    if (validationDateIso != nil && ![validationDateIso isEqualToString:@""]) {
+        NSDate * validationDate = [formatter dateFromString:validationDateIso];
+        
+        NSDateFormatter *outputFormatter = [[NSDateFormatter alloc] init];
+        [outputFormatter setDateFormat:@"'le' dd/MM/yyyy 'à' HH:mm"];
+        
+        NSString *validationDateStr = [[outputFormatter stringFromDate:validationDate] retain];
+        
+        [[cell validationDate] setText:validationDateStr];
+    
+    }
+    else {
+        [[cell validationDate] setText:nil];
+    }
+    
+    NSString *imagePrefix = @"iw";
+    if ([[object objectForKey:@"approved"] intValue] == 1) {
+        imagePrefix = @"ip";
+    }
+    
+    NSString *action = [[object objectForKey:@"actionDemandee"] lowercaseString];
+    
+    NSLog(@"%@", [NSString stringWithFormat:@"%@-%@.jpg", imagePrefix, action ]);
+    
+    [[cell etapeTypeIcon] setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-%@.jpg", imagePrefix, action ]]];
+    
+    /*
     if ([[object objectForKey:@"approved"] isEqual:[NSNumber numberWithInt:1]]) {
         [cell.textLabel setTextColor:[UIColor greenColor]];
-    }
+    }*/
+    
     return cell;
 }
 
@@ -265,10 +326,7 @@
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:dossierRef,
                           @"dossierRef", nil];
     
-    ADLCollectivityDef *def = [[ADLCollectivityDef alloc] init];
-    
-    [def setHost:V4_HOST];
-    [def setUsername:@"eperalta"];
+    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:@"getCircuit" withArgs:args andCollectivity:def];
     [def release];
@@ -285,14 +343,10 @@
 - (void)didEndWithRequestAnswer:(NSDictionary*)answer{
     NSString *s = [answer objectForKey:@"_req"];
     if ([s isEqual:GETDOSSIER_API]) {
-        NSLog(@"%@", @"toto");
         //[deskArray removeAllObjects];
         @synchronized(self)
         {
-            
-            NSArray *array = [[answer objectForKey:@"data"] objectForKey:@"bureaux"] ;
-            
-            NSLog(@"array retain count = %i\n", [array retainCount]);
+                        
             [textView setText:[answer JSONString]];
             
             [self refreshViewWithDossier:[answer objectForKey:@"data"]];
@@ -304,7 +358,6 @@
     else if ([s isEqualToString:@"getCircuit"]) {
         @synchronized(self)
         {
-            NSLog(@"whee");
             [[LGViewHUD defaultHUD] hideWithAnimation:HUDAnimationNone];
             /*if (_objects == nil) {
              _objects = [[[NSMutableArray alloc] init] retain];
@@ -312,6 +365,9 @@
             [_objects removeAllObjects];
             [_objects addObjectsFromArray:[[answer objectForKey:@"data"] objectForKey:@"circuit"]];
             [circuitTable reloadData];
+
+            
+            /* Basic handling of actions. */
             NSString *currentAction = nil;
             for (NSDictionary* etape in _objects) {
                 if (![[etape objectForKey:@"approved"] isEqual:[NSNumber numberWithInt:1]]) {
@@ -327,13 +383,7 @@
                 [[self viserButton] setHidden:YES];
             }
         }
-    }
-    
-    //storing ticket ? lacks the host and login information
-    //we should add it into the request process ?
-    //[[ADLCredentialVault sharedCredentialVault] addCredentialForHost:@"localhost:5150"
-    // andLogin:@"eperalta" withTicket:[[answer    objectForKey:@"data"] objectForKey:@"ticket"]];
-    
+    }    
 }
 - (void)didEndWithUnReachableNetwork{
     
@@ -345,13 +395,6 @@
 
 #pragma mark - View Refresh with data
 
-- (void)refreshViewWithDossier:(NSDictionary*)dossier {
-    [[self dossierName] setText:[dossier objectForKey:@"titre"]];
-    [[self typeLabel] setText:[dossier objectForKey:@"type"]];
-    [[self sousTypeLabel] setText:[dossier objectForKey:@"sousType"]];
-    documents = [[dossier objectForKey:@"documents"] retain];
-    self.navigationItem.rightBarButtonItem = documentsButtonItem;
-}
 
 - (void) refreshCircuit:(NSDictionary*)circuit {
     
@@ -361,20 +404,6 @@
 
 
 - (IBAction)showVisuelPDF:(id)sender {
-    NSLog(@"Show visuel PDF !");
-    
-    NSURLRequest *theRequest = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://parapheur.test.adullact.org"]
-                                                cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                            timeoutInterval:60.0];
-  /*  
-    // Create the connection with the request and start loading the data.
-    NSURLDownload  *theDownload = [[NSURLDownload alloc] initWithRequest:theRequest
-                                                                delegate:self];
-    if (theDownload) {
-        // Set the destination file.
-        [theDownload setDestination:@"/tmp" allowOverwrite:YES];
-   */
-    
     NSArray *pdfs = [[NSBundle mainBundle] pathsForResourcesOfType:@"pdf" inDirectory:nil];
     
 	NSString *filePath = [pdfs lastObject];
@@ -387,7 +416,6 @@
     readerViewController.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
     readerViewController.modalPresentationStyle = UIModalPresentationFullScreen;
 
-    //- (void)presentViewController:(UIViewController *)viewControllerToPresent animated:(BOOL)flag completion:(void (^)(void))completion
     [[self splitViewController] presentModalViewController:readerViewController animated:YES];
     [document release];
     [readerViewController release];
@@ -401,6 +429,7 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
+    /*
     if ([[segue identifier] isEqualToString:@"showDocumentsView"]) {
         
         if (documentsPopover) {
@@ -418,7 +447,7 @@
         
         [((RGDocumentsView
            *)[segue destinationViewController]) setPopoverController:[(UIStoryboardPopoverSegue *)segue popoverController]];
-    }
+    }*/
     
     if ([[segue identifier] isEqualToString:@"viser"]) {
         [((RGWorkflowDialogViewController*) [segue destinationViewController]) setDossierRef:[self dossierRef]];
@@ -435,10 +464,6 @@
     [super presentModalViewController:modalViewController animated:animated];
 }
 
-/*-(void) dismissModalViewControllerAnimated:(BOOL)animated {
-    [super dismissModalViewControllerAnimated:animated];
-    [self hidesEveryThing];
-}*/
 
 -(void) hidesEveryThing {
     [self setHiddenForEveryone:YES];

@@ -1,6 +1,6 @@
 //
 //	ReaderContentPage.h
-//	Reader v2.5.4
+//	Reader v2.5.5
 //
 //	Created by Julius Oklamcak on 2011-07-01.
 //	Copyright © 2011-2012 Julius Oklamcak. All rights reserved.
@@ -25,21 +25,24 @@
 
 #import <UIKit/UIKit.h>
 
+
+/**
+ *	A class responsible with drawing one page of a PDF document
+ */
 @interface ReaderContentPage : UIView
 {
-@private // Instance variables
-
-	NSMutableArray *_links;
-    NSMutableArray *_texts;
-
+@private
 	CGPDFDocumentRef _PDFDocRef;
-
 	CGPDFPageRef _PDFPageRef;
-
 	NSInteger _pageAngle;
-
-	CGSize _pageSize;
+	
+	CGFloat _pageWidth;
+	CGFloat _pageHeight;
+	CGFloat _pageOffsetX;
+	CGFloat _pageOffsetY;
 }
+
+@property (nonatomic, readonly, strong) NSMutableArray *links;
 
 - (id)initWithURL:(NSURL *)fileURL page:(NSInteger)page password:(NSString *)phrase;
 
@@ -55,46 +58,15 @@
 
 @interface ReaderDocumentLink : NSObject
 {
-@private // Instance variables
-
+@private
 	CGPDFDictionaryRef _dictionary;
-
 	CGRect _rect;
 }
 
 @property (nonatomic, assign, readonly) CGRect rect;
-
 @property (nonatomic, assign, readonly) CGPDFDictionaryRef dictionary;
 
-+ (id)withRect:(CGRect)linkRect dictionary:(CGPDFDictionaryRef)linkDictionary;
-
++ (id)newWithRect:(CGRect)linkRect dictionary:(CGPDFDictionaryRef)linkDictionary;
 - (id)initWithRect:(CGRect)linkRect dictionary:(CGPDFDictionaryRef)linkDictionary;
-
-@end
-
-#pragma mark -
-
-//
-//	ReaderDocumentAnnotation class interface
-//
-
-@interface ReaderDocumentAnnotation : NSObject
-{
-@private // Instance variables
-    
-	CGPDFDictionaryRef _dictionary;
-    NSString *_content;
-	CGRect _rect;
-}
-
-@property (nonatomic, assign, readonly) CGRect rect;
-
-@property (nonatomic, assign, readonly) CGPDFDictionaryRef dictionary;
-
-@property (nonatomic, assign, readwrite) NSString* content;
-
-+ (id)withRect:(CGRect)linkRect content:(NSString*)content dictionary:(CGPDFDictionaryRef)linkDictionary;
-
-- (id)initWithRect:(CGRect)linkRect content:(NSString*)content  dictionary:(CGPDFDictionaryRef)linkDictionary;
 
 @end
