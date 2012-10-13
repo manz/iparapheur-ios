@@ -52,6 +52,7 @@
 @property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
 @property (nonatomic) BOOL loading;
 
--(void)loadBureaux;
+- (void)loadBureaux:(BOOL)displayHUD;
+
 
 @end

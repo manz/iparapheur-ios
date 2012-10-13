@@ -222,7 +222,7 @@
 	CGRect controlRect = CGRectInset(self.bounds, 4.0f, 0.0f);
 	CGFloat thumbWidth = (THUMB_SMALL_WIDTH + THUMB_SMALL_GAP);
 	NSInteger thumbs = (controlRect.size.width / thumbWidth);
-	NSInteger pages = [document epageCount];
+	NSInteger pages = [document epPageCount];
 	if (thumbs > pages) {
 		thumbs = pages;
 	}

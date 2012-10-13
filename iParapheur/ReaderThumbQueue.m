@@ -63,6 +63,7 @@
 {
 	loadQueue = nil;
 	workQueue = nil;
+    [super dealloc];
 }
 
 - (void)addLoadOperation:(NSOperation *)operation

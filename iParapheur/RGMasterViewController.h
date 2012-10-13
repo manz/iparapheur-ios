@@ -79,6 +79,6 @@
 
 @property (nonatomic, retain) NSString *dossierRef;
 - (IBAction)showVisuelPDF:(id)sender;
-- (void)refreshViewWithDossier:(NSDictionary*)dossier;
+//- (void)refreshViewWithDossier:(NSDictionary*)dossier;
 
 @end

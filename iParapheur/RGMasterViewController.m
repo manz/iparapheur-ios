@@ -350,7 +350,7 @@
                         
             [textView setText:[answer JSONString]];
             
-            [self refreshViewWithDossier:[answer objectForKey:@"data"]];
+            //[self refreshViewWithDossier:[answer objectForKey:@"data"]];
         }
         [[LGViewHUD defaultHUD] hideWithAnimation:HUDAnimationNone];
         [self getCircuit];

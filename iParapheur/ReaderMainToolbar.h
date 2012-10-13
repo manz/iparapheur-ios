@@ -50,7 +50,7 @@
 }
 
 @property (nonatomic, unsafe_unretained, readwrite) id <ReaderMainToolbarDelegate> delegate;
-@property (nonatomic) NSString *title;
+@property (nonatomic, retain) NSString *title;
 
 - (id)initWithFrame:(CGRect)frame document:(ReaderDocument *)object;
 

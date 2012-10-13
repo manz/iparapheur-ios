@@ -45,6 +45,7 @@
 
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
+#import "ADLAnnotation.h"
 
 #define kFingerSize 45.0f
 
@@ -52,11 +53,9 @@
 
 
 @property (nonatomic, retain) UIButton *close;
-@property (nonatomic, retain) NSString *uuid;
-@property (nonatomic) BOOL editable;
-@property (nonatomic, retain) NSString *text;
-@property (nonatomic, retain) NSString *author;
 
+@property (nonatomic, retain) ADLAnnotation *annotation;
+ 
 @property (nonatomic) BOOL selected;
 
 

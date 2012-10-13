@@ -64,7 +64,7 @@
 	CFStringRef theString;
 	theUUID = CFUUIDCreate(NULL);
 	theString = CFUUIDCreateString(NULL, theUUID);
-	NSString *unique = [NSString stringWithString:(__bridge id)theString];
+	NSString *unique = [NSString stringWithString:(id)theString];
 	
 	CFRelease(theString);
 	CFRelease(theUUID);
@@ -198,7 +198,7 @@
 			self.pageNumber = [NSNumber numberWithInteger:1];				// Start page 1
 			self.fileName = [ReaderDocument relativeFilePath:fullFilePath];
 			
-			CFURLRef docURLRef = (__bridge CFURLRef)[self fileURL];			// CFURLRef from NSURL
+			CFURLRef docURLRef = (CFURLRef)[self fileURL];			// CFURLRef from NSURL
 			CGPDFDocumentRef thePDFDocRef = CGPDFDocumentCreateX(docURLRef, _password);
 			if (thePDFDocRef != NULL) {										// Get the number of pages in a document
 				NSInteger pageCount = CGPDFDocumentGetNumberOfPages(thePDFDocRef);

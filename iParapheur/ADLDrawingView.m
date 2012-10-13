@@ -358,6 +358,15 @@
     
 }
 
+-(void) updateAnnotation:(NSDictionary*)annotation {
+    //TODO: implement
+   // [_dataSource updateAnnotation:uuid fromPage:page];
+}
+
+-(void) removeAnnotation:(NSString*) uuid fromPage:(NSUInteger)page {
+   // [_dataSource removeAnnotation:uuid fromPage:page];
+}
+
 -(NSArray*) annotationsForPage:(NSUInteger)page {
     
     if ([_dataSource respondsToSelector:@selector(annotationsForPage:)]) {

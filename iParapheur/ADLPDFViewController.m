@@ -124,9 +124,14 @@
     hud.activityIndicatorOn=YES;
     
     [hud showInView:self.view];
+    /*
+    UIBarButtonItem *action = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(test)];
+    */
+     
+    NSArray *buttons = [[NSArray alloc] initWithObjects:_actionButton, _detailsButton, nil];
     
     self.navigationItem.leftBarButtonItem = _documentsButton;
-    self.navigationItem.rightBarButtonItem = _detailsButton;
+    self.navigationItem.rightBarButtonItems = buttons;
     
     [[self navigationController] popToRootViewControllerAnimated:YES];
 

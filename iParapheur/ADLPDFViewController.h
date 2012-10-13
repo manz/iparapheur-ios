@@ -53,5 +53,6 @@
 
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *detailsButton;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *documentsButton;
+@property (retain, nonatomic) IBOutlet UIBarButtonItem *actionButton;
 
 @end

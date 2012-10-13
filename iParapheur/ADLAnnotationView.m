@@ -51,9 +51,7 @@
 @implementation ADLAnnotationView
 
 @synthesize selected = _selected;
-@synthesize text = _text;
-@synthesize author = _author;
-@synthesize editable = _editable;
+@synthesize annotation;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -66,9 +64,7 @@
         self.autoresizingMask = UIViewAutoresizingNone;
         self.backgroundColor = [UIColor clearColor];
         
-        _editable = YES;
-        _text = @"";
-        _author = @"";
+        
         _selected = NO;
         
         /* Cut here to disable _close button */

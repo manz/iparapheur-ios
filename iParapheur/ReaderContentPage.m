@@ -433,7 +433,7 @@
     
 	if (fileURL != nil) // Check for non-nil file URL
 	{
-		_PDFDocRef = CGPDFDocumentCreateX((__bridge CFURLRef)fileURL, phrase);
+		_PDFDocRef = CGPDFDocumentCreateX((CFURLRef)fileURL, phrase);
 		if (_PDFDocRef != NULL) // Check for non-NULL CGPDFDocumentRef
 		{
 			if (page < 1) page = 1; // Check the lower page bounds
@@ -548,7 +548,7 @@
 		drawPDFPageRef = CGPDFPageRetain(_PDFPageRef);
 	}
     
-    CGRect pageRect = CGPDFPageGetBoxRect(_PDFPageRef, kCGPDFCropBox);
+    //CGRect pageRect = CGPDFPageGetBoxRect(_PDFPageRef, kCGPDFCropBox);
     
     
     	

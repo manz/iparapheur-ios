@@ -51,6 +51,7 @@
 #import "RGFileCell.h"
 #import "ISO8601DateFormatter.h"
 #import "ADLNotifications.h"
+#import "ADLSingletonState.h"
 
 @implementation RGDeskViewController
 
@@ -93,7 +94,6 @@
     filesArray = [[NSMutableArray alloc] init];
     [self loadDossiersWithPage:currentPage];
     self.tableView.contentOffset = CGPointMake(0, self.searchBar.frame.size.height);
-    
 }
 
 -(void)loadDossiersWithPage:(int)page {
@@ -185,7 +185,10 @@
     
     NSString *dossierRef = [file objectForKey:@"dossierRef"];
     
+    [[ADLSingletonState sharedSingletonState] setDossierCourant:dossierRef];
+    
     [[NSNotificationCenter defaultCenter] postNotificationName:kDossierSelected object:dossierRef];
+    
     /*
     UINavigationController *nav = (UINavigationController*)[[[self splitViewController] viewControllers] lastObject];
     
@@ -242,9 +245,9 @@
 }
 
 #pragma mark - Search Delegate
-- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBar {
+- (void)searchBarSearchButtonClicked:(UISearchBar *)searchBarClicked {
     currentPage = 0;
-    NSString *searchText = [searchBar text];
+    NSString *searchText = [searchBarClicked text];
    
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
     [wall setDelegate:self];

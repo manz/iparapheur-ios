@@ -73,7 +73,7 @@
 		return;
 	}
 	
-	CFURLRef fileURL = (__bridge CFURLRef)request.fileURL;
+	CFURLRef fileURL = (CFURLRef)request.fileURL;
 	CGImageRef imageRef = NULL;
 	NSInteger page = request.thumbPage;
 	NSString *password = request.password;
@@ -173,7 +173,7 @@
 			});
 		}
 		
-		CFURLRef thumbURL = (__bridge CFURLRef)[self thumbFileURL]; // Thumb cache path with PNG file name URL
+		CFURLRef thumbURL = (CFURLRef)[self thumbFileURL]; // Thumb cache path with PNG file name URL
 		CGImageDestinationRef thumbRef = CGImageDestinationCreateWithURL(thumbURL, (CFStringRef)@"public.png", 1, NULL);
 		
 		// Write the thumb image file out to the thumb cache directory

@@ -49,6 +49,7 @@
 @interface ADLSingletonState : NSObject
 
 @property (retain, nonatomic) NSString* bureauCourant;
+@property (retain, nonatomic) NSString* dossierCourant;
 
 + (ADLSingletonState *)sharedSingletonState;
 
