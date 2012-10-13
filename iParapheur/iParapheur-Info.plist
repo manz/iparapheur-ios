@@ -8,8 +8,10 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
+	<key>CFBundleIconFile</key>
+	<string>icone_ipad.png</string>
 	<key>CFBundleIdentifier</key>
-	<string>DBKDH4Y2NE.net.ringum.iparapheur</string>
+	<string>WG6RXYLAQX.coop.adullact-projet.iparapheur</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -45,7 +47,5 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
-	<key>CFBundleIconFile</key>
-	<string>icone_ipad.png</string>
 </dict>
 </plist>
