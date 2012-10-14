@@ -69,6 +69,7 @@
 */
 @synthesize container;
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
@@ -205,9 +206,11 @@
     
     }
     else if ([s isEqualToString:GETANNOTATIONS_API]) {
-        NSDictionary *annotations = [[answer objectForKey:@"annotations"] copy];
+        NSArray *annotations = [[answer objectForKey:@"annotations"] copy];
         
         NSLog(@"annotations %@", annotations);
+        
+        _annotations = annotations;
     }
     
 }
@@ -240,6 +243,8 @@
     
     _readerViewController = [[ReaderViewController alloc] initWithReaderDocument:readerDocument];
     
+    [_readerViewController setDataSource:self];
+    
     [readerDocument release];
     
     _readerViewController.delegate = self;
@@ -248,6 +253,7 @@
     [_readerViewController.view setAutoresizingMask:( UIViewAutoresizingFlexibleWidth |
                                                  UIViewAutoresizingFlexibleHeight )];
     [[self view] setAutoresizesSubviews:YES];
+    
     for(UIView *subview in [self.view subviews]) {
         [subview removeFromSuperview];
     }
@@ -255,6 +261,7 @@
     [[self view] addSubview:[_readerViewController view]];
      
     [[LGViewHUD defaultHUD] setHidden:YES];
+    
     
     
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
@@ -367,4 +374,24 @@
     [self setContainer:nil];
     [super viewDidUnload];
 }
+
+#pragma mark - Annotations Drawing view data Source
+
+-(NSArray*) annotationsForPage:(NSInteger)page {
+    NSMutableArray *annotsAtPage = [[[NSMutableArray alloc] init] retain];
+    for (NSDictionary *etape in _annotations) {
+        NSArray *annotationsAtPageForEtape = [etape objectForKey:[NSString stringWithFormat:@"%d", page]];
+        
+/*        for (NSNumber *key in etape) {
+            NSLog(@"%@", [etape objectForKey:key]);
+        }
+  */      
+        if (annotationsAtPageForEtape != nil && [annotationsAtPageForEtape count] > 0) {
+            [annotsAtPage addObjectsFromArray:annotationsAtPageForEtape];
+        }
+    }
+    
+    return annotsAtPage;
+}
+
 @end

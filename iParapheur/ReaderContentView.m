@@ -60,6 +60,8 @@
 
 @synthesize message, contentPage, thumbView, containerView;
 
+@synthesize dataSource = _dataSource;
+
 #pragma mark - ReaderContentView functions
 
 static inline CGFloat ZoomScaleThatFits(CGSize target, CGSize source)
@@ -154,6 +156,10 @@ static inline CGFloat ZoomScaleThatFits(CGSize target, CGSize source)
 		// create the content page
 		aClass = [aClass isSubclassOfClass:[ReaderContentPage class]] ? aClass : [ReaderContentPage class];
 		self.contentPage = [[aClass alloc] initWithURL:fileURL page:page password:phrase];
+        
+        [contentPage setPageNumber:page - 1];
+        [contentPage setDataSource:_dataSource];
+        
 		if (contentPage != nil) {																// Must have a valid and initialized content view
 			self.containerView = [[UIView alloc] initWithFrame:contentPage.bounds];
 			containerView.autoresizesSubviews = NO;

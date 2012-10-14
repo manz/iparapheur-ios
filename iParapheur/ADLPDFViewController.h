@@ -41,7 +41,10 @@
 #import <UIKit/UIKit.h>
 #import "ADLParapheurWallDelegateProtocol.h"
 #import "ReaderViewController.h"
-@interface ADLPDFViewController : UIViewController<ADLParapheurWallDelegateProtocol, ReaderViewControllerDelegate, UIPopoverControllerDelegate>
+
+#import "ADLDrawingView.h"
+
+@interface ADLPDFViewController : UIViewController<ADLParapheurWallDelegateProtocol, ReaderViewControllerDelegate, UIPopoverControllerDelegate, ADLDrawingViewDataSource>
 
 @property (retain, nonatomic) IBOutlet UIView *container;
 @property (retain, nonatomic) NSDictionary *dossier;
@@ -56,5 +59,7 @@
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *detailsButton;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *documentsButton;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *actionButton;
+
+@property (retain, nonatomic) NSArray* annotations;
 
 @end

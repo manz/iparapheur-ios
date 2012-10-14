@@ -160,6 +160,10 @@
                 
                 contentView.contentPage.superScrollView = theScrollView;
                 
+                contentView.contentPage.dataSource = _dataSource;
+                
+                [contentView.contentPage refreshAnnotations];
+                
 				[self didAddContentView:contentView forPage:number];
 				[theScrollView addSubview:contentView];
 				[contentViews setObject:contentView forKey:key];

@@ -45,6 +45,8 @@
 	CGFloat zoomAmount;
 }
 
+@property (nonatomic, assign) id<ADLDrawingViewDataSource> dataSource;
+
 @property (nonatomic, unsafe_unretained, readwrite) id <ReaderContentViewDelegate> message;
 @property (nonatomic, readonly, strong) ReaderContentPage *contentPage;
 @property (nonatomic, readonly, strong) ReaderContentThumb *thumbView;

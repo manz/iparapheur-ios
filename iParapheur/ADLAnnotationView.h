@@ -57,6 +57,7 @@
 @property (nonatomic, retain) ADLAnnotation *annotation;
  
 @property (nonatomic) BOOL selected;
+@property (nonatomic) NSUInteger currentPage;
 
 
 @property (nonatomic) CGPoint anchor;

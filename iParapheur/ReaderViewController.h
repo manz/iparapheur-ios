@@ -58,6 +58,8 @@
 @property (nonatomic, unsafe_unretained, readwrite) id <ReaderViewControllerDelegate> delegate;
 @property (nonatomic, strong, readonly) ReaderDocument *document;
 
+@property (nonatomic, unsafe_unretained, readwrite) id<ADLDrawingViewDataSource> dataSource;
+
 @property (nonatomic, strong) UIScrollView *theScrollView;
 @property (nonatomic, strong) ReaderMainToolbar *mainToolbar;
 @property (nonatomic, strong) ReaderMainPagebar *mainPagebar;

@@ -44,10 +44,12 @@
     NSNumber *x1 = [bottomRight objectForKey:@"x"];
     NSNumber *y1 = [bottomRight objectForKey:@"y"];
     
-    return CGRectMake([x floatValue],
-                      [y floatValue],
-                      [x1 floatValue] - [x floatValue], // width
-                      [y1 floatValue] - [y floatValue]); // height
+    CGRect arect = CGRectMake([x floatValue]  / 150.0f * 72.0f,
+                      [y floatValue]  / 150.0f * 72.0f,
+                      ([x1 floatValue]  / 150.0f * 72.0f) - ([x floatValue] / 150.0f * 72.0f), // width
+                      ([y1 floatValue] / 150.0f * 72.0f) - ([y floatValue] / 150.0f * 72.0f)); // height
+    
+    return CGRectInset(arect, -14.0f, -14.0f);
     
 }
 

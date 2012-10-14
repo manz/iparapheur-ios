@@ -53,6 +53,8 @@
 @synthesize superScrollView = _superScrollView;
 @synthesize dataSource = _dataSource;
 
+@synthesize pageNumber = _pageNumber;
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -73,7 +75,6 @@
         
         [self addGestureRecognizer:doubleTapGestureRecognizer];
         
-        
         //self.clipsToBounds = YES;
     }
     return self;
@@ -83,7 +84,6 @@
     _hittedView = nil;
     _currentAnnotView = nil;
 }
-
 
 - (void)handleSingleTap:(UIGestureRecognizer *)gestureRecognizer {
     // CGPoint touchPoint = [gestureRecognizer locationInView:self];
@@ -350,6 +350,15 @@
         NSArray *annotations = [self annotationsForPage:_pageNumber];
         
         for (NSDictionary *annotation in annotations) {
+            
+            ADLAnnotation *annotModel = [[ADLAnnotation alloc] initWithAnnotationDict:annotation];
+            
+            CGRect annotRect = [annotModel rect];
+            
+            
+            ADLAnnotationView *a = [[ADLAnnotationView alloc] initWithFrame:annotRect];
+            [self addSubview:a];
+            [a release];
             // get coordinates in pixels
             // getPDFPageSize
             // PDFPageSize * 72dpi

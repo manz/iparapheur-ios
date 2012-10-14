@@ -656,7 +656,6 @@
         <class className="RGWorkflowDialogViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RGWorkflowDialogViewController.h"/>
             <relationships>
-                <relationship kind="action" name="finish:"/>
                 <relationship kind="outlet" name="annotationPrivee" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="annotationPublique" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="finishButton" candidateClass="UIButton"/>
