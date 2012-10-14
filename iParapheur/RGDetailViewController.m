@@ -271,7 +271,7 @@
     
     NSDictionary *bureau = [ [self deskArray] objectAtIndex:[indexPath row]];
     NSLog(@"%@", [bureau objectForKey:@"name"]);
-    [[cell textLabel] setText:[bureau objectForKey:@"name"]];
+    [[cell bureauNameLabel] setText:[bureau objectForKey:@"name"]];
    
     NSNumber *a_traiter = [bureau objectForKey:@"a_traiter"];
     
@@ -289,7 +289,7 @@
     [controller setDeskRef:[bureau objectForKey:@"nodeRef"]];
     [[self navigationController] pushViewController:controller animated:YES];
     
-    [[[controller navigationController] navigationItem] setTitle:[bureau objectForKey:@"name"]];
+    [[controller navigationItem] setTitle:[bureau objectForKey:@"name"]];
     
     //[[self navigationController] setTitle:[bureau objectForKey:@"name"]];
     

@@ -79,17 +79,21 @@
         
 	}
     
-    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:kDossierActionComplete object:nil];
     
 	//  update the last update date
 	[_refreshHeaderView refreshLastUpdatedDate];
     
 }
 
+-(void) refresh {
+    [self loadDossiersWithPage:0];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
     
-    
+    [[self navigationItem] setTitle:@"coucou"];
     currentPage = 0;
     filesArray = [[NSMutableArray alloc] init];
     [self loadDossiersWithPage:currentPage];
@@ -321,7 +325,7 @@
 #pragma mark - Pull to refresh delegeate implementation
 
 - (void)egoRefreshTableHeaderDidTriggerRefresh:(EGORefreshTableHeaderView*)view {
-    [self loadDossiersWithPage:0];
+    [self refresh];
 }
 - (BOOL)egoRefreshTableHeaderDataSourceIsLoading:(EGORefreshTableHeaderView*)view {
     return _loading;

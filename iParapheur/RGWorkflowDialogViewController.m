@@ -151,6 +151,7 @@
 -(void) didEndWithRequestAnswer:(NSDictionary *)answer {
     
     [self dismissModalViewControllerAnimated:YES];
+    [[NSNotificationCenter defaultCenter] postNotificationName:kDossierActionComplete object:nil];
 
 }
 

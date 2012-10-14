@@ -44,3 +44,4 @@
 #define kSelectBureauAppeared @"selectBureauAppeared"
 #define kSelectedBureau @"selectedBureau"
 #define kshowDocumentWithIndex @"showDocumentWithIndex"
+#define kDossierActionComplete @"actionOnDossierComplete"

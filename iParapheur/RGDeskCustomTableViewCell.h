@@ -49,5 +49,6 @@
 
 @property (nonatomic, retain) IBOutlet UIView *todoPlaceHolder;
 @property (nonatomic, retain) IBOutlet UIView *latePlaceHolder;
+@property (nonatomic, retain) IBOutlet UILabel *bureauNameLabel;
 @end
 

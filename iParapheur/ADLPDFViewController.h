@@ -51,6 +51,8 @@
 @property (nonatomic, retain)  UIView* originalView;
 @property (retain, nonatomic) UIPopoverController *documentsPopover;
 
+@property (retain, nonatomic) UIPopoverController *actionPopover;
+
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *detailsButton;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *documentsButton;
 @property (retain, nonatomic) IBOutlet UIBarButtonItem *actionButton;

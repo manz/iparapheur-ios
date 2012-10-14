@@ -52,6 +52,7 @@
 @synthesize todoBadge = _todoBadge;
 @synthesize todoPlaceHolder;
 @synthesize latePlaceHolder;
+@synthesize bureauNameLabel;
 
 - (id)initWithCoder:(NSCoder *)coder
 {

@@ -329,9 +329,7 @@
     
     if ([[segue identifier] isEqualToString:@"showDocumentPopover"]) {
         [((RGDocumentsView*)[segue destinationViewController]) setDocuments:[_dossier objectForKey:@"documents"]];
-        if (_documentsPopover == nil) {
-        }
-        else {
+        if (_documentsPopover != nil) {
             [_documentsPopover dismissPopoverAnimated:NO];
         }
         
@@ -339,10 +337,24 @@
         [_documentsPopover setDelegate:self];
 
     }
+    
+    if ([[segue identifier] isEqualToString:@"showActionPopover"]) {
+        if (_actionPopover != nil) {
+            [_actionPopover dismissPopoverAnimated:NO];
+        }
+        
+        _actionPopover = [(UIStoryboardPopoverSegue *)segue popoverController];
+        [_actionPopover setDelegate:self];
+    }
 }
 
 - (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController{
-    _documentsPopover = nil;
+    if (_documentsPopover != nil && _documentsPopover == popoverController) {
+        _documentsPopover = nil;
+    }
+    else if (_actionPopover != nil && _actionPopover == popoverController) {
+        _actionPopover = nil;
+    }
 }
 
 

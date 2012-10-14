@@ -53,33 +53,19 @@
 		B488312715EE0F2900EC5BB3 /* ADLPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B488312615EE0F2900EC5BB3 /* ADLPDFViewController.m */; };
 		B488312815EE0F2900EC5BB3 /* ADLPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B488312615EE0F2900EC5BB3 /* ADLPDFViewController.m */; };
 		B4A221AB16299E9B00474A18 /* ADLActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A221AA16299E9B00474A18 /* ADLActionViewController.m */; };
-		B4A221AE1629A1A900474A18 /* rejeter.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A221AC1629A1A900474A18 /* rejeter.png */; };
-		B4A221AF1629A1A900474A18 /* viser.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A221AD1629A1A900474A18 /* viser.png */; };
+		B4A221B2162AA6CF00474A18 /* viser@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A221B0162AA6CF00474A18 /* viser@2x.png */; };
+		B4A221B3162AA6CF00474A18 /* viser.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A221B1162AA6CF00474A18 /* viser.png */; };
+		B4A221BA162AA86900474A18 /* rejeter.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A221B8162AA86900474A18 /* rejeter.png */; };
+		B4A221BB162AA86900474A18 /* rejeter@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A221B9162AA86900474A18 /* rejeter@2x.png */; };
 		B4A5F0D9161DCA73007BA5D1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0D8161DCA73007BA5D1 /* Localizable.strings */; };
-		B4A5F0E9161DCC10007BA5D1 /* Reader-Button-H.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0DB161DCC10007BA5D1 /* Reader-Button-H.png */; };
-		B4A5F0EA161DCC10007BA5D1 /* Reader-Button-H@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0DC161DCC10007BA5D1 /* Reader-Button-H@2x.png */; };
-		B4A5F0EB161DCC10007BA5D1 /* Reader-Button-N.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0DD161DCC10007BA5D1 /* Reader-Button-N.png */; };
-		B4A5F0EC161DCC10007BA5D1 /* Reader-Button-N@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0DE161DCC10007BA5D1 /* Reader-Button-N@2x.png */; };
-		B4A5F0ED161DCC10007BA5D1 /* Reader-Email.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0DF161DCC10007BA5D1 /* Reader-Email.png */; };
-		B4A5F0EE161DCC10007BA5D1 /* Reader-Email@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0E0161DCC10007BA5D1 /* Reader-Email@2x.png */; };
-		B4A5F0EF161DCC10007BA5D1 /* Reader-Mark-N.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0E1161DCC10007BA5D1 /* Reader-Mark-N.png */; };
-		B4A5F0F0161DCC10007BA5D1 /* Reader-Mark-N@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0E2161DCC10007BA5D1 /* Reader-Mark-N@2x.png */; };
-		B4A5F0F1161DCC10007BA5D1 /* Reader-Mark-Y.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0E3161DCC10007BA5D1 /* Reader-Mark-Y.png */; };
-		B4A5F0F2161DCC10007BA5D1 /* Reader-Mark-Y@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0E4161DCC10007BA5D1 /* Reader-Mark-Y@2x.png */; };
-		B4A5F0F3161DCC10007BA5D1 /* Reader-Print.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0E5161DCC10007BA5D1 /* Reader-Print.png */; };
-		B4A5F0F4161DCC10007BA5D1 /* Reader-Print@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0E6161DCC10007BA5D1 /* Reader-Print@2x.png */; };
-		B4A5F0F5161DCC10007BA5D1 /* Reader-Thumbs.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0E7161DCC10007BA5D1 /* Reader-Thumbs.png */; };
-		B4A5F0F6161DCC10007BA5D1 /* Reader-Thumbs@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B4A5F0E8161DCC10007BA5D1 /* Reader-Thumbs@2x.png */; };
 		B4B3643D1611A4ED0051420F /* ADLSingletonState.m in Sources */ = {isa = PBXBuildFile; fileRef = B4B3643C1611A4ED0051420F /* ADLSingletonState.m */; };
+		B4D2F89B162AADF700D8A1DE /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4E5ECB7153AF65F00BD514D /* MainStoryboard_iPad.storyboard */; };
 		B4D79259153FEC5700CEE89C /* TableViewPaperBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = B4D79258153FEC5700CEE89C /* TableViewPaperBackground.png */; };
 		B4E5ECA3153AF65F00BD514D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5ECA2153AF65F00BD514D /* UIKit.framework */; };
 		B4E5ECA5153AF65F00BD514D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5ECA4153AF65F00BD514D /* Foundation.framework */; };
 		B4E5ECA7153AF65F00BD514D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5ECA6153AF65F00BD514D /* CoreGraphics.framework */; };
-		B4E5ECAD153AF65F00BD514D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = B4E5ECAB153AF65F00BD514D /* InfoPlist.strings */; };
 		B4E5ECAF153AF65F00BD514D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECAE153AF65F00BD514D /* main.m */; };
 		B4E5ECB3153AF65F00BD514D /* RGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECB2153AF65F00BD514D /* RGAppDelegate.m */; };
-		B4E5ECB6153AF65F00BD514D /* MainStoryboard_iPhone.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4E5ECB4153AF65F00BD514D /* MainStoryboard_iPhone.storyboard */; };
-		B4E5ECB9153AF65F00BD514D /* MainStoryboard_iPad.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B4E5ECB7153AF65F00BD514D /* MainStoryboard_iPad.storyboard */; };
 		B4E5ECBC153AF65F00BD514D /* RGMasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECBB153AF65F00BD514D /* RGMasterViewController.m */; };
 		B4E5ECBF153AF65F00BD514D /* RGDetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECBE153AF65F00BD514D /* RGDetailViewController.m */; };
 		B4E5ECC7153AF65F00BD514D /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5ECC6153AF65F00BD514D /* SenTestingKit.framework */; };
@@ -212,8 +198,10 @@
 		B4A221A816299B9400474A18 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		B4A221A916299E9B00474A18 /* ADLActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLActionViewController.h; sourceTree = "<group>"; };
 		B4A221AA16299E9B00474A18 /* ADLActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLActionViewController.m; sourceTree = "<group>"; };
-		B4A221AC1629A1A900474A18 /* rejeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rejeter.png; sourceTree = "<group>"; };
-		B4A221AD1629A1A900474A18 /* viser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viser.png; sourceTree = "<group>"; };
+		B4A221B0162AA6CF00474A18 /* viser@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viser@2x.png"; sourceTree = "<group>"; };
+		B4A221B1162AA6CF00474A18 /* viser.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viser.png; sourceTree = "<group>"; };
+		B4A221B8162AA86900474A18 /* rejeter.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rejeter.png; sourceTree = "<group>"; };
+		B4A221B9162AA86900474A18 /* rejeter@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rejeter@2x.png"; sourceTree = "<group>"; };
 		B4A5F0D8161DCA73007BA5D1 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		B4A5F0DB161DCC10007BA5D1 /* Reader-Button-H.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Reader-Button-H.png"; sourceTree = "<group>"; };
 		B4A5F0DC161DCC10007BA5D1 /* Reader-Button-H@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Reader-Button-H@2x.png"; sourceTree = "<group>"; };
@@ -635,8 +623,10 @@
 		B4FF33FB15473378006F7BF3 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				B4A221AC1629A1A900474A18 /* rejeter.png */,
-				B4A221AD1629A1A900474A18 /* viser.png */,
+				B4A221B8162AA86900474A18 /* rejeter.png */,
+				B4A221B9162AA86900474A18 /* rejeter@2x.png */,
+				B4A221B1162AA6CF00474A18 /* viser.png */,
+				B4A221B0162AA6CF00474A18 /* viser@2x.png */,
 				B4E62A8715889B78003445F4 /* icone_ipad.png */,
 				B41B946C156227A6004D57A1 /* rounded-checkmark.png */,
 				B41B946D156227A6004D57A1 /* rounded-checkmark@2x.png */,
@@ -741,9 +731,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B4E5ECAD153AF65F00BD514D /* InfoPlist.strings in Resources */,
-				B4E5ECB6153AF65F00BD514D /* MainStoryboard_iPhone.storyboard in Resources */,
-				B4E5ECB9153AF65F00BD514D /* MainStoryboard_iPad.storyboard in Resources */,
 				B4D79259153FEC5700CEE89C /* TableViewPaperBackground.png in Resources */,
 				B41B9470156227A6004D57A1 /* rounded-checkmark.png in Resources */,
 				B41B9471156227A6004D57A1 /* rounded-checkmark@2x.png in Resources */,
@@ -766,22 +753,11 @@
 				B41B60B915F09D5300655827 /* iw-tdt.jpg in Resources */,
 				B41B60BA15F09D5300655827 /* iw-visa.jpg in Resources */,
 				B4A5F0D9161DCA73007BA5D1 /* Localizable.strings in Resources */,
-				B4A5F0E9161DCC10007BA5D1 /* Reader-Button-H.png in Resources */,
-				B4A5F0EA161DCC10007BA5D1 /* Reader-Button-H@2x.png in Resources */,
-				B4A5F0EB161DCC10007BA5D1 /* Reader-Button-N.png in Resources */,
-				B4A5F0EC161DCC10007BA5D1 /* Reader-Button-N@2x.png in Resources */,
-				B4A5F0ED161DCC10007BA5D1 /* Reader-Email.png in Resources */,
-				B4A5F0EE161DCC10007BA5D1 /* Reader-Email@2x.png in Resources */,
-				B4A5F0EF161DCC10007BA5D1 /* Reader-Mark-N.png in Resources */,
-				B4A5F0F0161DCC10007BA5D1 /* Reader-Mark-N@2x.png in Resources */,
-				B4A5F0F1161DCC10007BA5D1 /* Reader-Mark-Y.png in Resources */,
-				B4A5F0F2161DCC10007BA5D1 /* Reader-Mark-Y@2x.png in Resources */,
-				B4A5F0F3161DCC10007BA5D1 /* Reader-Print.png in Resources */,
-				B4A5F0F4161DCC10007BA5D1 /* Reader-Print@2x.png in Resources */,
-				B4A5F0F5161DCC10007BA5D1 /* Reader-Thumbs.png in Resources */,
-				B4A5F0F6161DCC10007BA5D1 /* Reader-Thumbs@2x.png in Resources */,
-				B4A221AE1629A1A900474A18 /* rejeter.png in Resources */,
-				B4A221AF1629A1A900474A18 /* viser.png in Resources */,
+				B4A221B2162AA6CF00474A18 /* viser@2x.png in Resources */,
+				B4A221B3162AA6CF00474A18 /* viser.png in Resources */,
+				B4A221BA162AA86900474A18 /* rejeter.png in Resources */,
+				B4A221BB162AA86900474A18 /* rejeter@2x.png in Resources */,
+				B4D2F89B162AADF700D8A1DE /* MainStoryboard_iPad.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
