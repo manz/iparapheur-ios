@@ -325,7 +325,7 @@
     [wall setDelegate:self];
     
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:dossierRef,
-                          @"dossierRef", nil];
+                          @"dossier", nil];
     
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
@@ -364,7 +364,7 @@
              _objects = [[[NSMutableArray alloc] init] retain];
              }*/
             [_objects removeAllObjects];
-            [_objects addObjectsFromArray:[[answer objectForKey:@"data"] objectForKey:@"circuit"]];
+            [_objects addObjectsFromArray:[answer objectForKey:@"circuit"]];
             [circuitTable reloadData];
 
             

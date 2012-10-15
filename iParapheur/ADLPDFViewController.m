@@ -51,6 +51,7 @@
 #import "RGMasterViewController.h"
 #import "RGDocumentsView.h"
 #import "ADLNotifications.h"
+#import "ADLSingletonState.h"
 
 @interface ADLPDFViewController ()
 
@@ -106,7 +107,9 @@
     _dossierRef = dossierRef;
     
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:dossierRef,
-                          @"dossierRef", nil];
+                          @"dossier",
+                          [[ADLSingletonState sharedSingletonState] bureauCourant], @"bureauCourant",
+                          nil];
     
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
@@ -193,7 +196,7 @@
     [[LGViewHUD defaultHUD] setHidden:YES];
     
     if ([s isEqual:GETDOSSIER_API]) {
-        _dossier = [[answer objectForKey:@"data"] copy];
+        _dossier = [answer copy];
         [self displayDocumentAt: 0];
         
         LGViewHUD *hud = [LGViewHUD defaultHUD];
@@ -269,7 +272,7 @@
             
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                           _dossierRef,
-                          @"dossierRef",
+                          @"dossier",
                           nil];
     
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];

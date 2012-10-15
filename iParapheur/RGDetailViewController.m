@@ -224,7 +224,7 @@
         [def release];
     }
     else if ([s isEqual:GETBUREAUX_API]) {
-        NSArray *array = [[answer objectForKey:@"data"] objectForKey:@"bureaux"];
+        NSArray *array = [answer objectForKey:@"bureaux"];
 
         [self setDeskArray:array];
           

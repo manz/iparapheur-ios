@@ -54,6 +54,12 @@
 
 -(NSArray*) annotationsForPage:(NSInteger)page;
 
+-(void) updateAnnotation:(ADLAnnotation*)annotation forPage:(NSUInteger)page;
+
+-(void) removeAnnotation:(ADLAnnotation*)annotation;
+
+-(void) addAnnotation:(ADLAnnotation*)annotation forPage:(NSUInteger)page;
+
 @optional
 
 @end
@@ -66,6 +72,8 @@
 @property (nonatomic) CGPoint origin;
 @property (nonatomic) CGFloat dx;
 @property (nonatomic) CGFloat dy;
+
+@property (nonatomic) BOOL enabled;
 
 @property (nonatomic) BOOL hasBeenLongPressed;
 
@@ -84,6 +92,7 @@
 - (void)refreshAnnotations;
 
 -(CGSize)getPageSize;
+
 
 
 @end

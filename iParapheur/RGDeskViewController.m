@@ -108,7 +108,7 @@
     
     NSDictionary *args = [[NSDictionary alloc]
                           initWithObjectsAndKeys:
-                          deskRef, @"bureauRef",
+                          deskRef, @"bureauCourant",
                           [NSNumber numberWithInteger:page], @"page",
                           @"15", @"pageSize",
                           nil];
@@ -225,9 +225,9 @@
     else {
         [filesArray removeAllObjects];
     }
-    [filesArray addObjectsFromArray:[[answer objectForKey:@"data"] objectForKey:@"dossiers"]];
+    [filesArray addObjectsFromArray:[answer objectForKey:@"dossiers"]];
     
-    if ([[[answer objectForKey:@"data"] objectForKey:@"dossiers"] count] > 15) {
+    if ([[answer objectForKey:@"dossiers"] count] > 15) {
         [[self loadMoreButton ] setHidden:NO];
     }
     else {
@@ -263,7 +263,7 @@
         
         args = [[NSDictionary alloc]
                 initWithObjectsAndKeys:
-                deskRef, @"bureauRef",
+                deskRef, @"bureauCourant",
                 //filters , @"filters",
                 [NSNumber numberWithInteger:0], @"page",
                 @"15", @"pageSize",
@@ -289,7 +289,7 @@
 
         args = [[NSDictionary alloc]
                 initWithObjectsAndKeys:
-                deskRef, @"bureauRef",
+                deskRef, @"bureauCourant",
                 filters , @"filters",
                 [NSNumber numberWithInteger:0], @"page",
                 @"15", @"pageSize",

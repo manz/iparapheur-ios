@@ -53,6 +53,8 @@
 @synthesize superScrollView = _superScrollView;
 @synthesize dataSource = _dataSource;
 
+@synthesize enabled = _enabled;
+
 @synthesize pageNumber = _pageNumber;
 
 - (id)initWithFrame:(CGRect)frame
@@ -74,6 +76,8 @@
         [self addGestureRecognizer:_longPressGestureRecognizer];
         
         [self addGestureRecognizer:doubleTapGestureRecognizer];
+        // by default disable annotations
+        _enabled = YES;
         
         //self.clipsToBounds = YES;
     }
@@ -92,7 +96,7 @@
 }
 
 - (void)handleDoubleTap:(UIGestureRecognizer *)gestureRecognizer {
-    if (_hittedView == nil) {
+    if (_hittedView == nil && _enabled) {
         CGPoint touchPoint = [gestureRecognizer locationInView:self];
         CGRect annotFrame = [self clipRectInView:CGRectMake(touchPoint.x, touchPoint.y, 100, 100)];
         _currentAnnotView = [[ADLAnnotationView alloc] initWithFrame:annotFrame];
@@ -109,7 +113,7 @@
 - (void)handleLongPress:(UIGestureRecognizer *)gestureRecognizer {
     CGPoint touchPoint = [gestureRecognizer locationInView:self];
     
-    if (_hittedView != nil) {
+    if (_hittedView != nil && _enabled) {
         [self animateviewOnLongPressGesture:touchPoint];
     }
     
@@ -122,39 +126,41 @@
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
     [super touchesBegan:touches withEvent:event];
     
-    UITouch *touch = [[event allTouches] anyObject];
-    
-    CGPoint touchPoint = [self clipPointToView:[touch locationInView:self]];
-    
-    UIView *hitted = [self hitTest:touchPoint withEvent:event];
-
-    [self unselectAnnotations];
-    _hittedView = nil;
-    
-    
-    if (hitted != self) {
-
-        //if (_hasBeenLongPressed) {
-        _parentScrollView.scrollEnabled = NO;
-        _superScrollView.scrollEnabled = NO;
-        _hittedView = (ADLAnnotationView*)hitted;
-        _origin = hitted.frame.origin;
-        _dx = sqrt(pow(_origin.x - touchPoint.x, 2.0));
-        _dy = sqrt(pow(_origin.y - touchPoint.y, 2.0));
-        _currentAnnotView = nil;
+    if (_enabled) {
+        UITouch *touch = [[event allTouches] anyObject];
         
-        if ([_hittedView isInHandle:[touch locationInView:self]]) {
-            _longPressGestureRecognizer.enabled = NO;
+        CGPoint touchPoint = [self clipPointToView:[touch locationInView:self]];
+        
+        UIView *hitted = [self hitTest:touchPoint withEvent:event];
+        
+        [self unselectAnnotations];
+        _hittedView = nil;
+        
+        
+        if (hitted != self) {
+            
+            //if (_hasBeenLongPressed) {
+            _parentScrollView.scrollEnabled = NO;
+            _superScrollView.scrollEnabled = NO;
+            _hittedView = (ADLAnnotationView*)hitted;
+            _origin = hitted.frame.origin;
+            _dx = sqrt(pow(_origin.x - touchPoint.x, 2.0));
+            _dy = sqrt(pow(_origin.y - touchPoint.y, 2.0));
+            _currentAnnotView = nil;
+            
+            if ([_hittedView isInHandle:[touch locationInView:self]]) {
+                _longPressGestureRecognizer.enabled = NO;
+            }
+            
+            [_hittedView setSelected:true];
+            [_hittedView setNeedsDisplay];
         }
-
-        [_hittedView setSelected:true];
-        [_hittedView setNeedsDisplay];
-    }
-    else {
-        _parentScrollView.scrollEnabled = YES;
-        _superScrollView.scrollEnabled = YES;
-        _hasBeenLongPressed = NO;
-        
+        else {
+            _parentScrollView.scrollEnabled = YES;
+            _superScrollView.scrollEnabled = YES;
+            _hasBeenLongPressed = NO;
+            
+        }
     }
 }
 
@@ -202,58 +208,63 @@
  */
 
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    CGPoint point = [self clipPointToView:[touch locationInView:self]];
-    
-    if ([_hittedView isInHandle:[touch locationInView:self]]) {
+    if (_enabled) {
+        UITouch *touch = [touches anyObject];
+        CGPoint point = [self clipPointToView:[touch locationInView:self]];
         
-        CGRect frame = [_hittedView frame];
-        
-        frame.size.width = point.x - frame.origin.x;
-        frame.size.height = point.y - frame.origin.y;
-        _parentScrollView.scrollEnabled = NO;
-        _superScrollView.scrollEnabled = NO;
-        
-        
-        
-        [_hittedView setFrame:frame];
-        [_hittedView setNeedsDisplay];
+        if ([_hittedView isInHandle:[touch locationInView:self]]) {
+            
+            CGRect frame = [_hittedView frame];
+            
+            frame.size.width = point.x - frame.origin.x;
+            frame.size.height = point.y - frame.origin.y;
+            _parentScrollView.scrollEnabled = NO;
+            _superScrollView.scrollEnabled = NO;
+            
+            
+            
+            [_hittedView setFrame:frame];
+            [_hittedView setNeedsDisplay];
+        }
+        else if (_hittedView != nil && _hasBeenLongPressed) {
+            CGRect frame = [_hittedView frame];
+            
+            frame.origin.x = point.x - _dx;
+            frame.origin.y = point.y - _dy;
+            
+            frame = [self clipRectInView:frame];
+            
+            _parentScrollView.scrollEnabled = NO;
+            _superScrollView.scrollEnabled = NO;
+            
+            [_hittedView setFrame:frame];
+        }
+        else {
+            
+            
+        }
+        [self touchesCancelled:touches withEvent:event];
     }
-    else if (_hittedView != nil && _hasBeenLongPressed) {
-        CGRect frame = [_hittedView frame];
-        
-        frame.origin.x = point.x - _dx;
-        frame.origin.y = point.y - _dy;
-        
-        frame = [self clipRectInView:frame];
-        
-        _parentScrollView.scrollEnabled = NO;
-        _superScrollView.scrollEnabled = NO;
-        
-        [_hittedView setFrame:frame];
-    }
-    else {
-        
-        
-    }
-    [self touchesCancelled:touches withEvent:event];
     
 }
 
 - (void) touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
-    UITouch *touch = [touches anyObject];
-    
-    if (_hasBeenLongPressed) {
-        _hasBeenLongPressed = NO;
-        [self unanimateView:[touch locationInView:self]];
+    if (_enabled) {
         
+        
+        UITouch *touch = [touches anyObject];
+        
+        if (_hasBeenLongPressed) {
+            _hasBeenLongPressed = NO;
+            [self unanimateView:[touch locationInView:self]];
+            
+        }
+        
+        //_hittedView = nil;
+        _parentScrollView.scrollEnabled = YES;
+        _superScrollView.scrollEnabled = YES;
+        _longPressGestureRecognizer.enabled = YES;
     }
-    
-    //_hittedView = nil;
-    _parentScrollView.scrollEnabled = YES;
-    _superScrollView.scrollEnabled = YES;
-    _longPressGestureRecognizer.enabled = YES;
-    
     
 }
 
@@ -367,21 +378,31 @@
     
 }
 
--(void) updateAnnotation:(NSDictionary*)annotation {
+/*-(void) addAnnotation:(NSDictionary*)annotation {
+    if ([_dataSource respondsToSelector:@selector(addAnnotation:)]) {
+        
+    }
+}*/
+
+-(void) updateAnnotation:(ADLAnnotation*)annotation {
     //TODO: implement
-   // [_dataSource updateAnnotation:uuid fromPage:page];
+    [_dataSource updateAnnotation:annotation forPage:_pageNumber];
 }
 
--(void) removeAnnotation:(NSString*) uuid fromPage:(NSUInteger)page {
-   // [_dataSource removeAnnotation:uuid fromPage:page];
+-(void) addAnnotation:(ADLAnnotation*)annotation {
+    [_dataSource addAnnotation:annotation forPage:_pageNumber];
+}
+
+-(void) removeAnnotation:(ADLAnnotation*) annotation forPage:(NSUInteger)page {
+    [_dataSource removeAnnotation:annotation fromPage:page];
 }
 
 -(NSArray*) annotationsForPage:(NSUInteger)page {
-    
-    if ([_dataSource respondsToSelector:@selector(annotationsForPage:)]) {
-        return [_dataSource annotationsForPage:page];
+    if (_enabled) {
+        if ([_dataSource respondsToSelector:@selector(annotationsForPage:)]) {
+            return [_dataSource annotationsForPage:page];
+        }
     }
-    
     return nil;
 }
 
