@@ -24,6 +24,8 @@
     //[self addSubview:_lateBadge];
     [_retardBadge setAutoresizingMask:UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleBottomMargin];
     [_retardPlaceHolder addSubview:_retardBadge];
+    [_filenameLabel setLineBreakMode:NSLineBreakByWordWrapping | NSLineBreakByTruncatingTail];
+    
 }
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated

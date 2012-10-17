@@ -96,21 +96,22 @@ static ADLIParapheurWall *sharedWall = nil;
         //NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
         //[connection start];
         
-        [NSURLConnection sendAsynchronousRequest:request 
+        [NSURLConnection sendAsynchronousRequest:request
                                            queue: [NSOperationQueue mainQueue]
                                completionHandler:^(NSURLResponse *response, NSData *data, NSError *error) {
                                    if (error == nil) {
-
-                                   NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                   dispatch_sync(serialQueue, ^{
                                        
-                                   [self parseResponse:str andReq:req];
-                                   });
+                                       NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
+                                       dispatch_sync(serialQueue, ^{
+                                           
+                                           [self parseResponse:str andReq:req];
+                                           [str release];
+                                       });
                                    }
                                    else {
                                        [self didEndWithError:error];
                                    }
-
+                                   
                                    
                                }];
         

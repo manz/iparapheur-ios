@@ -240,11 +240,16 @@
         NSString *validationDateStr = [[outputFormatter stringFromDate:validationDate] retain];
         
         [[cell validationDate] setText:validationDateStr];
+        [outputFormatter release];
+        [validationDateStr release];
+        
     
     }
     else {
         [[cell validationDate] setText:nil];
     }
+    
+    [formatter release];
     
     NSString *imagePrefix = @"iw";
     if ([[object objectForKey:@"approved"] intValue] == 1) {

@@ -215,8 +215,9 @@
 			document.pageNumber = [NSNumber numberWithInteger:page]; // Update page number
 		}
 
-		NSURL *fileURL = document.fileURL; NSString *phrase = document.password; NSString *guid = document.guid;
+		//NSURL *fileURL = document.fileURL; NSString *phrase = document.password; NSString *guid = document.guid;
 
+        /*
 		if ([newPageSet containsIndex:page] == YES) // Preview visible page first
 		{
 			NSNumber *key = [NSNumber numberWithInteger:page]; // # key
@@ -233,10 +234,11 @@
 				[targetView showPageThumb:fileURL page:number password:phrase guid:guid];
 			}
 		];
+         */
 
 		newPageSet = nil; // Release new page set
-		[mainPagebar updatePagebar]; // Update the pagebar display
-		[self updateToolbarBookmarkIcon]; // Update bookmark
+		//[mainPagebar updatePagebar]; // Update the pagebar display
+		//[self updateToolbarBookmarkIcon]; // Update bookmark
 		currentPage = page; // Track current page number
 	}
 }
@@ -328,7 +330,7 @@
 			self.document = object;
 			self.title = [document.fileName stringByDeletingPathExtension];
 			
-			[ReaderThumbCache touchThumbCacheWithGUID:object.guid]; // Touch the document thumb cache directory
+			//[ReaderThumbCache touchThumbCacheWithGUID:object.guid]; // Touch the document thumb cache directory
 			reader = self; // Return an initialized ReaderViewController object
 		}
 	}

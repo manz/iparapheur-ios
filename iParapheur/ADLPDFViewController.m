@@ -139,6 +139,7 @@
     
     [[self navigationController] popToRootViewControllerAnimated:YES];
 
+    [buttons release];
 }
 
 -(void) selectBureauAppeared:(NSNotification*) notification {
@@ -151,7 +152,7 @@
     self.navigationItem.rightBarButtonItem = nil;
     self.navigationItem.leftBarButtonItem = nil;
     
-    [[self readerViewController] release];
+   // [[self readerViewController] release];
     _readerViewController = nil;
 }
 
@@ -189,6 +190,7 @@
     else if ([document objectForKey:@"downloadUrl"] != nil) {
         [wall downloadDocumentWithNodeRef:[document objectForKey:@"downloadUrl"] andCollectivity:def];
     }
+    [def release];
 }
 
 -(void)didEndWithRequestAnswer:(NSDictionary*)answer {
@@ -381,7 +383,7 @@
 #pragma mark - Annotations Drawing view data Source
 
 -(NSArray*) annotationsForPage:(NSInteger)page {
-    NSMutableArray *annotsAtPage = [[[NSMutableArray alloc] init] retain];
+    NSMutableArray *annotsAtPage = [[[NSMutableArray alloc] init] autorelease];
     for (NSDictionary *etape in _annotations) {
         NSArray *annotationsAtPageForEtape = [etape objectForKey:[NSString stringWithFormat:@"%d", page]];
         

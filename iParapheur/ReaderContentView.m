@@ -26,7 +26,7 @@
 #import "ReaderConstants.h"
 #import "ReaderContentView.h"
 #import "ReaderContentPage.h"
-#import "ReaderThumbCache.h"
+//#import "ReaderThumbCache.h"
 #import "CGPDFDocument.h"
 
 #import <QuartzCore/QuartzCore.h>
@@ -221,10 +221,11 @@ static inline CGFloat ZoomScaleThatFits(CGSize target, CGSize source)
 - (void)showPageThumb:(NSURL *)fileURL page:(NSInteger)page password:(NSString *)phrase guid:(NSString *)guid
 {
 	BOOL large = ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad); // Page thumb size
-	
+/*
 	CGSize size = (large ? CGSizeMake(PAGE_THUMB_LARGE, PAGE_THUMB_LARGE) : CGSizeMake(PAGE_THUMB_SMALL, PAGE_THUMB_SMALL));
 	ReaderThumbRequest *request = [ReaderThumbRequest forView:thumbView fileURL:fileURL password:phrase guid:guid page:page size:size];
 	[request process];
+*/
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context

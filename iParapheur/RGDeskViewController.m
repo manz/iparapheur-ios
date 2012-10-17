@@ -172,6 +172,8 @@
         [[cell retardBadge] autoBadgeSizeWithString: [NSString stringWithFormat:@" %@ ", fdate]];
         [[cell retardBadge] setHidden:NO];
         [fdate release];
+        [formatter release];
+        [outputFormatter release];
 
     }
     else {

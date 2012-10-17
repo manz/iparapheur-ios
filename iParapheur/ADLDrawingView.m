@@ -76,6 +76,8 @@
         [self addGestureRecognizer:_longPressGestureRecognizer];
         
         [self addGestureRecognizer:doubleTapGestureRecognizer];
+        
+        [doubleTapGestureRecognizer release];
         // by default disable annotations
         _enabled = YES;
         
@@ -370,6 +372,8 @@
             ADLAnnotationView *a = [[ADLAnnotationView alloc] initWithFrame:annotRect];
             [self addSubview:a];
             [a release];
+            [annotModel release];
+            
             // get coordinates in pixels
             // getPDFPageSize
             // PDFPageSize * 72dpi
