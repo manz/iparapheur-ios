@@ -47,7 +47,7 @@
 #import "ADLCloseButton.h"
 #import "ADLPostitView.h"
 
-#define SHOW_RULES 1
+#define SHOW_RULES 0
 
 @implementation ADLAnnotationView
 
