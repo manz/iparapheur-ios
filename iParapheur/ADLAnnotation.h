@@ -19,5 +19,6 @@
 
 - (id)init;
 - (id)initWithAnnotationDict:(NSDictionary*)annotation;
+- (NSDictionary*)dict;
 
 @end

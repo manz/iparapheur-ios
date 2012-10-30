@@ -17,6 +17,10 @@
 
 -(id) init {
     if ((self = [super init])) {
+        _author = @"";
+        _uuid = @"";
+        _rect = CGRectZero;
+        _text = @"";
     }
     return self;
 }
@@ -78,10 +82,14 @@
 -(NSDictionary*) dict {
     NSMutableDictionary *annotation = [[[NSMutableDictionary alloc] init] autorelease];
     
-    [annotation setObject:_uuid forKey:@"uuid"];
+    if (_uuid != nil) {
+        [annotation setObject:_uuid forKey:@"uuid"];
+    }
+    
     [annotation setObject:[self dictWithRect:_rect] forKey:@"rect"];
     [annotation setObject:_text forKey:@"text"];
-    [annotation setObject:@"text" forKey:@"type"];
+    [annotation setObject:@"rect" forKey:@"type"];
+    
     
     return annotation;
 }

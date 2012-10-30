@@ -104,6 +104,10 @@
         _currentAnnotView = [[ADLAnnotationView alloc] initWithFrame:annotFrame];
         [_currentAnnotView setContentScaleFactor:[_parentScrollView contentScaleFactor]];
         
+        [_currentAnnotView refreshModel];
+        
+        [self addAnnotation:[_currentAnnotView annotationModel]];
+        
         [self addSubview:_currentAnnotView];
     }
     else {
@@ -135,36 +139,40 @@
         
         UIView *hitted = [self hitTest:touchPoint withEvent:event];
         
-        [self unselectAnnotations];
-        _hittedView = nil;
-        
-        
-        if (hitted != self) {
+        if ([hitted isKindOfClass:[ADLAnnotationView class]] || [hitted isKindOfClass:[ADLDrawingView class]]) {
             
-            //if (_hasBeenLongPressed) {
-            _parentScrollView.scrollEnabled = NO;
-            _superScrollView.scrollEnabled = NO;
-            _hittedView = (ADLAnnotationView*)hitted;
-            _origin = hitted.frame.origin;
-            _dx = sqrt(pow(_origin.x - touchPoint.x, 2.0));
-            _dy = sqrt(pow(_origin.y - touchPoint.y, 2.0));
-            _currentAnnotView = nil;
+            [self unselectAnnotations];
+            _hittedView = nil;
             
-            if ([_hittedView isInHandle:[touch locationInView:self]]) {
-                _longPressGestureRecognizer.enabled = NO;
+            
+            if (hitted != self) {
+                
+                //if (_hasBeenLongPressed) {
+                _parentScrollView.scrollEnabled = NO;
+                _superScrollView.scrollEnabled = NO;
+                _hittedView = (ADLAnnotationView*)hitted;
+                _origin = hitted.frame.origin;
+                _dx = sqrt(pow(_origin.x - touchPoint.x, 2.0));
+                _dy = sqrt(pow(_origin.y - touchPoint.y, 2.0));
+                _currentAnnotView = nil;
+                
+                if ([_hittedView isInHandle:[touch locationInView:self]]) {
+                    _longPressGestureRecognizer.enabled = NO;
+                }
+                
+                [_hittedView setSelected:true];
+                [_hittedView setNeedsDisplay];
             }
-            
-            [_hittedView setSelected:true];
-            [_hittedView setNeedsDisplay];
-        }
-        else {
-            _parentScrollView.scrollEnabled = YES;
-            _superScrollView.scrollEnabled = YES;
-            _hasBeenLongPressed = NO;
-            
+            else {
+                _parentScrollView.scrollEnabled = YES;
+                _superScrollView.scrollEnabled = YES;
+                _hasBeenLongPressed = NO;
+                
+            }
         }
     }
 }
+
 
 -(void) unselectAnnotations {
     for (UIView* subview in [self subviews]) {
@@ -212,40 +220,42 @@
 -(void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
     if (_enabled) {
         UITouch *touch = [touches anyObject];
-        CGPoint point = [self clipPointToView:[touch locationInView:self]];
         
-        if ([_hittedView isInHandle:[touch locationInView:self]]) {
+        if ([_hittedView isKindOfClass:[ADLAnnotationView class]] || [_hittedView isKindOfClass:[ADLDrawingView class]]) {
+            CGPoint point = [self clipPointToView:[touch locationInView:self]];
             
-            CGRect frame = [_hittedView frame];
-            
-            frame.size.width = point.x - frame.origin.x;
-            frame.size.height = point.y - frame.origin.y;
-            _parentScrollView.scrollEnabled = NO;
-            _superScrollView.scrollEnabled = NO;
-            
-            
-            
-            [_hittedView setFrame:frame];
-            [_hittedView setNeedsDisplay];
+            if ([_hittedView isInHandle:[touch locationInView:self]]) {
+                
+                CGRect frame = [_hittedView frame];
+                
+                frame.size.width = point.x - frame.origin.x;
+                frame.size.height = point.y - frame.origin.y;
+                _parentScrollView.scrollEnabled = NO;
+                _superScrollView.scrollEnabled = NO;
+                
+                
+                [_hittedView setFrame:frame];
+                [_hittedView setNeedsDisplay];
+            }
+            else if (_hittedView != nil && _hasBeenLongPressed) {
+                CGRect frame = [_hittedView frame];
+                
+                frame.origin.x = point.x - _dx;
+                frame.origin.y = point.y - _dy;
+                
+                frame = [self clipRectInView:frame];
+                
+                _parentScrollView.scrollEnabled = NO;
+                _superScrollView.scrollEnabled = NO;
+                
+                [_hittedView setFrame:frame];
+            }
+            else {
+                
+                
+            }
+            [self touchesCancelled:touches withEvent:event];
         }
-        else if (_hittedView != nil && _hasBeenLongPressed) {
-            CGRect frame = [_hittedView frame];
-            
-            frame.origin.x = point.x - _dx;
-            frame.origin.y = point.y - _dy;
-            
-            frame = [self clipRectInView:frame];
-            
-            _parentScrollView.scrollEnabled = NO;
-            _superScrollView.scrollEnabled = NO;
-            
-            [_hittedView setFrame:frame];
-        }
-        else {
-            
-            
-        }
-        [self touchesCancelled:touches withEvent:event];
     }
     
 }
@@ -259,7 +269,16 @@
         if (_hasBeenLongPressed) {
             _hasBeenLongPressed = NO;
             [self unanimateView:[touch locationInView:self]];
+        }
+        
+        if (_hittedView != nil && [_hittedView isKindOfClass:[ADLAnnotationView class]]) {
+            [_hittedView refreshModel];
+            ADLAnnotation *annotation = [_hittedView annotationModel];
             
+            
+            if ([[_hittedView annotationModel] uuid] != nil) {
+                [self updateAnnotation:annotation];
+            }
         }
         
         //_hittedView = nil;
@@ -366,17 +385,16 @@
             
             ADLAnnotation *annotModel = [[ADLAnnotation alloc] initWithAnnotationDict:annotation];
             
-            CGRect annotRect = [annotModel rect];
+          //  CGRect annotRect = [annotModel rect];
             
             
-            ADLAnnotationView *a = [[ADLAnnotationView alloc] initWithFrame:annotRect];
+            ADLAnnotationView *a = [[ADLAnnotationView alloc] initWithAnnotation:annotModel];
+            
             [self addSubview:a];
             [a release];
             [annotModel release];
             
-            // get coordinates in pixels
-            // getPDFPageSize
-            // PDFPageSize * 72dpi
+
         }
     }
     
@@ -390,15 +408,18 @@
 
 -(void) updateAnnotation:(ADLAnnotation*)annotation {
     //TODO: implement
+    NSLog(@"Shall update");
     [_dataSource updateAnnotation:annotation forPage:_pageNumber];
 }
 
 -(void) addAnnotation:(ADLAnnotation*)annotation {
+    NSLog(@"Shall add");
     [_dataSource addAnnotation:annotation forPage:_pageNumber];
 }
 
--(void) removeAnnotation:(ADLAnnotation*) annotation forPage:(NSUInteger)page {
-    [_dataSource removeAnnotation:annotation fromPage:page];
+-(void) removeAnnotation:(ADLAnnotation*) annotation {
+    NSLog(@"Shall remove !");
+    [_dataSource removeAnnotation:annotation];
 }
 
 -(NSArray*) annotationsForPage:(NSUInteger)page {

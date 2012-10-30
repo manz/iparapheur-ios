@@ -196,7 +196,7 @@
 -(void)didEndWithRequestAnswer:(NSDictionary*)answer {
     NSString *s = [answer objectForKey:@"_req"];
     [[LGViewHUD defaultHUD] setHidden:YES];
-    
+    NSLog(@"%@", answer);
     if ([s isEqual:GETDOSSIER_API]) {
         _dossier = [answer copy];
         [self displayDocumentAt: 0];
@@ -216,6 +216,24 @@
         NSLog(@"annotations %@", annotations);
         
         _annotations = annotations;
+        
+        for (NSNumber *contentViewIdx in [_readerViewController contentViews]) {
+            [[[[_readerViewController contentViews] objectForKey:contentViewIdx] contentPage] refreshAnnotations];
+        }
+
+    }
+    else if ([s isEqualToString:@"addAnnotation"]) {
+        ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
+        [wall setDelegate:self];
+        
+        NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
+                              _dossierRef,
+                              @"dossier",
+                              nil];
+        
+        ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
+        
+        [wall request:GETANNOTATIONS_API withArgs:args andCollectivity:def];
     }
     
 }
@@ -397,6 +415,58 @@
     }
     
     return annotsAtPage;
+}
+
+
+-(void) updateAnnotation:(ADLAnnotation*)annotation forPage:(NSUInteger)page {
+    NSDictionary *dict = [annotation dict];
+    NSDictionary *req = [NSDictionary dictionaryWithObjectsAndKeys:
+                         [NSNumber numberWithUnsignedInteger:page], @"page",
+                         dict, @"annotation",
+                         [[ADLSingletonState sharedSingletonState] dossierCourant], @"dossier"
+                         , nil];
+    
+    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
+    [wall setDelegate:self];
+    
+    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
+
+    [wall request:@"updateAnnotation" withArgs:req andCollectivity:def]; 
+    
+}
+
+-(void) removeAnnotation:(ADLAnnotation*)annotation {
+       NSDictionary *req = [NSDictionary dictionaryWithObjectsAndKeys:
+                         [annotation uuid], @"uuid",
+                            [NSNumber numberWithUnsignedInt:10], @"page",
+                         [[ADLSingletonState sharedSingletonState] dossierCourant], @"dossier"
+                         , nil];
+    
+    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
+    [wall setDelegate:self];
+    
+    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
+    
+    [wall request:@"removeAnnotation" withArgs:req andCollectivity:def];
+}
+
+-(void) addAnnotation:(ADLAnnotation*)annotation forPage:(NSUInteger)page {
+    NSMutableDictionary *dict = [NSMutableDictionary dictionaryWithDictionary:[annotation dict]];
+    [dict setValue: [NSNumber numberWithUnsignedInteger:page] forKey:@"page"];
+    NSDictionary *req = [NSDictionary dictionaryWithObjectsAndKeys:
+                        
+                         [NSArray arrayWithObjects:dict, nil], @"annotations",
+                         [[ADLSingletonState sharedSingletonState] dossierCourant], @"dossier"
+                         , nil];
+    
+    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
+    [wall setDelegate:self];
+    
+    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
+    
+    [wall request:@"addAnnotation" withArgs:req andCollectivity:def];
+
+    
 }
 
 @end

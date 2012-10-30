@@ -46,6 +46,7 @@
 #import <UIKit/UIKit.h>
 #import <QuartzCore/QuartzCore.h>
 #import "ADLAnnotation.h"
+#import "ADLPostItView.h"
 
 #define kFingerSize 45.0f
 
@@ -53,17 +54,22 @@
 
 
 @property (nonatomic, retain) UIButton *close;
+@property (nonatomic, retain) UIButton *postit;
 
-@property (nonatomic, retain) ADLAnnotation *annotation;
- 
+@property (nonatomic, retain) ADLAnnotation *annotationModel;
+
+@property (nonatomic, retain) ADLPostItView *postItView;
+
 @property (nonatomic) BOOL selected;
 @property (nonatomic) NSUInteger currentPage;
 
 
 @property (nonatomic) CGPoint anchor;
 
-
+-(id)initWithAnnotation:(ADLAnnotation*)a;
 -(BOOL)isInHandle:(CGPoint)touchPoint;
+
+-(void)refreshModel;
 
 
 @end
