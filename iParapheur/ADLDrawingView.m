@@ -80,6 +80,7 @@
         [doubleTapGestureRecognizer release];
         // by default disable annotations
         _enabled = YES;
+        _shallUpdateCurrent = NO;
         
         //self.clipsToBounds = YES;
     }
@@ -116,6 +117,12 @@
     
 }
 
+-(void)setContentScaleFactor:(CGFloat)contentScaleFactor {
+    for (UIView *subview in self.subviews) {
+        [subview setContentScaleFactor:contentScaleFactor];
+    }
+}
+
 - (void)handleLongPress:(UIGestureRecognizer *)gestureRecognizer {
     CGPoint touchPoint = [gestureRecognizer locationInView:self];
     
@@ -146,7 +153,10 @@
             
             
             if (hitted != self) {
-                
+                if ([(ADLAnnotationView*)hitted postItView] != nil) {
+                    [[(ADLAnnotationView*)hitted postItView] removeFromSuperview];
+                    [(ADLAnnotationView*)hitted setPostItView:nil];
+                }
                 //if (_hasBeenLongPressed) {
                 _parentScrollView.scrollEnabled = NO;
                 _superScrollView.scrollEnabled = NO;
@@ -232,7 +242,7 @@
                 frame.size.height = point.y - frame.origin.y;
                 _parentScrollView.scrollEnabled = NO;
                 _superScrollView.scrollEnabled = NO;
-                
+                _shallUpdateCurrent = YES;
                 
                 [_hittedView setFrame:frame];
                 [_hittedView setNeedsDisplay];
@@ -247,7 +257,7 @@
                 
                 _parentScrollView.scrollEnabled = NO;
                 _superScrollView.scrollEnabled = NO;
-                
+                _shallUpdateCurrent = YES;
                 [_hittedView setFrame:frame];
             }
             else {
@@ -271,7 +281,7 @@
             [self unanimateView:[touch locationInView:self]];
         }
         
-        if (_hittedView != nil && [_hittedView isKindOfClass:[ADLAnnotationView class]]) {
+        if (_hittedView != nil && [_hittedView isKindOfClass:[ADLAnnotationView class]] && _shallUpdateCurrent) {
             [_hittedView refreshModel];
             ADLAnnotation *annotation = [_hittedView annotationModel];
             
@@ -285,6 +295,8 @@
         _parentScrollView.scrollEnabled = YES;
         _superScrollView.scrollEnabled = YES;
         _longPressGestureRecognizer.enabled = YES;
+        
+        _shallUpdateCurrent = NO;
     }
     
 }

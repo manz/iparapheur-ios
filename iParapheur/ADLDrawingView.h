@@ -74,6 +74,7 @@
 @property (nonatomic) CGFloat dy;
 
 @property (nonatomic) BOOL enabled;
+@property (nonatomic) BOOL shallUpdateCurrent;
 
 @property (nonatomic) BOOL hasBeenLongPressed;
 

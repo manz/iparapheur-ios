@@ -46,6 +46,7 @@
 #import "ADLAnnotationView.h"
 #import "ADLCloseButton.h"
 #import "ADLPostitView.h"
+#import "ADLPostItButton.h"
 
 #define SHOW_RULES 0
 
@@ -53,6 +54,7 @@
 
 @synthesize selected = _selected;
 @synthesize annotationModel = _annotationModel;
+@synthesize postItView = _postItView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -86,8 +88,8 @@
         
         CGRect postitFrame = CGRectMake(CGRectGetWidth(frame) - 24.0f, 0.0f, 24.0f ,24.0f);
         
-        _postit = [UIButton buttonWithType:UIButtonTypeInfoLight];
-        [_postit setFrame:postitFrame];
+        _postit = [[ADLPostItButton alloc] initWithFrame:postitFrame];
+       // [_postit setFrame:postitFrame];
         [_postit addTarget:self action:@selector(postItButtonHitted) forControlEvents:UIControlEventTouchDown];
         [_postit setHidden:YES];
         
@@ -115,6 +117,13 @@
         
     }
     return self;
+}
+
+-(void) setFrame:(CGRect)frame {
+    [super setFrame:frame];
+    CGRect postitFrame = CGRectMake(CGRectGetWidth(frame) - 24.0f, 0.0f, 24.0f ,24.0f);
+    [_postit setFrame:postitFrame];
+    
 }
 
 -(id)initWithAnnotation:(ADLAnnotation*)a {
@@ -149,8 +158,7 @@
         
         CGRect postitFrame = CGRectMake(CGRectGetWidth(frame) - 24.0f, 0.0f, 24.0f ,24.0f);
         
-        _postit = [UIButton buttonWithType:UIButtonTypeInfoLight];
-        [_postit setFrame:postitFrame];
+        _postit = [[ADLPostItButton alloc] initWithFrame:postitFrame];
         [_postit addTarget:self action:@selector(postItButtonHitted) forControlEvents:UIControlEventTouchDown];
         [_postit setHidden:YES];
         
@@ -213,12 +221,9 @@
     [postit setAnnotationModel: [self annotationModel]];
     
     _postItView = postit;
+    [_postItView setContentScaleFactor:[self contentScaleFactor]];
     [[self superview] addSubview:postit];
-    //[postit release];
-}
-
-- (void) setFrame:(CGRect)frame {
-    [super setFrame:frame];
+    
 }
 
 // Override setContetScaleFactor to apply it to the close button;

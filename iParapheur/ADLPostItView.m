@@ -99,5 +99,10 @@
 }
 #endif
 
+-(void)setContentScaleFactor:(CGFloat)contentScaleFactor {
+    [super setContentScaleFactor:contentScaleFactor];
+    [_label setContentScaleFactor:contentScaleFactor];
+}
+
 
 @end
