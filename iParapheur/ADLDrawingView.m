@@ -47,6 +47,9 @@
 #import "ADLAnnotationView.h"
 #import <QuartzCore/QuartzCore.h>
 
+#define _UIKeyboardFrameEndUserInfoKey (&UIKeyboardFrameEndUserInfoKey != NULL ? UIKeyboardFrameEndUserInfoKey : @"UIKeyboardBoundsUserInfoKey")
+
+
 @implementation ADLDrawingView
 
 @synthesize parentScrollView = _parentScrollView;
@@ -82,6 +85,9 @@
         _enabled = YES;
         _shallUpdateCurrent = NO;
         
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardWillShowNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
+        
         //self.clipsToBounds = YES;
     }
     return self;
@@ -90,6 +96,98 @@
 - (void)awakeFromNib {
     _hittedView = nil;
     _currentAnnotView = nil;
+}
+
+-(CGFloat)idealOffsetForView:(UIView *)view withSpace:(CGFloat)space {
+    
+    // Convert the rect to get the view's distance from the top of the scrollView.
+    CGRect rect = [view convertRect:view.bounds toView:[self superScrollView]];
+    
+    // Set starting offset to that point
+    CGFloat offset = rect.origin.y - (space / 2.0f) + (rect.size.height / 2.0f);
+    
+        
+    /*
+    if ( self.superScrollView.contentSize.height - offset < space ) {
+        // Scroll to the bottom
+        offset = self.superScrollView.contentSize.height - space;
+    } else {
+        if ( view.bounds.size.height < space ) {
+            // Center vertically if there's room
+            offset -= floor((space-view.bounds.size.height)/2.0);
+        }
+        if ( offset + space > self.superScrollView.contentSize.height ) {
+            // Clamp to content size
+            offset = self.superScrollView.contentSize.height - space;
+        }
+    }*/
+    
+    if (offset < 0) offset = 0;
+    
+    return offset;
+}
+
+- (UIView*)findFirstResponderBeneathView:(UIView*)view {
+    // Search recursively for first responder
+    for ( UIView *childView in view.subviews ) {
+        if ( [childView respondsToSelector:@selector(isFirstResponder)] && [childView isFirstResponder] ) return childView;
+        UIView *result = [self findFirstResponderBeneathView:childView];
+        if ( result ) return result;
+    }
+    return nil;
+}
+
+
+- (void)keyboardWillShow:(NSNotification*)notification {
+    _keyboardRect = [[[notification userInfo] objectForKey:UIKeyboardFrameEndUserInfoKey] CGRectValue];
+    _keyboardVisible = YES;
+    
+    UIView *firstResponder = [self findFirstResponderBeneathView:self];
+    if ( !firstResponder ) {
+        // No child view is the first responder - nothing to do here
+        return;
+    }
+    
+    /*
+    if (!_priorInsetSaved) {
+        _priorInset = self.contentInset;
+        _priorInsetSaved = YES;
+    }*/
+    
+    // Shrink view's inset by the keyboard's height, and scroll to show the text field/view being edited
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationCurve:[[[notification userInfo] objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue]];
+    [UIView setAnimationDuration:[[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue]];
+    
+    self.contentInset = [self contentInsetForKeyboard];
+    [[self superScrollView] setContentOffset:CGPointMake(self.contentOffset.x,
+                                       [self idealOffsetForView:firstResponder withSpace:[self keyboardRect].size.width])
+                  animated:YES];
+    [[self parentScrollView] setScrollIndicatorInsets:_contentInset];
+    
+    [UIView commitAnimations];
+}
+
+- (void)keyboardWillHide:(NSNotification*)notification {
+    _keyboardRect = CGRectZero;
+    _keyboardVisible = NO;
+    
+    // Restore dimensions to prior size
+    [UIView beginAnimations:nil context:NULL];
+    [UIView setAnimationCurve:[[[notification userInfo] objectForKey:UIKeyboardAnimationCurveUserInfoKey] intValue]];
+    [UIView setAnimationDuration:[[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue]];
+  //_contentInset = _priorInset;
+    _contentOffset = CGPointZero;
+    [[self parentScrollView] setScrollIndicatorInsets:_contentInset];
+    //_priorInsetSaved = NO;
+    [UIView commitAnimations];
+}
+
+- (UIEdgeInsets)contentInsetForKeyboard {
+    UIEdgeInsets newInset = _contentInset;
+    CGRect keyboardRect = [self keyboardRect];
+    newInset.bottom = keyboardRect.size.height - ((keyboardRect.origin.y+keyboardRect.size.height) - (self.bounds.origin.y+self.bounds.size.height));
+    return newInset;
 }
 
 - (void)handleSingleTap:(UIGestureRecognizer *)gestureRecognizer {
@@ -401,7 +499,7 @@
             
             
             ADLAnnotationView *a = [[ADLAnnotationView alloc] initWithAnnotation:annotModel];
-            
+            [a setDrawingView:self];
             [self addSubview:a];
             [a release];
             [annotModel release];

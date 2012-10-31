@@ -9,8 +9,9 @@
 #import <UIKit/UIKit.h>
 #import "ADLAnnotation.h"
 
-@interface ADLPostItView : UIView
+@interface ADLPostItView : UIView<UITextViewDelegate>
 
 @property (nonatomic, retain) ADLAnnotation *annotationModel;
 @property (nonatomic, retain) UILabel *label;
+@property (nonatomic, retain) UITextView *textView;
 @end

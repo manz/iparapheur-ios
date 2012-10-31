@@ -64,7 +64,7 @@
 
 @end
 
-
+@class ADLAnnotationView;
 @interface ADLDrawingView : UIView
 
 @property (nonatomic, strong) ADLAnnotationView *hittedView;
@@ -87,12 +87,21 @@
 
 @property (nonatomic) NSUInteger pageNumber;
 
+@property (nonatomic) UIEdgeInsets contentInset;
+@property (nonatomic) CGPoint contentOffset;
+
+@property (nonatomic) CGRect keyboardRect;
+@property (nonatomic) BOOL keyboardVisible;
+
+
 
 - (id)initWithFrame:(CGRect)frame;
 
 - (void)refreshAnnotations;
 
 -(CGSize)getPageSize;
+
+-(CGRect)clipRectInView:(CGRect)rect;
 
 
 

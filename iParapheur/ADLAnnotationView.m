@@ -47,6 +47,7 @@
 #import "ADLCloseButton.h"
 #import "ADLPostitView.h"
 #import "ADLPostItButton.h"
+#import "ADLDrawingView.h"
 
 #define SHOW_RULES 0
 
@@ -55,6 +56,7 @@
 @synthesize selected = _selected;
 @synthesize annotationModel = _annotationModel;
 @synthesize postItView = _postItView;
+@synthesize drawingView = _drawingView;
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -197,6 +199,7 @@
     if (postIt != nil && selected == NO) {
         [postIt setHidden:YES];
         [postIt removeFromSuperview];
+        [((ADLDrawingView*)[self superview]) updateAnnotation:_annotationModel];
         _postItView = nil;
         //[postIt release];
     }
@@ -210,7 +213,7 @@
 
 - (void)closeButtonHitted {
     if ([_annotationModel uuid] != nil) {
-        [[self superview] removeAnnotation:_annotationModel];
+        [_drawingView removeAnnotation:_annotationModel];
     }
     [self removeFromSuperview];
 }
@@ -219,6 +222,9 @@
     ADLPostItView *postit = [[ADLPostItView alloc] initWithFrame:CGRectMake(CGRectGetMaxX([self frame]),CGRectGetMinY([self frame ]),100, 100)];
  
     [postit setAnnotationModel: [self annotationModel]];
+    
+    CGRect clippedFrame = [_drawingView clipRectInView:[postit frame]];
+    [postit setFrame:clippedFrame];
     
     _postItView = postit;
     [_postItView setContentScaleFactor:[self contentScaleFactor]];

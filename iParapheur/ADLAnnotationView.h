@@ -47,9 +47,11 @@
 #import <QuartzCore/QuartzCore.h>
 #import "ADLAnnotation.h"
 #import "ADLPostItView.h"
+#import "ADLDrawingView.h"
+
 
 #define kFingerSize 45.0f
-
+@class ADLDrawingView;
 @interface ADLAnnotationView : UIView
 
 
@@ -59,6 +61,8 @@
 @property (nonatomic, retain) ADLAnnotation *annotationModel;
 
 @property (nonatomic, retain) ADLPostItView *postItView;
+
+@property (nonatomic, retain) ADLDrawingView *drawingView;
 
 @property (nonatomic) BOOL selected;
 @property (nonatomic) NSUInteger currentPage;
@@ -70,6 +74,8 @@
 -(BOOL)isInHandle:(CGPoint)touchPoint;
 
 -(void)refreshModel;
+
+
 
 
 @end

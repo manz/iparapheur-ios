@@ -16,28 +16,34 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code
-        
+        /*
         _label = [[UILabel alloc] initWithFrame:[self bounds]];
         [_label setBackgroundColor:[UIColor yellowColor]];
         [_label setLineBreakMode:NSLineBreakByWordWrapping];
         [_label setNumberOfLines:4];
-        
+        */
+        _textView = [[UITextView alloc] initWithFrame:[self bounds]];
+        [_textView setBackgroundColor:[UIColor yellowColor]];
+        [_textView setDelegate:self];
                 
         
-        [self addSubview:_label];
+        [self addSubview:_textView];
         
         
         
     }
     return self;
 }
-         
+
+- (void)textViewDidEndEditing:(UITextView *)textView {
+    [_annotationModel setText:[textView text]];
+}
     
 -(void) setAnnotationModel:(ADLAnnotation *)annotationModel {
     _annotationModel = annotationModel;
-    [_label setText:[annotationModel text]];
+    [_textView setText:[annotationModel text]];
     
-    UIFont *font = [_label font];
+    UIFont *font = [_textView font];
     CGSize withinSize = CGSizeMake(100.0f, FLT_MAX);
     CGSize size = [[annotationModel text] sizeWithFont:font constrainedToSize:withinSize lineBreakMode:UILineBreakModeWordWrap];
     
@@ -51,7 +57,7 @@
     myFrame.size.height = size.height;
     
     myFrame = CGRectInset(myFrame, -15, -15);
-    [_label setFrame: CGRectMake(15.0f, 15.0f, size.width, size.height)];
+    [_textView setFrame: CGRectMake(15.0f, 15.0f, size.width, size.height)];
     [self setFrame:myFrame];
 
 }
