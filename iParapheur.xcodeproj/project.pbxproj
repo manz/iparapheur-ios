@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		142CDD8D1640260B009F4F84 /* ADLPostItButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 142CDD8C1640260B009F4F84 /* ADLPostItButton.m */; };
 		B4082A7F162D48CB000B0E26 /* logo-new5.png in Resources */ = {isa = PBXBuildFile; fileRef = B4082A7E162D48CB000B0E26 /* logo-new5.png */; };
 		B41B609E15F0962100655827 /* ADLCircuitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B609D15F0962100655827 /* ADLCircuitCell.m */; };
 		B41B60AD15F09D5300655827 /* ip-mailsec.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B41B609F15F09D5200655827 /* ip-mailsec.jpg */; };
@@ -139,6 +140,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		142CDD8B1640260B009F4F84 /* ADLPostItButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLPostItButton.h; sourceTree = "<group>"; };
+		142CDD8C1640260B009F4F84 /* ADLPostItButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLPostItButton.m; sourceTree = "<group>"; };
 		B4082A7E162D48CB000B0E26 /* logo-new5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-new5.png"; sourceTree = "<group>"; };
 		B41B609C15F0962100655827 /* ADLCircuitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLCircuitCell.h; sourceTree = "<group>"; };
 		B41B609D15F0962100655827 /* ADLCircuitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLCircuitCell.m; sourceTree = "<group>"; };
@@ -417,6 +420,8 @@
 				B47944D71622BCDE0061E09B /* ADLPostItView.m */,
 				B44649E716241657002622DF /* ADLAnnotation.h */,
 				B44649E816241657002622DF /* ADLAnnotation.m */,
+				142CDD8B1640260B009F4F84 /* ADLPostItButton.h */,
+				142CDD8C1640260B009F4F84 /* ADLPostItButton.m */,
 			);
 			name = Annotations;
 			sourceTree = "<group>";
@@ -843,6 +848,7 @@
 				B47944D81622BCDE0061E09B /* ADLPostItView.m in Sources */,
 				B44649E916241657002622DF /* ADLAnnotation.m in Sources */,
 				B4A221AB16299E9B00474A18 /* ADLActionViewController.m in Sources */,
+				142CDD8D1640260B009F4F84 /* ADLPostItButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
