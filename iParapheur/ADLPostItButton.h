@@ -11,5 +11,5 @@
 
 
 @interface ADLPostItButton : UIButton
-
+@property (nonatomic) BOOL hasText;
 @end

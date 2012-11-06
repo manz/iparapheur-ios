@@ -185,6 +185,10 @@
         
         _annotationModel = [a retain];
         
+        if ([_annotationModel text] != nil && ![[_annotationModel text] isEqualToString:@""]) {
+            [_postit setHasText:YES];
+        }
+        
         
     }
     return self;

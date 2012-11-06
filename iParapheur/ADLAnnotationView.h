@@ -48,7 +48,7 @@
 #import "ADLAnnotation.h"
 #import "ADLPostItView.h"
 #import "ADLDrawingView.h"
-
+#import "ADLPostItButton.h"
 
 #define kFingerSize 45.0f
 @class ADLDrawingView;
@@ -56,7 +56,7 @@
 
 
 @property (nonatomic, retain) UIButton *close;
-@property (nonatomic, retain) UIButton *postit;
+@property (nonatomic, retain) ADLPostItButton *postit;
 
 @property (nonatomic, retain) ADLAnnotation *annotationModel;
 
