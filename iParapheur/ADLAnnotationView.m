@@ -199,7 +199,8 @@
     [_close setHidden:!_selected];
     [_postit setHidden:!_selected];
     ADLPostItView *postIt = _postItView;
-    
+    [self setNeedsDisplay];
+
     if (postIt != nil && selected == NO) {
         [postIt setHidden:YES];
         [postIt removeFromSuperview];
