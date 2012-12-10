@@ -93,7 +93,7 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:YES];
     
-    [[self navigationItem] setTitle:@"coucou"];
+   // [[self navigationItem] setTitle:@"coucou"];
     currentPage = 0;
     filesArray = [[NSMutableArray alloc] init];
     [self loadDossiersWithPage:currentPage];

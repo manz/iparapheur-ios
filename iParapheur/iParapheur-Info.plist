@@ -11,7 +11,7 @@
 	<key>CFBundleIconFile</key>
 	<string>icone_ipad.png</string>
 	<key>CFBundleIdentifier</key>
-	<string>WG6RXYLAQX.coop.adullact-projet.iparapheur</string>
+	<string>coop.adullact-projet.iparapheur</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>

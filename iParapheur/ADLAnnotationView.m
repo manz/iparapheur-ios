@@ -256,7 +256,23 @@
 - (void)drawRect:(CGRect)rect
 {
     CGContextRef context = UIGraphicsGetCurrentContext();
+   
     
+    if (_selected) {
+        CGContextSaveGState(context);
+        UIGraphicsPushContext(context);
+        {
+            [[UIColor blueColor] setStroke];
+            [[UIColor blueColor] setFill];
+            CGContextSetLineWidth(context, 1.0f);
+            
+            CGContextAddEllipseInRect(context, CGRectMake(CGRectGetMaxX(self.bounds)-10.0f,  CGRectGetMaxY(self.bounds) - 10.0f, 5.0f, 5.0f) );
+            
+        }
+        UIGraphicsPopContext();
+        CGContextRestoreGState(context);
+    }
+
     UIGraphicsPushContext(context);
     {
         CGRect rect = self.bounds;
@@ -268,19 +284,12 @@
 #endif
         
         
-        [[UIColor yellowColor] setFill];
-        
         CGRect annotRect = CGRectInset(rect, 12, 12);;
         UIBezierPath *path = [UIBezierPath bezierPathWithRoundedRect:annotRect cornerRadius:10.0f];
-        /*
-        if (_selected) {
-            CGContextFillRect(context, CGRectMake(CGRectGetMaxX(self.bounds)-54, CGRectGetMaxX(self.bounds)-45, 45, 45));
-        }
-        */
+
         path.lineWidth = 4;
         
         [[UIColor yellowColor] setFill];
-        //[path fill];
 
         [[UIColor purpleColor] setStroke];
         [path stroke];

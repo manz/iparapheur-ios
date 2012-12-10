@@ -52,6 +52,8 @@
 #import "RGDocumentsView.h"
 #import "ADLNotifications.h"
 #import "ADLSingletonState.h"
+#import "ADLRequester.h"
+
 
 @interface ADLPDFViewController ()
 
@@ -166,7 +168,6 @@
 
 
 #pragma mark - Wall delegate Implementation
-
 -(void) displayDocumentAt: (NSInteger) index {
     NSDictionary *document = [[_dossier objectForKey:@"documents" ] objectAtIndex:index];
     
@@ -183,12 +184,20 @@
     
     [hud showInView:self.view];
     
+    ADLRequester *requester = [ADLRequester sharedRequester];
+    
+    requester.delegate = self;
+    
+    
     /* Si le document n'a pas de visuelPdf on suppose que le document est en PDF */
     if ([document objectForKey:@"visuelPdfUrl"] != nil) {
-        [wall downloadDocumentWithNodeRef:[document objectForKey:@"visuelPdfUrl"] andCollectivity:def];
+        [requester downloadDocumentAt:[document objectForKey:@"visuelPdfUrl"]];
+
+        //[wall downloadDocumentWithNodeRef:[document objectForKey:@"visuelPdfUrl"] andCollectivity:def];
     }
     else if ([document objectForKey:@"downloadUrl"] != nil) {
-        [wall downloadDocumentWithNodeRef:[document objectForKey:@"downloadUrl"] andCollectivity:def];
+        [requester downloadDocumentAt:[document objectForKey:@"downloadUrl"]];
+        //[wall downloadDocumentWithNodeRef:[document objectForKey:@"downloadUrl"] andCollectivity:def];
     }
     [def release];
 }

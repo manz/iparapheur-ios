@@ -216,6 +216,7 @@
 }
 
 -(void)setContentScaleFactor:(CGFloat)contentScaleFactor {
+    //[super setContentScaleFactor:contentScaleFactor];
     for (UIView *subview in self.subviews) {
         [subview setContentScaleFactor:contentScaleFactor];
     }

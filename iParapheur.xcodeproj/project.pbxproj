@@ -8,6 +8,10 @@
 
 /* Begin PBXBuildFile section */
 		142CDD8D1640260B009F4F84 /* ADLPostItButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 142CDD8C1640260B009F4F84 /* ADLPostItButton.m */; };
+		1469DFF11675D2C20064E8E7 /* ADLRequester.m in Sources */ = {isa = PBXBuildFile; fileRef = 1469DFF01675D2C20064E8E7 /* ADLRequester.m */; };
+		1469DFF51675D8960064E8E7 /* ADLAPIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1469DFF41675D8960064E8E7 /* ADLAPIOperation.m */; };
+		1469DFFA1675F72C0064E8E7 /* ca_mobiles_chaine.der in Resources */ = {isa = PBXBuildFile; fileRef = 1469DFF91675F72C0064E8E7 /* ca_mobiles_chaine.der */; };
+		1483D1DE165E852C000C6D0D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1483D1DD165E852C000C6D0D /* Security.framework */; };
 		B4082A7F162D48CB000B0E26 /* logo-new5.png in Resources */ = {isa = PBXBuildFile; fileRef = B4082A7E162D48CB000B0E26 /* logo-new5.png */; };
 		B41B609E15F0962100655827 /* ADLCircuitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B609D15F0962100655827 /* ADLCircuitCell.m */; };
 		B41B60AD15F09D5300655827 /* ip-mailsec.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B41B609F15F09D5200655827 /* ip-mailsec.jpg */; };
@@ -142,6 +146,12 @@
 /* Begin PBXFileReference section */
 		142CDD8B1640260B009F4F84 /* ADLPostItButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLPostItButton.h; sourceTree = "<group>"; };
 		142CDD8C1640260B009F4F84 /* ADLPostItButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLPostItButton.m; sourceTree = "<group>"; };
+		1469DFEF1675D2C20064E8E7 /* ADLRequester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLRequester.h; sourceTree = "<group>"; };
+		1469DFF01675D2C20064E8E7 /* ADLRequester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLRequester.m; sourceTree = "<group>"; };
+		1469DFF31675D8960064E8E7 /* ADLAPIOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLAPIOperation.h; sourceTree = "<group>"; };
+		1469DFF41675D8960064E8E7 /* ADLAPIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLAPIOperation.m; sourceTree = "<group>"; };
+		1469DFF91675F72C0064E8E7 /* ca_mobiles_chaine.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = ca_mobiles_chaine.der; sourceTree = "<group>"; };
+		1483D1DD165E852C000C6D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		B4082A7E162D48CB000B0E26 /* logo-new5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-new5.png"; sourceTree = "<group>"; };
 		B41B609C15F0962100655827 /* ADLCircuitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLCircuitCell.h; sourceTree = "<group>"; };
 		B41B609D15F0962100655827 /* ADLCircuitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLCircuitCell.m; sourceTree = "<group>"; };
@@ -308,6 +318,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1483D1DE165E852C000C6D0D /* Security.framework in Frameworks */,
 				B4FF341915473C88006F7BF3 /* QuartzCore.framework in Frameworks */,
 				B4FF341715473BCD006F7BF3 /* MessageUI.framework in Frameworks */,
 				B4FF341515473BC4006F7BF3 /* ImageIO.framework in Frameworks */,
@@ -459,6 +470,7 @@
 		B4E5ECA1153AF65F00BD514D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1483D1DD165E852C000C6D0D /* Security.framework */,
 				B4FF341815473C88006F7BF3 /* QuartzCore.framework */,
 				B4FF341615473BCD006F7BF3 /* MessageUI.framework */,
 				B4FF341415473BC4006F7BF3 /* ImageIO.framework */,
@@ -496,6 +508,7 @@
 		B4E5ECA9153AF65F00BD514D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				1469DFF91675F72C0064E8E7 /* ca_mobiles_chaine.der */,
 				B4082A7E162D48CB000B0E26 /* logo-new5.png */,
 				B41B609F15F09D5200655827 /* ip-mailsec.jpg */,
 				B41B60A015F09D5200655827 /* ip-signature.jpg */,
@@ -570,6 +583,10 @@
 				B4E5ECFA153AF72200BD514D /* ADLMacroes.h */,
 				B46BCC45156956E300A96560 /* ADLDocument.h */,
 				B46BCC46156956E300A96560 /* ADLDocument.m */,
+				1469DFEF1675D2C20064E8E7 /* ADLRequester.h */,
+				1469DFF01675D2C20064E8E7 /* ADLRequester.m */,
+				1469DFF31675D8960064E8E7 /* ADLAPIOperation.h */,
+				1469DFF41675D8960064E8E7 /* ADLAPIOperation.m */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -767,6 +784,7 @@
 				B4A221BB162AA86900474A18 /* rejeter@2x.png in Resources */,
 				B4D2F89B162AADF700D8A1DE /* MainStoryboard_iPad.storyboard in Resources */,
 				B4082A7F162D48CB000B0E26 /* logo-new5.png in Resources */,
+				1469DFFA1675F72C0064E8E7 /* ca_mobiles_chaine.der in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -849,6 +867,8 @@
 				B44649E916241657002622DF /* ADLAnnotation.m in Sources */,
 				B4A221AB16299E9B00474A18 /* ADLActionViewController.m in Sources */,
 				142CDD8D1640260B009F4F84 /* ADLPostItButton.m in Sources */,
+				1469DFF11675D2C20064E8E7 /* ADLRequester.m in Sources */,
+				1469DFF51675D8960064E8E7 /* ADLAPIOperation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -951,7 +971,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
-				PROVISIONING_PROFILE = "1679719B-58F3-43B0-A316-B2DCD1BF9DD9";
+				PROVISIONING_PROFILE = "81FDDAF3-ED3F-4503-B9F0-414AC4F2B1F8";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1679719B-58F3-43B0-A316-B2DCD1BF9DD9";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -973,7 +993,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
-				PROVISIONING_PROFILE = "1679719B-58F3-43B0-A316-B2DCD1BF9DD9";
+				PROVISIONING_PROFILE = "81FDDAF3-ED3F-4503-B9F0-414AC4F2B1F8";
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "1679719B-58F3-43B0-A316-B2DCD1BF9DD9";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -984,10 +1004,14 @@
 		B4E5ECD8153AF65F00BD514D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iParapheur/iParapheur-Prefix.pch";
 				INFOPLIST_FILE = "iParapheur/iParapheur-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -996,10 +1020,14 @@
 		B4E5ECD9153AF65F00BD514D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "iParapheur/iParapheur-Prefix.pch";
 				INFOPLIST_FILE = "iParapheur/iParapheur-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE = "";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
