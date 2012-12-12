@@ -12,6 +12,8 @@
 @implementation ADLRequester
 
 @synthesize delegate = _delegate;
+@synthesize lockApi = _lockApi;
+@synthesize lockDoc = _lockDoc;
 
 static ADLRequester *sharedRequester = nil;
 
@@ -29,33 +31,41 @@ static ADLRequester *sharedRequester = nil;
         downloadQueue.maxConcurrentOperationCount = 1;
         
         apiQueue = [[NSOperationQueue alloc] init];
+        apiQueue.maxConcurrentOperationCount = 5;
         apiQueue.name = @"API Queue";
+        _lockApi = [[NSRecursiveLock alloc] init];
+        _lockDoc = [[NSRecursiveLock alloc] init];
     }
     return self;
 }
 
 -(void) downloadDocumentAt:(NSString*)path {
+    [_lockDoc lock];
+    
     // clear download queue.
     // XXX this shouldn't bug the user with messages !
     [downloadQueue cancelAllOperations];
-    
-    
-    NSLog(@"begin download");
-    
+    [downloadQueue waitUntilAllOperationsAreFinished];
+
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-    
     ADLAPIOperation *downloadOperation = [[ADLAPIOperation alloc] initWithDocumentPath:path andCollectivityDef:def];
     downloadOperation.delegate = _delegate;
-    
     [downloadQueue addOperation:downloadOperation];
     [downloadOperation release];
+    
+    [_lockDoc unlock];
 }
 
--(void) request:(NSString*)requestPath andArgs:(NSDictionary*)args {
+-(void) request:(NSString*)request andArgs:(NSDictionary*)args {
+    [_lockApi lock];
     
-    //ADLAPIOperation *apiRequestOperation = [[ADLAPIOperation alloc] initWithA]
+    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
+    ADLAPIOperation *apiRequestOperation = [[ADLAPIOperation alloc] initWithRequest:request withArgs:args andCollectivityDef:def];
+    apiRequestOperation.delegate = _delegate;
+    [apiQueue addOperation:apiRequestOperation];
+    [apiRequestOperation release];
     
+    [_lockApi unlock];
 }
-
 
 @end

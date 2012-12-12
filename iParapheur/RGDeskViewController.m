@@ -52,6 +52,7 @@
 #import "ISO8601DateFormatter.h"
 #import "ADLNotifications.h"
 #import "ADLSingletonState.h"
+#import "ADLRequester.h"
 
 @implementation RGDeskViewController
 
@@ -101,9 +102,13 @@
 }
 
 -(void)loadDossiersWithPage:(int)page {
+    ADLRequester *requester = [ADLRequester sharedRequester];
+    [requester setDelegate:self];
+    
+    /*
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
     [wall setDelegate:self];
-
+    */
     NSString *pageStr = @"0";
     
     NSDictionary *args = [[NSDictionary alloc]
@@ -114,12 +119,14 @@
                           nil];
     
     [pageStr release];
+    [requester request:GETDOSSIERSHEADERS_API andArgs:args];
+    /*
     ADLCollectivityDef *collDef = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:GETDOSSIERSHEADERS_API withArgs:args andCollectivity:collDef];
     [args release];
     [collDef release];
-    
+    */
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];

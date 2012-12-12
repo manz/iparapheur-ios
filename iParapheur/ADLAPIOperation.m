@@ -12,18 +12,27 @@
 #import "ADLCredentialVault.h"
 
 
+@interface ADLAPIOperation ()
+@property(assign) BOOL isExecuting;
+@property(assign) BOOL isFinished;
+@end
+
+
 @implementation ADLAPIOperation
 
 @synthesize lock = _lock;
 @synthesize delegate = _delegate;
+@synthesize isExecuting = _isExecuting;
+@synthesize isFinished = _isFinished;
 
-+ (void) __attribute__((noreturn)) networkRequestThreadEntryPoint:(id)__unused object {
+#pragma mark - Network Thread
+
++ (void)networkRequestThreadEntryPoint:(id)object {
     do {
-        @autoreleasepool {
-            [[NSRunLoop currentRunLoop] run];
-        }
+        [[NSRunLoop currentRunLoop] run];
     } while (YES);
 }
+
 
 + (NSThread *)networkRequestThread {
     static NSThread *_networkRequestThread = nil;
@@ -31,6 +40,7 @@
     
     dispatch_once(&oncePredicate, ^{
         _networkRequestThread = [[NSThread alloc] initWithTarget:self selector:@selector(networkRequestThreadEntryPoint:) object:nil];
+        _networkRequestThread.name = @"Network Request Thread";
         [_networkRequestThread start];
     });
     
@@ -42,7 +52,8 @@
         _documentPath = documentPath;
         downloadingDocument = YES;
         _collectivityDef = def;
-        self.lock = [[NSRecursiveLock alloc] init];
+        _isExecuting = NO;
+        _isFinished = NO;
     }
     
     return self;
@@ -51,23 +62,33 @@
 -(id)initWithRequest:(NSString *)request withArgs:(NSDictionary *)args andCollectivityDef:(ADLCollectivityDef*)def {
     if (self = [super init]) {
         _request = request;
-        _args = args;
+        self.args = args;
         _collectivityDef = def;
         downloadingDocument = NO;
+        
+        _isExecuting = NO;
+        _isFinished = NO;
     }
     return self;
 }
 
--(void)main {
-    @autoreleasepool {
-        // startDownloading
-        [self performSelector:@selector(operationDidStart) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO];
 
-        
-    }
+-(void)start {
+    [self performSelector:@selector(startFetching) onThread:[[self class] networkRequestThread] withObject:nil waitUntilDone:NO];
 }
 
--(void)operationDidStart {
+-(void)startFetching {
+    
+    if ([self isCancelled]) {
+        [self setIsFinished:YES];
+        [self setIsExecuting:NO];
+        return;
+    }
+    
+    
+    [self setIsExecuting: YES];
+    
+    
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     
     if ([reachability currentReachabilityStatus] == NotReachable) {
@@ -84,35 +105,49 @@
         
         if (alf_ticket != nil) {
             if (downloadingDocument) {
-                requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://m.%@%@?alf_ticket=%@", [_collectivityDef host], _documentPath, alf_ticket]];
+                requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://m.%@/%@?alf_ticket=%@", [_collectivityDef host], _documentPath, alf_ticket]];
+            }
+            else {
+                requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://m.%@/parapheur/api/%@?alf_ticket=%@", [_collectivityDef host], _request, alf_ticket]];
             }
         }
         else {
-            NSLog(@"Error while DL/ing the document");
+            //login or programming error
+            requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://%@/parapheur/api/%@", [_collectivityDef host], _request]];
         }
         
-        
+        NSLog(@"%@", requestURL);
         
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
         [requestURL release];
         
-        [request setHTTPMethod:@"GET"];
+        if (downloadingDocument) {
+            [request setHTTPMethod:@"GET"];
+        }
+        else {
+            [request setHTTPMethod:@"POST"];
+            [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
+            [request setValue:@"gzip" forHTTPHeaderField:@"Accept-Encoding"];
+            [request setHTTPBody:[_args JSONData]];
+            
+        }
         
         
-        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+        _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
         
-        [connection scheduleInRunLoop:[NSRunLoop currentRunLoop]
-                              forMode:NSDefaultRunLoopMode];
+        [_connection scheduleInRunLoop:[NSRunLoop currentRunLoop]
+                               forMode:NSDefaultRunLoopMode];
         
-        [connection start];
         
         _receivedData= [[NSMutableData data] retain];
+        
+        [_connection start];
+        NSLog(@"bleh");
         
         [request release];
         
     }
 }
-
 
 
 
@@ -123,11 +158,14 @@
         [_delegate performSelectorOnMainThread:@selector(didEndWithUnReachableNetwork:) withObject:nil waitUntilDone:YES];
     }
     
+    [self setIsExecuting: NO];
+    [self setIsFinished: YES];
+    [_connection cancel];
+    [_connection release];
+    [_receivedData release];
+    
 }
 
-- (BOOL)connectionShouldUseCredentialStorage:(NSURLConnection *)connection {
-    return NO;
-}
 
 
 - (SecCertificateRef)certificateFromFile:(NSString*)file {
@@ -137,7 +175,6 @@
 }
 
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge; {
-    
 #ifndef DEBUG_NO_SERVER_TRUST
     SecTrustRef trust = challenge.protectionSpace.serverTrust;
     NSString *adullact_mobile_path = [[NSBundle mainBundle] pathForResource:@"ca_adullact_g3" ofType:@"der"];
@@ -196,13 +233,17 @@
     
     NSLog(@"%d", [(NSHTTPURLResponse*)response statusCode]);
     if ([(NSHTTPURLResponse*)response statusCode] != 200) {
-        
         [connection cancel];
         [connection release];
         
-        [self performSelectorOnMainThread:@selector(didEndWithUnReachableNetwork) withObject:nil waitUntilDone:YES];
+        [_delegate performSelectorOnMainThread:@selector(didEndWithUnReachableNetwork) withObject:nil waitUntilDone:YES];
         
         [_receivedData setLength:0];
+        [self setIsExecuting: NO];
+        [self setIsFinished: YES];
+        [_connection cancel];
+        [_connection release];
+        [_receivedData release];
     }
     else {
         
@@ -213,7 +254,16 @@
 }
 
 - (void)connection:(NSURLConnection *)connection didReceiveData:(NSData *)data {
-    [_receivedData appendData:data];
+    if (![self isCancelled]) {
+        [_receivedData appendData:data];
+    }
+    else {
+        [self setIsExecuting: NO];
+        [self setIsFinished: YES];
+        [_connection cancel];
+        [_connection release];
+        [_receivedData release];
+    }
 }
 
 - (void)connectionDidFinishLoading:(NSURLConnection *)connection {
@@ -226,8 +276,38 @@
     }
     else {
         // trigger api request delegate.
-        
+        NSString *str = [[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding];
+        [self parseResponse:str andReq:_request];
     }
+    [self setIsExecuting: NO];
+    [self setIsFinished: YES];
+    [_connection release];
+    [_receivedData release];
+    NSLog(@"we are finished");
+}
+
+#pragma mark - parsing utility
+-(void) parseResponse:(NSString*) response andReq:(NSString*)req {
+    NSDictionary* responseObject = [response objectFromJSONString];
+    NSMutableDictionary* retVal = [NSMutableDictionary dictionaryWithDictionary:responseObject];
+    
+    [retVal setObject:req forKey:@"_req"];
+    
+    if (_delegate != nil && [_delegate respondsToSelector:@selector(didEndWithRequestAnswer:) ]) {
+        [_delegate performSelectorOnMainThread:@selector(didEndWithRequestAnswer:) withObject:retVal waitUntilDone:NO];
+    }
+    
+}
+
+#pragma mark - automaticaly observer KVO Changes
++ (BOOL) automaticallyNotifiesObserversForKey: (NSString*) key
+{
+    return YES;
+}
+
+- (BOOL) isConcurrent
+{
+    return NO;
 }
 
 

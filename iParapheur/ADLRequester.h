@@ -16,9 +16,13 @@
     
 }
 
-@property (nonatomic, retain) id<ADLParapheurWallDelegateProtocol> delegate;
+@property (nonatomic, retain, strong) id<ADLParapheurWallDelegateProtocol> delegate;
 
+@property (nonatomic, retain) NSRecursiveLock* lockApi;
+@property (nonatomic, retain) NSRecursiveLock* lockDoc;
 
 -(void) downloadDocumentAt:(NSString*)path;
+-(void) request:(NSString*)request andArgs:(NSDictionary*)args;
+
 +(ADLRequester *) sharedRequester;
 @end

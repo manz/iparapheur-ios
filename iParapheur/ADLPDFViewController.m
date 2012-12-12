@@ -53,6 +53,7 @@
 #import "ADLNotifications.h"
 #import "ADLSingletonState.h"
 #import "ADLRequester.h"
+#import "ADLAPIOperation.h"
 
 
 @interface ADLPDFViewController ()
@@ -102,17 +103,27 @@
 
 - (void) dossierSelected: (NSNotification*) notification {
     NSString *dossierRef = [notification object];
-    
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
-    
     _dossierRef = dossierRef;
     
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:dossierRef,
                           @"dossier",
                           [[ADLSingletonState sharedSingletonState] bureauCourant], @"bureauCourant",
                           nil];
+
     
+    
+    ADLRequester *requester = [[ADLRequester alloc] init];
+    [requester setDelegate:self];
+    
+    [requester request:GETDOSSIER_API andArgs:args];
+    [requester request:GETANNOTATIONS_API andArgs:args];
+    
+    
+    /*
+    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
+    [wall setDelegate:self];
+    
+      
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:GETDOSSIER_API withArgs:args andCollectivity:def];
@@ -121,7 +132,8 @@
     
     
     [def release];
-    //[args release];
+    */
+     //[args release];
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
@@ -192,11 +204,23 @@
     /* Si le document n'a pas de visuelPdf on suppose que le document est en PDF */
     if ([document objectForKey:@"visuelPdfUrl"] != nil) {
         [requester downloadDocumentAt:[document objectForKey:@"visuelPdfUrl"]];
-
-        //[wall downloadDocumentWithNodeRef:[document objectForKey:@"visuelPdfUrl"] andCollectivity:def];
+       // [requester performSelectorOnMainThread:@selector(downloadDocumentAt:) withObject:[document objectForKey:@"visuelPdfUrl"] waitUntilDone:YES];
+        /*
+        ADLAPIOperation* op = [[ADLAPIOperation alloc] initWithDocumentPath:]
+                                   andCollectivityDef:[ADLCollectivityDef copyDefaultCollectity]];
+        [op setDelegate:self];
+        [op start];
+        */
+         //[wall downloadDocumentWithNodeRef:[document objectForKey:@"visuelPdfUrl"] andCollectivity:def];
     }
     else if ([document objectForKey:@"downloadUrl"] != nil) {
         [requester downloadDocumentAt:[document objectForKey:@"downloadUrl"]];
+        /*
+        ADLAPIOperation* op = [[ADLAPIOperation alloc] initWithDocumentPath:[document objectForKey:@"downloadUrl"]
+                                                         andCollectivityDef:[ADLCollectivityDef copyDefaultCollectity]];
+        [op setDelegate:self];
+        [op start];
+         */
         //[wall downloadDocumentWithNodeRef:[document objectForKey:@"downloadUrl"] andCollectivity:def];
     }
     [def release];

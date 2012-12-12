@@ -102,11 +102,11 @@ static ADLIParapheurWall *sharedWall = nil;
                                    if (error == nil) {
                                        
                                        NSString *str = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
-                                       dispatch_sync(serialQueue, ^{
+                                       //dispatch_sync(serialQueue, ^{
                                            
                                            [self parseResponse:str andReq:req];
                                            [str release];
-                                       });
+                                      // });
                                    }
                                    else {
                                        [self didEndWithError:error];
