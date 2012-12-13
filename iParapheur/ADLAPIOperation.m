@@ -177,7 +177,7 @@
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge; {
 #ifndef DEBUG_NO_SERVER_TRUST
     SecTrustRef trust = challenge.protectionSpace.serverTrust;
-    NSString *adullact_mobile_path = [[NSBundle mainBundle] pathForResource:@"ca_adullact_g3" ofType:@"der"];
+    NSString *adullact_mobile_path = [[NSBundle mainBundle] pathForResource:@"ca_mobiles_chaine" ofType:@"der"];
     
     SecCertificateRef adullact_mobile = [self certificateFromFile:adullact_mobile_path];
     
