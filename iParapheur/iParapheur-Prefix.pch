@@ -13,4 +13,4 @@
     #import <Foundation/Foundation.h>
 #endif
 
-#define V4_HOST @"parapheur.test.adullact.org/alfresco/service"
+#define DEBUG_NO_SERVER_TRUST
