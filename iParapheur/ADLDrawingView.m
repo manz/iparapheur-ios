@@ -160,7 +160,7 @@
     [UIView setAnimationDuration:[[[notification userInfo] objectForKey:UIKeyboardAnimationDurationUserInfoKey] floatValue]];
     
     self.contentInset = [self contentInsetForKeyboard];
-    [[self superScrollView] setContentOffset:CGPointMake(self.contentOffset.x,
+    [[self superScrollView] setContentOffset:CGPointMake(self.superScrollView.contentOffset.x,
                                        [self idealOffsetForView:firstResponder withSpace:[self keyboardRect].size.width])
                   animated:YES];
     [[self parentScrollView] setScrollIndicatorInsets:_contentInset];
