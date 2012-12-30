@@ -560,124 +560,55 @@
         <scene sceneID="tzg-xH-QxY">
             <objects>
                 <tableViewController id="KoI-Hd-Qp2" customClass="ADLActionViewController" sceneMemberID="viewController">
-                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="static" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="5VH-q2-sNA">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="66" sectionHeaderHeight="22" sectionFooterHeight="22" id="5VH-q2-sNA">
                         <rect key="frame" x="0.0" y="20" width="300" height="200"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
-                        <sections>
-                            <tableViewSection id="s9s-1y-n1s">
-                                <cells>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" rowHeight="64" id="DFw-9f-Rkv">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="64"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="63"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" image="viser.png" translatesAutoresizingMaskIntoConstraints="NO" id="bID-9e-FcC">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="40" id="RKN-Ij-6Vz"/>
-                                                        <constraint firstAttribute="height" constant="40" id="Xy3-MZ-S9X"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Viser" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yEZ-bb-xdy">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="219" id="cxG-kw-OWg"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="yEZ-bb-xdy" firstAttribute="top" secondItem="DFw-9f-Rkv" secondAttribute="top" constant="21" id="1HZ-oN-MZI"/>
-                                            <constraint firstItem="yEZ-bb-xdy" firstAttribute="leading" secondItem="bID-9e-FcC" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="WSn-KD-RgQ"/>
-                                            <constraint firstAttribute="trailing" secondItem="yEZ-bb-xdy" secondAttribute="trailing" constant="20" type="default" id="Wox-rK-dTA"/>
-                                            <constraint firstItem="bID-9e-FcC" firstAttribute="centerY" secondItem="DFw-9f-Rkv" secondAttribute="centerY" type="default" id="j0f-WS-Oq1"/>
-                                        </constraints>
-                                        <connections>
-                                            <segue destination="zs0-y1-eAs" kind="modal" identifier="viser" modalPresentationStyle="formSheet" id="QjH-LU-cda"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" rowHeight="64" id="gx5-lC-mcx">
-                                        <rect key="frame" x="0.0" y="64" width="300" height="64"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="63"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" image="viser.png" translatesAutoresizingMaskIntoConstraints="NO" id="6y1-vS-9LM">
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="40" id="Gq2-n4-upD"/>
-                                                        <constraint firstAttribute="width" constant="40" id="Q04-z7-FqR"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Signer" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8gx-lW-PHd">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="219" id="gFO-rW-dNO"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="8gx-lW-PHd" firstAttribute="leading" secondItem="6y1-vS-9LM" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="Ybs-MV-8wk"/>
-                                            <constraint firstAttribute="trailing" secondItem="8gx-lW-PHd" secondAttribute="trailing" constant="20" type="default" id="d0J-7U-Pku"/>
-                                            <constraint firstItem="6y1-vS-9LM" firstAttribute="centerY" secondItem="gx5-lC-mcx" secondAttribute="centerY" type="default" id="iEC-Ty-aZC"/>
-                                            <constraint firstItem="8gx-lW-PHd" firstAttribute="top" secondItem="gx5-lC-mcx" secondAttribute="top" constant="21" id="mg9-iQ-Trt"/>
-                                        </constraints>
-                                        <connections>
-                                            <segue destination="zs0-y1-eAs" kind="modal" identifier="signature" modalPresentationStyle="formSheet" id="3gy-g3-Bg1"/>
-                                        </connections>
-                                    </tableViewCell>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" rowHeight="64" id="uVU-q5-qjJ">
-                                        <rect key="frame" x="0.0" y="128" width="300" height="64"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
-                                            <rect key="frame" x="0.0" y="0.0" width="300" height="63"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <imageView userInteractionEnabled="NO" contentMode="center" image="rejeter.png" translatesAutoresizingMaskIntoConstraints="NO" id="gZf-dH-bTH">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="40" id="RUV-SQ-NJQ"/>
-                                                        <constraint firstAttribute="height" constant="40" id="rd8-Dl-fGE"/>
-                                                    </constraints>
-                                                </imageView>
-                                                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Rejeter" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="I7Z-OQ-T62">
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="219" id="DKi-yD-IVY"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
-                                                    <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                                </label>
-                                            </subviews>
-                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                                        </view>
-                                        <constraints>
-                                            <constraint firstItem="I7Z-OQ-T62" firstAttribute="top" secondItem="uVU-q5-qjJ" secondAttribute="top" constant="20" type="default" id="B9C-c7-USJ"/>
-                                            <constraint firstItem="gZf-dH-bTH" firstAttribute="centerY" secondItem="uVU-q5-qjJ" secondAttribute="centerY" type="default" id="R0Y-dc-cK1"/>
-                                            <constraint firstItem="I7Z-OQ-T62" firstAttribute="leading" secondItem="gZf-dH-bTH" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="dsK-VV-3TO"/>
-                                            <constraint firstAttribute="trailing" secondItem="I7Z-OQ-T62" secondAttribute="trailing" constant="20" type="default" id="sOI-cs-IPf"/>
-                                        </constraints>
-                                        <connections>
-                                            <segue destination="zs0-y1-eAs" kind="modal" identifier="reject" modalPresentationStyle="formSheet" id="V3L-kh-H9P"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </cells>
-                            </tableViewSection>
-                        </sections>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="ActionCell" rowHeight="66" id="4bH-Fn-aKv" customClass="ADLActionCell">
+                                <rect key="frame" x="0.0" y="22" width="300" height="66"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="300" height="65"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Label" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="m9r-ST-cpc">
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="highlightedColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        </label>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="lPE-XK-yNC">
+                                            <constraints>
+                                                <constraint firstAttribute="height" constant="24" id="d43-Oi-Kdy"/>
+                                                <constraint firstAttribute="width" constant="24" id="dee-cM-ZUM"/>
+                                            </constraints>
+                                        </imageView>
+                                    </subviews>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <constraints>
+                                    <constraint firstItem="m9r-ST-cpc" firstAttribute="leading" secondItem="lPE-XK-yNC" secondAttribute="trailing" constant="8" symbolic="YES" type="default" id="6Ke-TP-EjC"/>
+                                    <constraint firstItem="lPE-XK-yNC" firstAttribute="leading" secondItem="4bH-Fn-aKv" secondAttribute="leading" constant="20" type="default" id="GvN-ON-dgV"/>
+                                    <constraint firstItem="lPE-XK-yNC" firstAttribute="top" secondItem="4bH-Fn-aKv" secondAttribute="top" constant="19" id="PcV-HT-TwS"/>
+                                    <constraint firstAttribute="trailing" secondItem="m9r-ST-cpc" secondAttribute="trailing" constant="20" type="default" id="Z8i-e9-r52"/>
+                                    <constraint firstItem="m9r-ST-cpc" firstAttribute="top" secondItem="lPE-XK-yNC" secondAttribute="top" type="default" id="f7V-em-vuo"/>
+                                </constraints>
+                                <connections>
+                                    <outlet property="actionLabel" destination="m9r-ST-cpc" id="f9q-87-QJp"/>
+                                    <outlet property="imageView" destination="lPE-XK-yNC" id="6TI-KZ-eGJ"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                        <sections/>
                         <connections>
                             <outlet property="dataSource" destination="KoI-Hd-Qp2" id="WHk-pm-GB7"/>
                             <outlet property="delegate" destination="KoI-Hd-Qp2" id="4pk-q7-RBA"/>
                         </connections>
                     </tableView>
+                    <connections>
+                        <outlet property="tableView" destination="5VH-q2-sNA" id="T7k-HO-69g"/>
+                    </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="suM-iA-DAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
@@ -735,11 +666,15 @@
             <point key="canvasLocation" x="-398" y="248"/>
         </scene>
     </scenes>
-    <resources>
-        <image name="rejeter.png" width="24" height="24"/>
-        <image name="viser.png" width="24" height="24"/>
-    </resources>
     <classes>
+        <class className="ADLActionCell" superclassName="UITableViewCell">
+            <source key="sourceIdentifier" type="project" relativePath="./Classes/ADLActionCell.h"/>
+            <relationships>
+                <relationship kind="outlet" name="aactionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="actionLabel" candidateClass="UILabel"/>
+                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
+            </relationships>
+        </class>
         <class className="ADLActionViewController" superclassName="UITableViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ADLActionViewController.h"/>
         </class>
@@ -822,8 +757,6 @@
         <class className="RGWorkflowDialogViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RGWorkflowDialogViewController.h"/>
             <relationships>
-                <relationship kind="action" name="cancel:"/>
-                <relationship kind="action" name="finish:"/>
                 <relationship kind="outlet" name="annotationPrivee" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="annotationPublique" candidateClass="UITextView"/>
                 <relationship kind="outlet" name="certificateLabel" candidateClass="UILabel"/>
@@ -838,6 +771,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="3gy-g3-Bg1"/>
+        <segue reference="vDE-ze-7Ea"/>
     </inferredMetricsTieBreakers>
 </document>

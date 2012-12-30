@@ -17,6 +17,7 @@
 		1469DFF51675D8960064E8E7 /* ADLAPIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1469DFF41675D8960064E8E7 /* ADLAPIOperation.m */; };
 		1469DFFA1675F72C0064E8E7 /* ca_mobiles_chaine.der in Resources */ = {isa = PBXBuildFile; fileRef = 1469DFF91675F72C0064E8E7 /* ca_mobiles_chaine.der */; };
 		1483D1DE165E852C000C6D0D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1483D1DD165E852C000C6D0D /* Security.framework */; };
+		14BBBD991690EBB9007FFD9F /* ADLActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BBBD981690EBB9007FFD9F /* ADLActionCell.m */; };
 		B4082A7F162D48CB000B0E26 /* logo-new5.png in Resources */ = {isa = PBXBuildFile; fileRef = B4082A7E162D48CB000B0E26 /* logo-new5.png */; };
 		B41B609E15F0962100655827 /* ADLCircuitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B609D15F0962100655827 /* ADLCircuitCell.m */; };
 		B41B60AD15F09D5300655827 /* ip-mailsec.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B41B609F15F09D5200655827 /* ip-mailsec.jpg */; };
@@ -156,6 +157,8 @@
 		1469DFF41675D8960064E8E7 /* ADLAPIOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLAPIOperation.m; sourceTree = "<group>"; };
 		1469DFF91675F72C0064E8E7 /* ca_mobiles_chaine.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = ca_mobiles_chaine.der; sourceTree = "<group>"; };
 		1483D1DD165E852C000C6D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
+		14BBBD971690EBB9007FFD9F /* ADLActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLActionCell.h; sourceTree = "<group>"; };
+		14BBBD981690EBB9007FFD9F /* ADLActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLActionCell.m; sourceTree = "<group>"; };
 		B4082A7E162D48CB000B0E26 /* logo-new5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-new5.png"; sourceTree = "<group>"; };
 		B41B609C15F0962100655827 /* ADLCircuitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLCircuitCell.h; sourceTree = "<group>"; };
 		B41B609D15F0962100655827 /* ADLCircuitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLCircuitCell.m; sourceTree = "<group>"; };
@@ -407,6 +410,8 @@
 				B488310E15ECBF6500EC5BB3 /* RGFileCell.m */,
 				B43C7ACC1541632800BA43A8 /* RGDeskCustomTableViewCell.h */,
 				B43C7ACD1541632800BA43A8 /* RGDeskCustomTableViewCell.m */,
+				14BBBD971690EBB9007FFD9F /* ADLActionCell.h */,
+				14BBBD981690EBB9007FFD9F /* ADLActionCell.m */,
 			);
 			name = CustomCells;
 			sourceTree = "<group>";
@@ -857,6 +862,7 @@
 				1434F66F168DFDD2000C115D /* PrivateKey.m in Sources */,
 				1434F672168DFF98000C115D /* KeyStore.xcdatamodeld in Sources */,
 				1434F681168E087A000C115D /* ADLPasswordAlertView.m in Sources */,
+				14BBBD991690EBB9007FFD9F /* ADLActionCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

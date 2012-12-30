@@ -62,4 +62,6 @@
 
 @property (retain, nonatomic) NSArray* annotations;
 
+@property (retain, nonatomic) NSString* signatureFormat;
+
 @end

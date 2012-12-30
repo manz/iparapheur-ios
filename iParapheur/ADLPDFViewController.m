@@ -54,6 +54,7 @@
 #import "ADLSingletonState.h"
 #import "ADLRequester.h"
 #import "ADLAPIOperation.h"
+#import "ADLActionViewController.h"
 
 
 @interface ADLPDFViewController ()
@@ -203,6 +204,13 @@
         NSString *documentPrincipal = [[[_dossier objectForKey:@"documents"] objectAtIndex:0] objectForKey:@"downloadUrl"];
         [[ADLSingletonState sharedSingletonState] setCurrentPrincipalDocPath:documentPrincipal];
         
+        if ([[[_dossier objectForKey:@"actions"] objectForKey:@"sign"] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+            NSDictionary *signInfoArgs = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:_dossierRef], @"dossiers", nil];
+            ADLRequester *requester = [ADLRequester sharedRequester];
+            requester.delegate = self;
+            [requester request:@"getSignInfo" andArgs:signInfoArgs];
+            //[signInfoArgs release];
+        }
         
         LGViewHUD *hud = [LGViewHUD defaultHUD];
         hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
@@ -212,6 +220,9 @@
         
         [hud showInView:self.view];
     
+    }
+    else if ([s isEqualToString:@"getSignInfo"]) {
+        _signatureFormat = [[[answer objectForKey:_dossierRef] objectForKey:@"format"] copy];
     }
     else if ([s isEqualToString:GETANNOTATIONS_API]) {
         NSArray *annotations = [[answer objectForKey:@"annotations"] copy];
@@ -223,6 +234,7 @@
         }
 
     }
+
     else if ([s isEqualToString:@"addAnnotation"]) {
         ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
         [wall setDelegate:self];
@@ -375,7 +387,14 @@
         }
         
         _actionPopover = [(UIStoryboardPopoverSegue *)segue popoverController];
+        
+        // do something usefull there
+        if ([_signatureFormat isEqualToString:@"CMS"]) {
+            [((ADLActionViewController*)[_actionPopover contentViewController]) setSignatureEnabled:YES];
+        }
+        
         [_actionPopover setDelegate:self];
+        
     }
 }
 

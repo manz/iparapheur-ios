@@ -9,5 +9,8 @@
 #import <UIKit/UIKit.h>
 
 @interface ADLActionViewController : UITableViewController
+@property (nonatomic, assign) BOOL signatureEnabled;
+@property (nonatomic, retain) NSMutableArray *actions;
+@property (nonatomic, retain) NSMutableArray *labels;
 
 @end

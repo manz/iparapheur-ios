@@ -10,6 +10,7 @@
 #import "ADLDocument.h"
 #import "Reachability.h"
 #import "ADLCredentialVault.h"
+#import <AJNotificationView/AJNotificationView.h>
 
 
 @interface ADLAPIOperation ()
@@ -148,7 +149,17 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     if (!self.isCancelled) {
-        [_delegate performSelectorOnMainThread:@selector(didEndWithUnReachableNetwork:) withObject:nil waitUntilDone:YES];
+        if (_delegate && [_delegate respondsToSelector:@selector(didEndWithUnReachableNetwork)]) {
+            [_delegate performSelectorOnMainThread:@selector(didEndWithUnReachableNetwork:) withObject:nil waitUntilDone:YES];
+        }
+        else {
+            UIViewController *rootController = [[[[UIApplication sharedApplication] windows] objectAtIndex:0] rootViewController];
+            [AJNotificationView showNoticeInView:[rootController view]
+                                            type:AJNotificationTypeRed
+                                           title:[error localizedDescription]
+                                 linedBackground:AJLinedBackgroundTypeStatic
+                                       hideAfter:2.5f];
+        }
     }
     
     [self setIsExecuting: NO];
