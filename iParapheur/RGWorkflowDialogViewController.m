@@ -54,6 +54,7 @@
 #import "ADLRequester.h"
 #import "PrivateKey.h"
 #import <NSData+Base64/NSData+Base64.h>
+#import <AJNotificationView/AJNotificationView.h>
 
 @interface RGWorkflowDialogViewController ()
 
@@ -271,8 +272,18 @@
         NSData *documentPrincipal = [requester downloadDocumentNow:[[ADLSingletonState sharedSingletonState] currentPrincipalDocPath]];
         ADLKeyStore *keystore = [((RGAppDelegate*)[[UIApplication sharedApplication] delegate]) keyStore];
         PrivateKey *pkey = _currentPKey;
+        NSError *error = nil;
         
-        NSData *signature = [keystore PKCS7Sign:[pkey p12Filename] withPassword:[passwordTextField text] andData:documentPrincipal];
+        NSData *signature = [keystore PKCS7Sign:[pkey p12Filename] withPassword:[passwordTextField text] andData:documentPrincipal error:&error];
+        
+        if (signature == nil && error != nil) {
+            [AJNotificationView showNoticeInView:self.view
+                                            type:AJNotificationTypeRed
+                                           title:[NSString stringWithFormat:@"Une erreur s'est produite lors de la signature"]
+                                 linedBackground:AJLinedBackgroundTypeStatic
+                                       hideAfter:2.5f];
+            return;
+        }
         
         NSString *b64sign = [signature base64EncodedString];
         

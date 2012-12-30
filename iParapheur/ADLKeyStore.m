@@ -155,14 +155,15 @@ NSData* X509_to_NSData(X509 *cert) {
 }
 
 
--(NSData*)PKCS7Sign:(NSString*)p12Path withPassword:(NSString*)password andData:(NSData*)data {
+-(NSData*)PKCS7Sign:(NSString*)p12Path withPassword:(NSString*)password andData:(NSData*)data error:(NSError**)error {
     /* Read PKCS12 */
     FILE *fp;
     EVP_PKEY *pkey;
     X509 *cert;
     STACK_OF(X509) *ca = NULL;
     PKCS12 *p12;
-    int i = 0;
+    // int i = 0;
+    unsigned char *alias = NULL;
     
     const char *p12_file_path = [p12Path cStringUsingEncoding:NSUTF8StringEncoding];
     const char *p12_password = [password cStringUsingEncoding:NSUTF8StringEncoding];
@@ -173,47 +174,61 @@ NSData* X509_to_NSData(X509 *cert) {
     
     if (!(fp = fopen(p12_file_path, "rb"))) {
         fprintf(stderr, "Error opening file %s\n", p12_file_path);
-        return nil;
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:NSPOSIXErrorDomain code:ENOENT userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Le fichier %@ n'a pas pu être ouvert", [p12Path lastPathComponent]], NSLocalizedDescriptionKey, nil]];
+            
+        }
+        return NO;
     }
     p12 = d2i_PKCS12_fp(fp, NULL);
     fclose (fp);
     if (!p12) {
         fprintf(stderr, "Error reading PKCS#12 file\n");
         ERR_print_errors_fp(stderr);
-        return nil;
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:NSPOSIXErrorDomain code:ENOENT userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Impossible de lire %@", [p12Path lastPathComponent]], NSLocalizedDescriptionKey, nil]];
+            PKCS12_free(p12);
+        }
+        return NO;
     }
     if (!PKCS12_parse(p12, p12_password, &pkey, &cert, &ca)) {
-        // should notify that the password is probably wrong
         fprintf(stderr, "Error parsing PKCS#12 file\n");
         ERR_print_errors_fp(stderr);
-        return nil;
-    }
-    PKCS12_free(p12);
-    
-    if (pkey) {
-     //  fprintf(stdout, "***Private Key***\n");
-     //  PEM_write_PrivateKey(stdout, pkey, NULL, NULL, 0, NULL, NULL);
-    }
-    if (cert) {
-        //fprintf(stdout, "***User Certificate***\n");
-        //PEM_write_X509_AUX(stdout, cert);
-        int len = 0;
-        unsigned char *alias = X509_alias_get0(cert, &len);
-        printf("%s", alias);
-        
-    }
-    /*
-    if (ca && sk_X509_num(ca)) {
-        fprintf(stdout, "***Other Certificates***\n");
-        for (i = 0; i < sk_X509_num(ca); i++) {
-            //PEM_write_X509_AUX(stdout, sk_X509_value(ca, i));
-            int len = 0;
-            
-            unsigned char *alias = X509_alias_get0(sk_X509_value(ca, i), &len);
-            printf("%s", alias);
+        if (error) {
+            *error = [[NSError alloc] initWithDomain:P12ErrorDomain code:P12OpenErrorCode userInfo:[NSDictionary dictionaryWithObjectsAndKeys:[NSString stringWithFormat:@"Impossible de d'ouvrir %@ verifiez le mot de passe", [p12Path lastPathComponent]], NSLocalizedDescriptionKey, nil]];
             
         }
-    }*/
+        PKCS12_free(p12);
+        
+        return NO;
+    }
+    PKCS12_free(p12);
+    /*if (!(fp = fopen(argv[3], "w"))) {
+     fprintf(stderr, "Error opening file %s\n", argv[1]);
+     exit(1);
+     }*/
+    if (pkey) {
+        //  fprintf(stdout, "***Private Key***\n");
+        // PEM_write_PrivateKey(stdout, pkey, NULL, NULL, 0, NULL, NULL);
+    }
+    if (cert) {
+        // fprintf(stdout, "***User Certificate***\n");
+        // PEM_write_X509_AUX(stdout, cert);
+        int len = 0;
+        alias = X509_alias_get0(cert, &len);
+        
+    }
+    if (ca && sk_X509_num(ca)) {
+        // fprintf(stdout, "***Other Certificates***\n");
+        //for (i = 0; i < sk_X509_num(ca); i++) {
+        //PEM_write_X509_AUX(stdout, sk_X509_value(ca, i));
+        // int len = 0;
+        
+        //  unsigned char *alias = X509_alias_get0(sk_X509_value(ca, i), &len);
+        //  printf("%s", alias);
+        
+        //}
+    }
     
     BIO * bio_data = BIO_new(BIO_s_mem());
     
@@ -240,7 +255,7 @@ NSData* X509_to_NSData(X509 *cert) {
     BIO* p7bio;
 	
     if ((p7bio=PKCS7_dataInit(p7,NULL)) == NULL) goto err;
-    
+    int i = 0;
     char buf[255];
 	for (;;)
     {
