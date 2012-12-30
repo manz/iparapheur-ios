@@ -40,10 +40,20 @@
 
 
 #import <UIKit/UIKit.h>
+#import "ADLKeyStore.h"
 
-@interface RGAppDelegate : UIResponder <UIApplicationDelegate>
+@interface RGAppDelegate : UIResponder <UIApplicationDelegate, UIAlertViewDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
 @property (retain, nonatomic) IBOutlet UISplitViewController *splitViewController;
 
+@property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+@property (readonly, strong, nonatomic) NSManagedObjectModel *managedObjectModel;
+@property (readonly, strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+
+@property (readonly, strong, nonatomic) ADLKeyStore *keyStore;
+
+- (NSMutableArray*) importableP12Stores;
+- (void)saveContext;
+- (NSURL *)applicationDocumentsDirectory;
 @end

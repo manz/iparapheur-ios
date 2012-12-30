@@ -52,8 +52,24 @@ static ADLRequester *sharedRequester = nil;
     downloadOperation.delegate = _delegate;
     [downloadQueue addOperation:downloadOperation];
     [downloadOperation release];
-    
+    //[def release];
     [_lockDoc unlock];
+}
+
+-(NSData *) downloadDocumentNow: (NSString*)path {
+    [downloadQueue cancelAllOperations];
+
+    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
+    ADLAPIOperation *downloadOperation = [[ADLAPIOperation alloc] initWithDocumentPath:path andCollectivityDef:def];
+    downloadOperation.delegate = _delegate;
+    [downloadQueue addOperation:downloadOperation];
+    
+    [downloadQueue waitUntilAllOperationsAreFinished];
+    
+    NSData *documentData = [[downloadOperation receivedData] copy];
+    [downloadOperation release];
+
+    return documentData;
 }
 
 -(void) request:(NSString*)request andArgs:(NSDictionary*)args {
@@ -62,7 +78,9 @@ static ADLRequester *sharedRequester = nil;
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     ADLAPIOperation *apiRequestOperation = [[ADLAPIOperation alloc] initWithRequest:request withArgs:args andCollectivityDef:def];
     apiRequestOperation.delegate = _delegate;
+   // apiRequestOperation.isConcurrent = YES;
     [apiQueue addOperation:apiRequestOperation];
+   // [def release];
     [apiRequestOperation release];
     
     [_lockApi unlock];

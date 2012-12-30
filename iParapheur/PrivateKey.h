@@ -38,20 +38,16 @@
  * termes.
  */
 
-//
-//  ADLSingletonState.h
-//  iParapheur
-//
-
-
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
-@interface ADLSingletonState : NSObject
 
-@property (retain, nonatomic) NSString* bureauCourant;
-@property (retain, nonatomic) NSString* dossierCourant;
-@property (retain, nonatomic) NSString* currentPrincipalDocPath;
+@interface PrivateKey : NSManagedObject
 
-+ (ADLSingletonState *)sharedSingletonState;
+@property (nonatomic, retain) NSNumber * caName;
+@property (nonatomic, retain) NSString * commonName;
+@property (nonatomic, retain) NSString * p12Filename;
+@property (nonatomic, retain) NSData * publicKey;
+@property (nonatomic, retain) NSString * serialNumber;
 
 @end

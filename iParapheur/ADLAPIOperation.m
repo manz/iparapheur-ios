@@ -63,7 +63,7 @@
     if (self = [super init]) {
         _request = request;
         self.args = args;
-        _collectivityDef = def;
+        self.collectivityDef = def;
         downloadingDocument = NO;
         
         _isExecuting = NO;
@@ -101,8 +101,6 @@
         NSString *alf_ticket = [vault getTicketForHost:[_collectivityDef host] andUsername:[_collectivityDef username]];
         NSURL *requestURL = nil;
         
-        
-        
         if (alf_ticket != nil) {
             if (downloadingDocument) {
                 requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://m.%@/%@?alf_ticket=%@", [_collectivityDef host], _documentPath, alf_ticket]];
@@ -115,9 +113,7 @@
             //login or programming error
             requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://%@/parapheur/api/%@", [_collectivityDef host], _request]];
         }
-        
-        NSLog(@"%@", requestURL);
-        
+                
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
         [requestURL release];
         
@@ -132,17 +128,14 @@
             
         }
         
-        
         _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
         
         [_connection scheduleInRunLoop:[NSRunLoop currentRunLoop]
                                forMode:NSDefaultRunLoopMode];
         
-        
         _receivedData= [[NSMutableData data] retain];
         
         [_connection start];
-        NSLog(@"bleh");
         
         [request release];
         
@@ -231,7 +224,6 @@
         _mimeType = [response MIMEType];
     }
     
-    NSLog(@"%d", [(NSHTTPURLResponse*)response statusCode]);
     if ([(NSHTTPURLResponse*)response statusCode] != 200) {
         [connection cancel];
         [connection release];
@@ -248,7 +240,6 @@
     else {
         
         NSString *req = [[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", req);
         [req release];
     }
 }
@@ -278,12 +269,12 @@
         // trigger api request delegate.
         NSString *str = [[NSString alloc] initWithData:_receivedData encoding:NSUTF8StringEncoding];
         [self parseResponse:str andReq:_request];
+       // [str release];
     }
     [self setIsExecuting: NO];
     [self setIsFinished: YES];
     [_connection release];
-    [_receivedData release];
-    NSLog(@"we are finished");
+    //[_receivedData release];
 }
 
 #pragma mark - parsing utility

@@ -54,7 +54,6 @@ static ADLIParapheurWall *sharedWall = nil;
     
     dispatch_queue_t current = dispatch_get_current_queue();
     
-    NSLog(@"running request on %s", dispatch_queue_get_label(current));
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     
     if ([reachability currentReachabilityStatus] == NotReachable) {
@@ -76,7 +75,6 @@ static ADLIParapheurWall *sharedWall = nil;
         else {
             requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@/alfresco/service/parapheur/api/%@", [def host], req]];
         }
-        NSLog(@"%@", [NSString stringWithFormat:@"http://%@/alfresco/service/parapheur/api/%@", [def host], req]);
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
         [requestURL release];
         
@@ -90,7 +88,6 @@ static ADLIParapheurWall *sharedWall = nil;
         
         isDownloadingDocument = NO;
         
-        NSLog(@"%@", [requestArgs JSONString]);
         [request setHTTPBody:[requestArgs JSONData]];
         
         //NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
@@ -145,8 +142,6 @@ static ADLIParapheurWall *sharedWall = nil;
         NSString *alf_ticket = [vault getTicketForHost:[def host] andUsername:[def username]];
         NSURL *requestURL = nil;
         
-        //NSString *nodeRefPath = [nodeRef stringByReplacingOccurrencesOfString:@"://" withString:@"/"];
-        
         if (alf_ticket != nil) {
             requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"http://%@/alfresco/service%@?alf_ticket=%@", [def host], nodeRef, alf_ticket]]; 
         }
@@ -154,12 +149,7 @@ static ADLIParapheurWall *sharedWall = nil;
             NSLog(@"Error while DL/ing the document");
         }
         
-        NSLog(@"%@", [NSString stringWithFormat:@"http://%@/alfresco/service%@?alf_ticket=%@", [def host], nodeRef, alf_ticket]);
-     /*   
-        NSLog(@"%@", [NSString stringWithFormat:@"http://%@/parapheur/api/%@", [def host], req]);
-      */
-        
-       NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
+        NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
         [requestURL release];
         
         [request setHTTPMethod:@"GET"];
@@ -197,7 +187,6 @@ static ADLIParapheurWall *sharedWall = nil;
 - (void)connection:(NSURLConnection *)connection didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge {
     if ([challenge.protectionSpace.authenticationMethod isEqualToString:NSURLAuthenticationMethodServerTrust]) {
         [challenge.sender useCredential:[NSURLCredential credentialForTrust:challenge.protectionSpace.serverTrust] forAuthenticationChallenge:challenge];
-        // NSLog(@"%", challenge.protectionSpace.host);
     }
     [challenge.sender continueWithoutCredentialForAuthenticationChallenge:challenge];
 }
@@ -218,7 +207,6 @@ static ADLIParapheurWall *sharedWall = nil;
         mimeType = [response MIMEType];
     }
     
-    NSLog(@"%d", [(NSHTTPURLResponse*)response statusCode]);
     if ([(NSHTTPURLResponse*)response statusCode] != 200) {
         
         [connection cancel];
@@ -230,9 +218,7 @@ static ADLIParapheurWall *sharedWall = nil;
         [receivedData setLength:0];
     }
     else {
-        
         NSString *req = [[NSString alloc] initWithData:receivedData encoding:NSUTF8StringEncoding];
-        NSLog(@"%@", req);
         [req release];
     }
 }

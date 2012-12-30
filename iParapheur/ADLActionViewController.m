@@ -45,19 +45,18 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
 {
-    
     NSString *dossierRef = [[ADLSingletonState sharedSingletonState] dossierCourant];
     if ([[segue identifier] isEqualToString:@"viser"]) {
         [((RGWorkflowDialogViewController*) [segue destinationViewController]) setDossierRef:dossierRef];
         [((RGWorkflowDialogViewController*) [segue destinationViewController]) setAction:[segue identifier]];
-
-        
     }
     else if ([[segue identifier] isEqualToString:@"reject"]) {
         [((RGWorkflowDialogViewController*) [segue destinationViewController]) setDossierRef:dossierRef];
+        [((RGWorkflowDialogViewController*) [segue destinationViewController]) setAction:[segue identifier]];        
+    }
+    else if ([[segue identifier] isEqualToString:@"signature"]) {
+        [((RGWorkflowDialogViewController*) [segue destinationViewController]) setDossierRef:dossierRef];
         [((RGWorkflowDialogViewController*) [segue destinationViewController]) setAction:[segue identifier]];
-
-        
     }
 }
 

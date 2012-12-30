@@ -38,20 +38,30 @@
  * termes.
  */
 
-//
-//  ADLSingletonState.h
-//  iParapheur
-//
-
-
 #import <Foundation/Foundation.h>
 
-@interface ADLSingletonState : NSObject
+enum {
+    P12OpenErrorCode,
+};
 
-@property (retain, nonatomic) NSString* bureauCourant;
-@property (retain, nonatomic) NSString* dossierCourant;
-@property (retain, nonatomic) NSString* currentPrincipalDocPath;
+#define P12ErrorDomain @"P12Errors"
 
-+ (ADLSingletonState *)sharedSingletonState;
+
+@interface ADLKeyStore : NSObject {
+    NSManagedObjectContext *managedObjectContext;
+}
+
+/* Only usable on the soft KeyStore*/
+
+@property (nonatomic, retain) NSManagedObjectContext *managedObjectContext;
+
+#pragma mark - Key Management methods
+-(void)resetKeyStore;
+-(NSArray*)listPrivateKeys;
+-(BOOL) addKey:(NSString *)p12Path withPassword:(NSString *)password error:(NSError**)error;
+
+#pragma mark - Crypto methods
+-(NSData*)PKCS7Sign:(NSString*)p12Path withPassword:(NSString*)password andData:(NSData*)data;
 
 @end
+

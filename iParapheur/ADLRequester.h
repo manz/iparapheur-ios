@@ -23,6 +23,7 @@
 
 -(void) downloadDocumentAt:(NSString*)path;
 -(void) request:(NSString*)request andArgs:(NSDictionary*)args;
+-(NSData *) downloadDocumentNow: (NSString*)path;
 
 +(ADLRequester *) sharedRequester;
 @end

@@ -47,15 +47,58 @@
 #import "RGAppDelegate.h"
 #import "ADLIParapheurWall.h"
 #import "ADLCredentialVault.h"
+#import "ADLKeyStore.h"
+#import "PrivateKey.h"
+#import "ADLPasswordAlertView.h"
+#import <AJNotificationView/AJNotificationView.h>
+#import <NSData+Base64/NSData+Base64.h>
 
 @implementation RGAppDelegate
 
 @synthesize window = _window;
 @synthesize splitViewController = _splitViewController;
+
+@synthesize managedObjectContext = _managedObjectContext;
+@synthesize managedObjectModel = _managedObjectModel;
+@synthesize persistentStoreCoordinator = _persistentStoreCoordinator;
+@synthesize keyStore = _keyStore;
+
 - (void)dealloc
 {
     [_window release];
     [super dealloc];
+}
+
+//TODO move it to addKey ? seems legit
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        UITextField *passwordTextField = [alertView textFieldAtIndex:0];
+        ADLPasswordAlertView *pwdAlertView = (ADLPasswordAlertView*)alertView;
+        NSError *error = nil;
+        BOOL success = [self.keyStore addKey:pwdAlertView.p12Path withPassword:[passwordTextField text] error:&error];
+        
+        if (!success && error != nil) {
+            if ([error code] == P12OpenErrorCode) {
+                // retry
+                ADLPasswordAlertView *realert = [[ADLPasswordAlertView alloc] initWithTitle:@"Erreur de mot de passe" message:[alertView message] delegate:self cancelButtonTitle:@"Annuler" otherButtonTitles:@"Confirmer", nil];
+                realert.p12Path = pwdAlertView.p12Path;
+                [realert show];
+                [realert release];
+            }
+            
+            NSLog(@"error %@", [error localizedDescription]);
+        }
+        else {
+            // Throw a notification for MainViewController
+            [AJNotificationView showNoticeInView:[[_window rootViewController] view]
+                                            type:AJNotificationTypeGreen
+                                           title:[NSString stringWithFormat:@"L'importation de '%@' s'est correctement déroulée.", [[pwdAlertView p12Path] lastPathComponent]]
+                                 linedBackground:AJLinedBackgroundTypeStatic
+                                       hideAfter:2.5f];
+            
+        }
+
+    }
 }
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -69,45 +112,38 @@
     
     
     [[UIApplication sharedApplication] registerForRemoteNotificationTypes:UIRemoteNotificationTypeBadge | UIRemoteNotificationTypeAlert];
+    
+    NSArray *p12Docs = [self importableP12Stores];
+    
+    for (NSString *p12Path in p12Docs) {
+        NSLog(@"p12Path :%@", p12Docs);
+        
+        ADLPasswordAlertView *alertView = [[ADLPasswordAlertView alloc] initWithTitle:@"Importation du certificat" message:[NSString stringWithFormat:@"Entez le mot de passe pour %@",[p12Path lastPathComponent]] delegate:self cancelButtonTitle:@"Annuler" otherButtonTitles:@"Confirmer", nil];
+        
+        alertView.p12Path = p12Path;
+        
+        [alertView show];
+        [alertView release];
+    }
 
     
+    NSArray *keys = [[self.keyStore listPrivateKeys] retain];
+    for (PrivateKey *pkey in keys) {
+        NSLog(@"commonName %@", pkey.commonName);
+        NSLog(@"caName %@", pkey.caName);
+        NSLog(@"p12Filename %@", pkey.p12Filename);
+        NSString *cert = [[NSString alloc] initWithData:pkey.publicKey encoding:NSUTF8StringEncoding];
+        NSLog(@"certData %@", cert);
+        [cert release];
+    }
+    [keys release];
      
     return YES;
 }
 
-+(NSString*)dataToBase64String:(NSData *) theData {
-    const uint8_t* input = (const uint8_t*)[theData bytes];
-    NSInteger length = [theData length];
-    
-    static char table[] = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";
-    
-    NSMutableData* data = [NSMutableData dataWithLength:((length + 2) / 3) * 4];
-    uint8_t* output = (uint8_t*)data.mutableBytes;
-    
-    NSInteger i;
-    for (i=0; i < length; i += 3) {
-        NSInteger value = 0;
-        NSInteger j;
-        for (j = i; j < (i + 3); j++) {
-            value <<= 8;
-            
-            if (j < length) {
-                value |= (0xFF & input[j]);
-            }
-        }
-        
-        NSInteger theIndex = (i / 3) * 4;
-        output[theIndex + 0] =                    table[(value >> 18) & 0x3F];
-        output[theIndex + 1] =                    table[(value >> 12) & 0x3F];
-        output[theIndex + 2] = (i + 1) < length ? table[(value >> 6)  & 0x3F] : '=';
-        output[theIndex + 3] = (i + 2) < length ? table[(value >> 0)  & 0x3F] : '=';
-    }
-    
-    return [[[NSString alloc] initWithData:data encoding:NSASCIIStringEncoding] autorelease];
-}
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *base64DeviceToken = [RGAppDelegate dataToBase64String:deviceToken];
+    NSString *base64DeviceToken = [deviceToken dataToBase64String];
     NSLog(@"%@", base64DeviceToken);
    // self.registered = YES;
     
@@ -147,5 +183,143 @@
     // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
 }
 
+
+- (void)saveContext
+{
+    NSError *error = nil;
+    NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
+    if (managedObjectContext != nil) {
+        if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
+    }
+}
+
+#pragma mark - Core Data stack
+
+// Returns the managed object context for the application.
+// If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
+- (NSManagedObjectContext *)managedObjectContext
+{
+    if (_managedObjectContext != nil) {
+        return _managedObjectContext;
+    }
+    
+    NSPersistentStoreCoordinator *coordinator = [self persistentStoreCoordinator];
+    if (coordinator != nil) {
+        _managedObjectContext = [[NSManagedObjectContext alloc] init];
+        [_managedObjectContext setPersistentStoreCoordinator:coordinator];
+    }
+    return _managedObjectContext;
+}
+
+// Returns the managed object model for the application.
+// If the model doesn't already exist, it is created from the application's model.
+- (NSManagedObjectModel *)managedObjectModel
+{
+    if (_managedObjectModel != nil) {
+        return _managedObjectModel;
+    }
+    NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"KeyStore" withExtension:@"momd"];
+    NSLog(@"%@", modelURL);
+    _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
+    return _managedObjectModel;
+}
+
+// Returns the persistent store coordinator for the application.
+// If the coordinator doesn't already exist, it is created and the application's store added to it.
+- (NSPersistentStoreCoordinator *)persistentStoreCoordinator
+{
+    if (_persistentStoreCoordinator != nil) {
+        return _persistentStoreCoordinator;
+    }
+    
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"keystore.sqlite"];
+    
+    NSError *error = nil;
+    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+        /*
+         Replace this implementation with code to handle the error appropriately.
+         
+         abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
+         
+         Typical reasons for an error here include:
+         * The persistent store is not accessible;
+         * The schema for the persistent store is incompatible with current managed object model.
+         Check the error message to determine what the actual problem was.
+         
+         
+         If the persistent store is not accessible, there is typically something wrong with the file path. Often, a file URL is pointing into the application's resources directory instead of a writeable directory.
+         
+         If you encounter schema incompatibility errors during development, you can reduce their frequency by:
+         * Simply deleting the existing store:
+         [[NSFileManager defaultManager] removeItemAtURL:storeURL error:nil]
+         
+         * Performing automatic lightweight migration by passing the following dictionary as the options parameter:
+         @{NSMigratePersistentStoresAutomaticallyOption:@YES, NSInferMappingModelAutomaticallyOption:@YES}
+         
+         Lightweight migration will only work for a limited set of schema changes; consult "Core Data Model Versioning and Data Migration Programming Guide" for details.
+         
+         */
+        NSLog(@"%@", storeURL);
+        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+        abort();
+    }
+    
+    return _persistentStoreCoordinator;
+}
+
+#pragma mark - Application's Documents directory
+
+// Returns the URL to the application's Documents directory.
+- (NSURL *)applicationDocumentsDirectory
+{
+    return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
+}
+
+
+#pragma mark - P12 files import from Documents directory
+
+- (NSMutableArray *)importableP12Stores {
+    
+    NSMutableArray *retval = [NSMutableArray array];
+    
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *publicDocumentsDir = [paths objectAtIndex:0];
+    
+    NSError *error;
+    NSArray *files = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:publicDocumentsDir error:&error];
+    if (files == nil) {
+        NSLog(@"Error reading contents of documents directory: %@", [error localizedDescription]);
+        return retval;
+    }
+    
+    for (NSString *file in files) {
+        if (([file.pathExtension compare:@"p12" options:NSCaseInsensitiveSearch] == NSOrderedSame) ||
+            ([file.pathExtension compare:@"pfx" options:NSCaseInsensitiveSearch] == NSOrderedSame)) {
+            NSString *fullPath = [publicDocumentsDir stringByAppendingPathComponent:file];
+            [retval addObject:fullPath];
+        }
+    }
+    
+    return retval;
+    
+}
+
+
+#pragma mark - KeyStore
+
+-(ADLKeyStore*)keyStore {
+    if (_keyStore == nil) {
+        _keyStore = [[ADLKeyStore alloc] init];
+        _keyStore.managedObjectContext = self.managedObjectContext;
+    }
+    
+    return _keyStore;
+}
 
 @end

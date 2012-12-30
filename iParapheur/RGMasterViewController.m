@@ -55,7 +55,7 @@
 #import "ADLCredentialVault.h"
 #import "ADLCollectivityDef.h"
 #import "ADLCircuitCell.h"
-#import "ISO8601DateFormatter.h"
+#import <ISO8601DateFormatter/ISO8601DateFormatter.h>
 
 #import "LGViewHUD.h"
 
@@ -258,14 +258,7 @@
     
     NSString *action = [[object objectForKey:@"actionDemandee"] lowercaseString];
     
-    NSLog(@"%@", [NSString stringWithFormat:@"%@-%@.jpg", imagePrefix, action ]);
-    
     [[cell etapeTypeIcon] setImage:[UIImage imageNamed:[NSString stringWithFormat:@"%@-%@.jpg", imagePrefix, action ]]];
-    
-    /*
-    if ([[object objectForKey:@"approved"] isEqual:[NSNumber numberWithInt:1]]) {
-        [cell.textLabel setTextColor:[UIColor greenColor]];
-    }*/
     
     return cell;
 }

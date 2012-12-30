@@ -49,6 +49,11 @@
 #import "ADLCollectivityDef.h"
 #import "ADLNotifications.h"
 #import "ADLSingletonState.h"
+#import "RGAppDelegate.h"
+#import "ADLPasswordAlertView.h"
+#import "ADLRequester.h"
+#import "PrivateKey.h"
+#import <NSData+Base64/NSData+Base64.h>
 
 @interface RGWorkflowDialogViewController ()
 
@@ -60,6 +65,9 @@
 @synthesize finishButton;
 @synthesize action;
 @synthesize dossierRef;
+@synthesize certificateLabel = _certificateLabel, certificatesTableView = _certificatesTableView;
+
+@synthesize pkeys = _pkeys;
 
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
 {
@@ -82,6 +90,8 @@
     [self setAnnotationPrivee:nil];
     [self setAnnotationPublique:nil];
     [self setFinishButton:nil];
+    [self setCertificateLabel:nil];
+    [self setCertificatesTableView:nil];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
 }
@@ -91,10 +101,18 @@
     [super viewWillAppear:animated];
     if ([action isEqualToString:@"viser"]) {
         [finishButton setTitle:@"Viser" forState:UIControlStateNormal];
+        [_certificateLabel setHidden:YES];
+        [_certificatesTableView setHidden:YES];
     }
     else if ([action isEqualToString:@"reject"]) {
         [finishButton setTitle:@"Rejeter" forState:UIControlStateNormal];
+        [_certificateLabel setHidden:YES];
+        [_certificatesTableView setHidden:YES];
     }
+    ADLKeyStore *keystore = [((RGAppDelegate*)[[UIApplication sharedApplication] delegate]) keyStore];
+    
+    self.pkeys = [keystore listPrivateKeys];
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -107,7 +125,7 @@
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
     [wall setDelegate:self];
 
-    NSDictionary *args = [[NSDictionary alloc]
+    NSMutableDictionary *args = [[NSMutableDictionary alloc]
                           initWithObjectsAndKeys:
                           [NSArray arrayWithObjects:dossierRef, nil], @"dossiers",
                           [annotationPublique text], @"annotPub",
@@ -124,8 +142,47 @@
     else if ([action isEqualToString:@"reject"]) {
         [wall request:@"reject" withArgs:args andCollectivity:collDef];
     }
+    else if ([action isEqualToString:@"signature"]) {
+        // create signatures array
+        PrivateKey *pkey = _currentPKey;
+        NSData *documentPrincipal = nil;
+        
+        /* Ask for pkey password */
+        
+        ADLPasswordAlertView *alertView =
+        [[ADLPasswordAlertView alloc] initWithTitle:@"Déverrouillage de la clef privée"
+                                            message:[NSString
+                                                     stringWithFormat:@"Entez le mot de passe pour %@",
+                                                     [[pkey p12Filename] lastPathComponent]]
+                                           delegate:self cancelButtonTitle:@"Annuler"
+                                  otherButtonTitles:@"Confirmer", nil];
+        
+        alertView.p12Path = [pkey p12Filename];
+        
+        [alertView show];
+        [alertView release];
+        
+        // download document
+        // sign document
+        // send request
+
+
+    }
+    
     [args release];
     [collDef release];
+    /*
+    {
+        "annotPriv": "Annotation publique",
+        "signatures": [
+                       "123456789123456789123456789"
+                       ],
+        "annotPub": "Annotation publique",
+        "dossiers": [
+                     "workspace://SpacesStore/53cdfbf9-3686-4a82-8363-641ede773a1e"
+                     ],
+        "bureauCourant": "workspace://SpacesStore/3430a510-51dc-4b7a-bf6c-2c48ce443769"
+    }*/
     
     /*
     LGViewHUD *hud = [LGViewHUD defaultHUD];
@@ -145,6 +202,8 @@
     [annotationPrivee release];
     [annotationPublique release];
     [finishButton release];
+    [_certificateLabel release];
+    [_certificatesTableView release];
     [super dealloc];
 }
 
@@ -161,6 +220,79 @@
 
 -(void) didEndWithUnReachableNetwork {
     
+}
+
+#pragma mark - UITableView Datasource
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return _pkeys.count;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell =[tableView dequeueReusableCellWithIdentifier:@"PKeyCell"];
+    
+    if(cell == nil) {
+        cell = [[[UITableViewCell alloc] init] autorelease];
+    }
+    
+    PrivateKey *pkey = [_pkeys objectAtIndex:[indexPath row]];
+    
+    [[cell textLabel] setText:[pkey commonName]];
+    
+    
+    return cell;
+}
+
+#pragma mark - UITableView delegate
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
+    // we selected a private key now fetching it
+    
+    _currentPKey = [_pkeys objectAtIndex:[indexPath row]];
+    
+    // now we have a pkey we can activate Sign Button
+    
+}
+
+#pragma mark - UIAlertView delegate
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
+    if (buttonIndex == 1) {
+        UITextField *passwordTextField = [alertView textFieldAtIndex:0];
+        
+        ADLRequester *requester = [ADLRequester sharedRequester];
+        [requester setDelegate:nil];
+        NSData *documentPrincipal = [requester downloadDocumentNow:[[ADLSingletonState sharedSingletonState] currentPrincipalDocPath]];
+        ADLKeyStore *keystore = [((RGAppDelegate*)[[UIApplication sharedApplication] delegate]) keyStore];
+        PrivateKey *pkey = _currentPKey;
+        
+        NSData *signature = [keystore PKCS7Sign:[pkey p12Filename] withPassword:[passwordTextField text] andData:documentPrincipal];
+        
+        NSString *b64sign = [signature base64EncodedString];
+        
+        NSMutableDictionary *args = [[NSMutableDictionary alloc]
+                                     initWithObjectsAndKeys:
+                                     [NSArray arrayWithObjects:dossierRef, nil], @"dossiers",
+                                     [annotationPublique text], @"annotPub",
+                                     [annotationPrivee text], @"annotPriv",
+                                     [[ADLSingletonState sharedSingletonState] bureauCourant], @"bureauCourant",
+                                     nil];
+        
+        [args setObject:[NSArray arrayWithObject:b64sign] forKey:@"signatures"];
+        
+        [requester setDelegate:self];
+        [requester request:@"signature" andArgs:args];
+        
+        //[wall request:@"signature" withArgs:args andCollectivity:collDef];
+        
+        
+    }
 }
 
 @end

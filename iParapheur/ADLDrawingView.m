@@ -518,18 +518,14 @@
 }*/
 
 -(void) updateAnnotation:(ADLAnnotation*)annotation {
-    //TODO: implement
-    NSLog(@"Shall update");
     [_dataSource updateAnnotation:annotation forPage:_pageNumber];
 }
 
 -(void) addAnnotation:(ADLAnnotation*)annotation {
-    NSLog(@"Shall add");
     [_dataSource addAnnotation:annotation forPage:_pageNumber];
 }
 
 -(void) removeAnnotation:(ADLAnnotation*) annotation {
-    NSLog(@"Shall remove !");
     [_dataSource removeAnnotation:annotation];
 }
 

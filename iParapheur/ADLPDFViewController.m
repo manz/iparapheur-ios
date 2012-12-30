@@ -119,22 +119,6 @@
     [requester request:GETANNOTATIONS_API andArgs:args];
     
     
-    /*
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
-    
-      
-    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-    
-    [wall request:GETDOSSIER_API withArgs:args andCollectivity:def];
-    
-    [wall request:GETANNOTATIONS_API withArgs:args andCollectivity:def];
-    
-    
-    [def release];
-    */
-     //[args release];
-    
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
     hud.topText=@"";
@@ -183,9 +167,6 @@
 -(void) displayDocumentAt: (NSInteger) index {
     NSDictionary *document = [[_dossier objectForKey:@"documents" ] objectAtIndex:index];
     
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
-    
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
@@ -204,24 +185,9 @@
     /* Si le document n'a pas de visuelPdf on suppose que le document est en PDF */
     if ([document objectForKey:@"visuelPdfUrl"] != nil) {
         [requester downloadDocumentAt:[document objectForKey:@"visuelPdfUrl"]];
-       // [requester performSelectorOnMainThread:@selector(downloadDocumentAt:) withObject:[document objectForKey:@"visuelPdfUrl"] waitUntilDone:YES];
-        /*
-        ADLAPIOperation* op = [[ADLAPIOperation alloc] initWithDocumentPath:]
-                                   andCollectivityDef:[ADLCollectivityDef copyDefaultCollectity]];
-        [op setDelegate:self];
-        [op start];
-        */
-         //[wall downloadDocumentWithNodeRef:[document objectForKey:@"visuelPdfUrl"] andCollectivity:def];
     }
     else if ([document objectForKey:@"downloadUrl"] != nil) {
         [requester downloadDocumentAt:[document objectForKey:@"downloadUrl"]];
-        /*
-        ADLAPIOperation* op = [[ADLAPIOperation alloc] initWithDocumentPath:[document objectForKey:@"downloadUrl"]
-                                                         andCollectivityDef:[ADLCollectivityDef copyDefaultCollectity]];
-        [op setDelegate:self];
-        [op start];
-         */
-        //[wall downloadDocumentWithNodeRef:[document objectForKey:@"downloadUrl"] andCollectivity:def];
     }
     [def release];
 }
@@ -229,10 +195,14 @@
 -(void)didEndWithRequestAnswer:(NSDictionary*)answer {
     NSString *s = [answer objectForKey:@"_req"];
     [[LGViewHUD defaultHUD] setHidden:YES];
-    NSLog(@"%@", answer);
+
     if ([s isEqual:GETDOSSIER_API]) {
         _dossier = [answer copy];
         [self displayDocumentAt: 0];
+        
+        NSString *documentPrincipal = [[[_dossier objectForKey:@"documents"] objectAtIndex:0] objectForKey:@"downloadUrl"];
+        [[ADLSingletonState sharedSingletonState] setCurrentPrincipalDocPath:documentPrincipal];
+        
         
         LGViewHUD *hud = [LGViewHUD defaultHUD];
         hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
@@ -245,8 +215,6 @@
     }
     else if ([s isEqualToString:GETANNOTATIONS_API]) {
         NSArray *annotations = [[answer objectForKey:@"annotations"] copy];
-        
-        NSLog(@"annotations %@", annotations);
         
         _annotations = annotations;
         
@@ -267,6 +235,7 @@
         ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
         
         [wall request:GETANNOTATIONS_API withArgs:args andCollectivity:def];
+        [def release];
     }
     
 }
@@ -317,7 +286,6 @@
     [[self view] addSubview:[_readerViewController view]];
      
     [[LGViewHUD defaultHUD] setHidden:YES];
-    
     
     
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
@@ -438,10 +406,6 @@
     for (NSDictionary *etape in _annotations) {
         NSArray *annotationsAtPageForEtape = [etape objectForKey:[NSString stringWithFormat:@"%d", page]];
         
-/*        for (NSNumber *key in etape) {
-            NSLog(@"%@", [etape objectForKey:key]);
-        }
-  */      
         if (annotationsAtPageForEtape != nil && [annotationsAtPageForEtape count] > 0) {
             [annotsAtPage addObjectsFromArray:annotationsAtPageForEtape];
         }
@@ -464,7 +428,8 @@
     
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
 
-    [wall request:@"updateAnnotation" withArgs:req andCollectivity:def]; 
+    [wall request:@"updateAnnotation" withArgs:req andCollectivity:def];
+    [def release];
     
 }
 
@@ -481,6 +446,7 @@
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:@"removeAnnotation" withArgs:req andCollectivity:def];
+    [def release];
 }
 
 -(void) addAnnotation:(ADLAnnotation*)annotation forPage:(NSUInteger)page {
@@ -498,7 +464,7 @@
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:@"addAnnotation" withArgs:req andCollectivity:def];
-
+    [def release];
     
 }
 

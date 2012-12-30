@@ -117,7 +117,7 @@
 	NSString *archivePath = [ReaderDocument applicationSupportPath]; // Application's "~/Library/Application Support" path
 	NSString *archiveName = [[filename stringByDeletingPathExtension] stringByAppendingPathExtension:@"plist"];
 	
-	return [archivePath stringByAppendingPathComponent:archiveName]; // "{archivePath}/'filename'.plist"
+	return [archivePath stringByAppendingPathComponent:archiveName];
 }
 
 + (ReaderDocument *)unarchiveFromFileName:(NSString *)filename password:(NSString *)phrase

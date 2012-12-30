@@ -68,6 +68,7 @@
 			
 			[self addSubview:highlight]; 
 		}
+    
 	}
 }
 

@@ -7,7 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		14175727168DD63500E4FB4D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14175726168DD63500E4FB4D /* CoreData.framework */; };
 		142CDD8D1640260B009F4F84 /* ADLPostItButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 142CDD8C1640260B009F4F84 /* ADLPostItButton.m */; };
+		1434F66E168DFDD2000C115D /* ADLKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1434F66A168DFDD2000C115D /* ADLKeyStore.m */; };
+		1434F66F168DFDD2000C115D /* PrivateKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 1434F66C168DFDD2000C115D /* PrivateKey.m */; };
+		1434F672168DFF98000C115D /* KeyStore.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 1434F670168DFF98000C115D /* KeyStore.xcdatamodeld */; };
+		1434F681168E087A000C115D /* ADLPasswordAlertView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1434F680168E087A000C115D /* ADLPasswordAlertView.m */; };
 		1469DFF11675D2C20064E8E7 /* ADLRequester.m in Sources */ = {isa = PBXBuildFile; fileRef = 1469DFF01675D2C20064E8E7 /* ADLRequester.m */; };
 		1469DFF51675D8960064E8E7 /* ADLAPIOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1469DFF41675D8960064E8E7 /* ADLAPIOperation.m */; };
 		1469DFFA1675F72C0064E8E7 /* ca_mobiles_chaine.der in Resources */ = {isa = PBXBuildFile; fileRef = 1469DFF91675F72C0064E8E7 /* ca_mobiles_chaine.der */; };
@@ -38,8 +43,6 @@
 		B429A96415B5BF7A003B8BF9 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B429A96315B5BF7A003B8BF9 /* Settings.bundle */; };
 		B42D54E9153B10970033E95B /* RGSplitViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B42D54E8153B10970033E95B /* RGSplitViewController.m */; };
 		B43C7ACE1541632800BA43A8 /* RGDeskCustomTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B43C7ACD1541632800BA43A8 /* RGDeskCustomTableViewCell.m */; };
-		B43C7AD415418CFD00BA43A8 /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = B43C7AD315418CFD00BA43A8 /* CustomBadge.m */; };
-		B43C7AD515418D0500BA43A8 /* CustomBadge.m in Sources */ = {isa = PBXBuildFile; fileRef = B43C7AD315418CFD00BA43A8 /* CustomBadge.m */; };
 		B444316F160A230D00C8C475 /* ADLDrawingView.m in Sources */ = {isa = PBXBuildFile; fileRef = B444316A160A230D00C8C475 /* ADLDrawingView.m */; };
 		B4443170160A230D00C8C475 /* ADLAnnotationView.m in Sources */ = {isa = PBXBuildFile; fileRef = B444316C160A230D00C8C475 /* ADLAnnotationView.m */; };
 		B4443171160A230D00C8C475 /* ADLCloseButton.m in Sources */ = {isa = PBXBuildFile; fileRef = B444316E160A230D00C8C475 /* ADLCloseButton.m */; };
@@ -52,10 +55,6 @@
 		B46BCC4A156A855900A96560 /* RGWorkflowDialogViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B46BCC49156A855900A96560 /* RGWorkflowDialogViewController.m */; };
 		B47944D81622BCDE0061E09B /* ADLPostItView.m in Sources */ = {isa = PBXBuildFile; fileRef = B47944D71622BCDE0061E09B /* ADLPostItView.m */; };
 		B488310F15ECBF6500EC5BB3 /* RGFileCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B488310E15ECBF6500EC5BB3 /* RGFileCell.m */; };
-		B488311315ED0CC000EC5BB3 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B488311215ED0CC000EC5BB3 /* ISO8601DateFormatter.m */; };
-		B488311415ED0D2D00EC5BB3 /* ISO8601DateFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = B488311215ED0CC000EC5BB3 /* ISO8601DateFormatter.m */; };
-		B488311715EDE2B000EC5BB3 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B488311615EDE2B000EC5BB3 /* EGORefreshTableHeaderView.m */; };
-		B488311815EDE2B000EC5BB3 /* EGORefreshTableHeaderView.m in Sources */ = {isa = PBXBuildFile; fileRef = B488311615EDE2B000EC5BB3 /* EGORefreshTableHeaderView.m */; };
 		B488312715EE0F2900EC5BB3 /* ADLPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B488312615EE0F2900EC5BB3 /* ADLPDFViewController.m */; };
 		B488312815EE0F2900EC5BB3 /* ADLPDFViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B488312615EE0F2900EC5BB3 /* ADLPDFViewController.m */; };
 		B4A221AB16299E9B00474A18 /* ADLActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B4A221AA16299E9B00474A18 /* ADLActionViewController.m */; };
@@ -78,13 +77,9 @@
 		B4E5ECC8153AF65F00BD514D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5ECA2153AF65F00BD514D /* UIKit.framework */; };
 		B4E5ECC9153AF65F00BD514D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5ECA4153AF65F00BD514D /* Foundation.framework */; };
 		B4E5ECD4153AF65F00BD514D /* iParapheurTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECD3153AF65F00BD514D /* iParapheurTests.m */; };
-		B4E5ECFB153AF72200BD514D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF0153AF72200BD514D /* Reachability.m */; };
-		B4E5ECFC153AF72200BD514D /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF1153AF72200BD514D /* JSONKit.m */; };
 		B4E5ECFD153AF72200BD514D /* ADLIParapheurWall.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF4153AF72200BD514D /* ADLIParapheurWall.m */; };
 		B4E5ECFE153AF72200BD514D /* ADLCredentialVault.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF6153AF72200BD514D /* ADLCredentialVault.m */; };
 		B4E5ECFF153AF72200BD514D /* ADLCollectivityDef.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF8153AF72200BD514D /* ADLCollectivityDef.m */; };
-		B4E5ED03153AF76B00BD514D /* JSONKit.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF1153AF72200BD514D /* JSONKit.m */; };
-		B4E5ED04153AF76E00BD514D /* Reachability.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF0153AF72200BD514D /* Reachability.m */; };
 		B4E5ED05153AF77100BD514D /* ADLIParapheurWall.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF4153AF72200BD514D /* ADLIParapheurWall.m */; };
 		B4E5ED06153AF77600BD514D /* ADLCredentialVault.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF6153AF72200BD514D /* ADLCredentialVault.m */; };
 		B4E5ED08153AF83E00BD514D /* ADLCollectivityDef.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF8153AF72200BD514D /* ADLCollectivityDef.m */; };
@@ -131,6 +126,7 @@
 		B4FF341515473BC4006F7BF3 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FF341415473BC4006F7BF3 /* ImageIO.framework */; };
 		B4FF341715473BCD006F7BF3 /* MessageUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FF341615473BCD006F7BF3 /* MessageUI.framework */; };
 		B4FF341915473C88006F7BF3 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4FF341815473C88006F7BF3 /* QuartzCore.framework */; };
+		F8FE0581C4A44958A3962EC5 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = BFA7D2FCD9704A51B3868934 /* libPods.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -144,8 +140,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		14175726168DD63500E4FB4D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		142CDD8B1640260B009F4F84 /* ADLPostItButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLPostItButton.h; sourceTree = "<group>"; };
 		142CDD8C1640260B009F4F84 /* ADLPostItButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLPostItButton.m; sourceTree = "<group>"; };
+		1434F669168DFDD2000C115D /* ADLKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLKeyStore.h; sourceTree = "<group>"; };
+		1434F66A168DFDD2000C115D /* ADLKeyStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLKeyStore.m; sourceTree = "<group>"; };
+		1434F66B168DFDD2000C115D /* PrivateKey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrivateKey.h; sourceTree = "<group>"; };
+		1434F66C168DFDD2000C115D /* PrivateKey.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrivateKey.m; sourceTree = "<group>"; };
+		1434F671168DFF98000C115D /* KeyStore.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = KeyStore.xcdatamodel; sourceTree = "<group>"; };
+		1434F67F168E087A000C115D /* ADLPasswordAlertView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLPasswordAlertView.h; sourceTree = "<group>"; };
+		1434F680168E087A000C115D /* ADLPasswordAlertView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLPasswordAlertView.m; sourceTree = "<group>"; };
 		1469DFEF1675D2C20064E8E7 /* ADLRequester.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLRequester.h; sourceTree = "<group>"; };
 		1469DFF01675D2C20064E8E7 /* ADLRequester.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLRequester.m; sourceTree = "<group>"; };
 		1469DFF31675D8960064E8E7 /* ADLAPIOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLAPIOperation.h; sourceTree = "<group>"; };
@@ -182,8 +186,6 @@
 		B42D54E8153B10970033E95B /* RGSplitViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGSplitViewController.m; sourceTree = "<group>"; };
 		B43C7ACC1541632800BA43A8 /* RGDeskCustomTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGDeskCustomTableViewCell.h; sourceTree = "<group>"; };
 		B43C7ACD1541632800BA43A8 /* RGDeskCustomTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGDeskCustomTableViewCell.m; sourceTree = "<group>"; };
-		B43C7AD215418CFD00BA43A8 /* CustomBadge.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomBadge.h; sourceTree = "<group>"; };
-		B43C7AD315418CFD00BA43A8 /* CustomBadge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomBadge.m; sourceTree = "<group>"; };
 		B4443169160A230D00C8C475 /* ADLDrawingView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLDrawingView.h; sourceTree = "<group>"; };
 		B444316A160A230D00C8C475 /* ADLDrawingView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLDrawingView.m; sourceTree = "<group>"; };
 		B444316B160A230D00C8C475 /* ADLAnnotationView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLAnnotationView.h; sourceTree = "<group>"; };
@@ -202,10 +204,6 @@
 		B47944D71622BCDE0061E09B /* ADLPostItView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLPostItView.m; sourceTree = "<group>"; };
 		B488310D15ECBF6500EC5BB3 /* RGFileCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RGFileCell.h; sourceTree = "<group>"; };
 		B488310E15ECBF6500EC5BB3 /* RGFileCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RGFileCell.m; sourceTree = "<group>"; };
-		B488311115ED0CC000EC5BB3 /* ISO8601DateFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ISO8601DateFormatter.h; sourceTree = "<group>"; };
-		B488311215ED0CC000EC5BB3 /* ISO8601DateFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ISO8601DateFormatter.m; sourceTree = "<group>"; };
-		B488311515EDE2B000EC5BB3 /* EGORefreshTableHeaderView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EGORefreshTableHeaderView.h; sourceTree = "<group>"; };
-		B488311615EDE2B000EC5BB3 /* EGORefreshTableHeaderView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EGORefreshTableHeaderView.m; sourceTree = "<group>"; };
 		B488312515EE0F2900EC5BB3 /* ADLPDFViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLPDFViewController.h; sourceTree = "<group>"; };
 		B488312615EE0F2900EC5BB3 /* ADLPDFViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLPDFViewController.m; sourceTree = "<group>"; };
 		B4A221A616299B9400474A18 /* fr */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = fr; path = fr.lproj/MainStoryboard_iPhone.storyboard; sourceTree = "<group>"; };
@@ -254,10 +252,6 @@
 		B4E5ECCE153AF65F00BD514D /* iParapheurTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iParapheurTests-Info.plist"; sourceTree = "<group>"; };
 		B4E5ECD2153AF65F00BD514D /* iParapheurTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iParapheurTests.h; sourceTree = "<group>"; };
 		B4E5ECD3153AF65F00BD514D /* iParapheurTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iParapheurTests.m; sourceTree = "<group>"; };
-		B4E5ECEF153AF72200BD514D /* Reachability.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Reachability.h; sourceTree = "<group>"; };
-		B4E5ECF0153AF72200BD514D /* Reachability.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Reachability.m; sourceTree = "<group>"; };
-		B4E5ECF1153AF72200BD514D /* JSONKit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = JSONKit.m; sourceTree = "<group>"; };
-		B4E5ECF2153AF72200BD514D /* JSONKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = JSONKit.h; sourceTree = "<group>"; };
 		B4E5ECF3153AF72200BD514D /* ADLIParapheurWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLIParapheurWall.h; sourceTree = "<group>"; };
 		B4E5ECF4153AF72200BD514D /* ADLIParapheurWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLIParapheurWall.m; sourceTree = "<group>"; };
 		B4E5ECF5153AF72200BD514D /* ADLCredentialVault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLCredentialVault.h; sourceTree = "<group>"; };
@@ -311,6 +305,8 @@
 		B4FF341415473BC4006F7BF3 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B4FF341615473BCD006F7BF3 /* MessageUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MessageUI.framework; path = System/Library/Frameworks/MessageUI.framework; sourceTree = SDKROOT; };
 		B4FF341815473C88006F7BF3 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		BFA7D2FCD9704A51B3868934 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		F0906C693E1847B8B13FC2E8 /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -318,6 +314,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				14175727168DD63500E4FB4D /* CoreData.framework in Frameworks */,
 				1483D1DE165E852C000C6D0D /* Security.framework in Frameworks */,
 				B4FF341915473C88006F7BF3 /* QuartzCore.framework in Frameworks */,
 				B4FF341715473BCD006F7BF3 /* MessageUI.framework in Frameworks */,
@@ -326,6 +323,7 @@
 				B4E5ECA3153AF65F00BD514D /* UIKit.framework in Frameworks */,
 				B4E5ECA5153AF65F00BD514D /* Foundation.framework in Frameworks */,
 				B4E5ECA7153AF65F00BD514D /* CoreGraphics.framework in Frameworks */,
+				F8FE0581C4A44958A3962EC5 /* libPods.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -342,6 +340,27 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1434F65D168DFB03000C115D /* Crypto */ = {
+			isa = PBXGroup;
+			children = (
+				1434F670168DFF98000C115D /* KeyStore.xcdatamodeld */,
+				1434F669168DFDD2000C115D /* ADLKeyStore.h */,
+				1434F66A168DFDD2000C115D /* ADLKeyStore.m */,
+				1434F66B168DFDD2000C115D /* PrivateKey.h */,
+				1434F66C168DFDD2000C115D /* PrivateKey.m */,
+			);
+			name = Crypto;
+			sourceTree = "<group>";
+		};
+		1434F67D168E085C000C115D /* AlertPrompt */ = {
+			isa = PBXGroup;
+			children = (
+				1434F67F168E087A000C115D /* ADLPasswordAlertView.h */,
+				1434F680168E087A000C115D /* ADLPasswordAlertView.m */,
+			);
+			name = AlertPrompt;
+			sourceTree = "<group>";
+		};
 		B41B9475156227B3004D57A1 /* HUD */ = {
 			isa = PBXGroup;
 			children = (
@@ -354,6 +373,7 @@
 		B42D54E6153B10710033E95B /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				1434F67D168E085C000C115D /* AlertPrompt */,
 				B41B9475156227B3004D57A1 /* HUD */,
 				B43C7ACB154162DD00BA43A8 /* CustomCells */,
 				B4E5ECBA153AF65F00BD514D /* RGMasterViewController.h */,
@@ -378,15 +398,6 @@
 			name = UI;
 			sourceTree = "<group>";
 		};
-		B43C7AC51541626700BA43A8 /* CustomBadge */ = {
-			isa = PBXGroup;
-			children = (
-				B43C7AD215418CFD00BA43A8 /* CustomBadge.h */,
-				B43C7AD315418CFD00BA43A8 /* CustomBadge.m */,
-			);
-			name = CustomBadge;
-			sourceTree = "<group>";
-		};
 		B43C7ACB154162DD00BA43A8 /* CustomCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,24 +409,6 @@
 				B43C7ACD1541632800BA43A8 /* RGDeskCustomTableViewCell.m */,
 			);
 			name = CustomCells;
-			sourceTree = "<group>";
-		};
-		B445B73D15EE5920009AEE2C /* PullToRefresh */ = {
-			isa = PBXGroup;
-			children = (
-				B488311515EDE2B000EC5BB3 /* EGORefreshTableHeaderView.h */,
-				B488311615EDE2B000EC5BB3 /* EGORefreshTableHeaderView.m */,
-			);
-			name = PullToRefresh;
-			sourceTree = "<group>";
-		};
-		B445B73F15EE5931009AEE2C /* ISO8601DateFormatter */ = {
-			isa = PBXGroup;
-			children = (
-				B488311115ED0CC000EC5BB3 /* ISO8601DateFormatter.h */,
-				B488311215ED0CC000EC5BB3 /* ISO8601DateFormatter.m */,
-			);
-			name = ISO8601DateFormatter;
 			sourceTree = "<group>";
 		};
 		B44C814916026FA800068E0B /* Annotations */ = {
@@ -455,6 +448,7 @@
 				B4FF33FB15473378006F7BF3 /* Resources */,
 				B4E5ECA1153AF65F00BD514D /* Frameworks */,
 				B4E5EC9F153AF65F00BD514D /* Products */,
+				F0906C693E1847B8B13FC2E8 /* Pods.xcconfig */,
 			);
 			sourceTree = "<group>";
 		};
@@ -470,6 +464,7 @@
 		B4E5ECA1153AF65F00BD514D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				14175726168DD63500E4FB4D /* CoreData.framework */,
 				1483D1DD165E852C000C6D0D /* Security.framework */,
 				B4FF341815473C88006F7BF3 /* QuartzCore.framework */,
 				B4FF341615473BCD006F7BF3 /* MessageUI.framework */,
@@ -479,6 +474,7 @@
 				B4E5ECA4153AF65F00BD514D /* Foundation.framework */,
 				B4E5ECA6153AF65F00BD514D /* CoreGraphics.framework */,
 				B4E5ECC6153AF65F00BD514D /* SenTestingKit.framework */,
+				BFA7D2FCD9704A51B3868934 /* libPods.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -486,14 +482,10 @@
 		B4E5ECA8153AF65F00BD514D /* iParapheur */ = {
 			isa = PBXGroup;
 			children = (
+				1434F65D168DFB03000C115D /* Crypto */,
 				B4B364391611A4CE0051420F /* Singleton */,
-				B445B73F15EE5931009AEE2C /* ISO8601DateFormatter */,
-				B445B73D15EE5920009AEE2C /* PullToRefresh */,
 				B4FF33BF154732FF006F7BF3 /* Reader */,
-				B43C7AC51541626700BA43A8 /* CustomBadge */,
 				B42D54E6153B10710033E95B /* UI */,
-				B4E5ED01153AF73B00BD514D /* JSONKit */,
-				B4E5ED00153AF72600BD514D /* Reachability */,
 				B4E5ED02153AF74900BD514D /* Network */,
 				B4E5ECB1153AF65F00BD514D /* RGAppDelegate.h */,
 				B4E5ECB2153AF65F00BD514D /* RGAppDelegate.m */,
@@ -550,24 +542,6 @@
 				B4E5ECCE153AF65F00BD514D /* iParapheurTests-Info.plist */,
 			);
 			name = "Supporting Files";
-			sourceTree = "<group>";
-		};
-		B4E5ED00153AF72600BD514D /* Reachability */ = {
-			isa = PBXGroup;
-			children = (
-				B4E5ECEF153AF72200BD514D /* Reachability.h */,
-				B4E5ECF0153AF72200BD514D /* Reachability.m */,
-			);
-			name = Reachability;
-			sourceTree = "<group>";
-		};
-		B4E5ED01153AF73B00BD514D /* JSONKit */ = {
-			isa = PBXGroup;
-			children = (
-				B4E5ECF1153AF72200BD514D /* JSONKit.m */,
-				B4E5ECF2153AF72200BD514D /* JSONKit.h */,
-			);
-			name = JSONKit;
 			sourceTree = "<group>";
 		};
 		B4E5ED02153AF74900BD514D /* Network */ = {
@@ -693,6 +667,7 @@
 				B4E5EC9A153AF65F00BD514D /* Sources */,
 				B4E5EC9B153AF65F00BD514D /* Frameworks */,
 				B4E5EC9C153AF65F00BD514D /* Resources */,
+				F90A1171F11B49418945494D /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -811,6 +786,20 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
+		F90A1171F11B49418945494D /* Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Pods-resources.sh\"\n";
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -818,21 +807,17 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B488311415ED0D2D00EC5BB3 /* ISO8601DateFormatter.m in Sources */,
 				B41B94791562290C004D57A1 /* LGViewHUD.m in Sources */,
 				B4E5ECAF153AF65F00BD514D /* main.m in Sources */,
 				B4E5ECB3153AF65F00BD514D /* RGAppDelegate.m in Sources */,
 				B4E5ECBC153AF65F00BD514D /* RGMasterViewController.m in Sources */,
 				B4E5ECBF153AF65F00BD514D /* RGDetailViewController.m in Sources */,
-				B4E5ED03153AF76B00BD514D /* JSONKit.m in Sources */,
-				B4E5ED04153AF76E00BD514D /* Reachability.m in Sources */,
 				B4E5ED05153AF77100BD514D /* ADLIParapheurWall.m in Sources */,
 				B4E5ED06153AF77600BD514D /* ADLCredentialVault.m in Sources */,
 				B4E5ED08153AF83E00BD514D /* ADLCollectivityDef.m in Sources */,
 				B42D54E9153B10970033E95B /* RGSplitViewController.m in Sources */,
 				B41DBD38153D942D004F1AEF /* RGDeskViewController.m in Sources */,
 				B43C7ACE1541632800BA43A8 /* RGDeskCustomTableViewCell.m in Sources */,
-				B43C7AD515418D0500BA43A8 /* CustomBadge.m in Sources */,
 				B4FF340115473B34006F7BF3 /* ReaderConstants.m in Sources */,
 				B4FF340215473B37006F7BF3 /* ReaderDocument.m in Sources */,
 				B4FF340315473B3D006F7BF3 /* ReaderViewController.m in Sources */,
@@ -856,7 +841,6 @@
 				B46BCC47156956E300A96560 /* ADLDocument.m in Sources */,
 				B46BCC4A156A855900A96560 /* RGWorkflowDialogViewController.m in Sources */,
 				B488310F15ECBF6500EC5BB3 /* RGFileCell.m in Sources */,
-				B488311715EDE2B000EC5BB3 /* EGORefreshTableHeaderView.m in Sources */,
 				B488312715EE0F2900EC5BB3 /* ADLPDFViewController.m in Sources */,
 				B41B609E15F0962100655827 /* ADLCircuitCell.m in Sources */,
 				B4443173160A252300C8C475 /* ADLDrawingView.m in Sources */,
@@ -869,6 +853,10 @@
 				142CDD8D1640260B009F4F84 /* ADLPostItButton.m in Sources */,
 				1469DFF11675D2C20064E8E7 /* ADLRequester.m in Sources */,
 				1469DFF51675D8960064E8E7 /* ADLAPIOperation.m in Sources */,
+				1434F66E168DFDD2000C115D /* ADLKeyStore.m in Sources */,
+				1434F66F168DFDD2000C115D /* PrivateKey.m in Sources */,
+				1434F672168DFF98000C115D /* KeyStore.xcdatamodeld in Sources */,
+				1434F681168E087A000C115D /* ADLPasswordAlertView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,12 +865,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4E5ECD4153AF65F00BD514D /* iParapheurTests.m in Sources */,
-				B4E5ECFB153AF72200BD514D /* Reachability.m in Sources */,
-				B4E5ECFC153AF72200BD514D /* JSONKit.m in Sources */,
 				B4E5ECFD153AF72200BD514D /* ADLIParapheurWall.m in Sources */,
 				B4E5ECFE153AF72200BD514D /* ADLCredentialVault.m in Sources */,
 				B4E5ECFF153AF72200BD514D /* ADLCollectivityDef.m in Sources */,
-				B43C7AD415418CFD00BA43A8 /* CustomBadge.m in Sources */,
 				B4FF33D515473325006F7BF3 /* ReaderConstants.m in Sources */,
 				B4FF33D615473325006F7BF3 /* ReaderDocument.m in Sources */,
 				B4FF33D715473325006F7BF3 /* ReaderViewController.m in Sources */,
@@ -903,8 +888,6 @@
 				B4FF33F91547333D006F7BF3 /* ReaderThumbView.m in Sources */,
 				B4FF33FA1547333D006F7BF3 /* UIXToolbarView.m in Sources */,
 				B41B9478156227BE004D57A1 /* LGViewHUD.m in Sources */,
-				B488311315ED0CC000EC5BB3 /* ISO8601DateFormatter.m in Sources */,
-				B488311815EDE2B000EC5BB3 /* EGORefreshTableHeaderView.m in Sources */,
 				B488312815EE0F2900EC5BB3 /* ADLPDFViewController.m in Sources */,
 				B444316F160A230D00C8C475 /* ADLDrawingView.m in Sources */,
 				B4443170160A230D00C8C475 /* ADLAnnotationView.m in Sources */,
@@ -1003,6 +986,7 @@
 		};
 		B4E5ECD8153AF65F00BD514D /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0906C693E1847B8B13FC2E8 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1019,6 +1003,7 @@
 		};
 		B4E5ECD9153AF65F00BD514D /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F0906C693E1847B8B13FC2E8 /* Pods.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -1098,6 +1083,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		1434F670168DFF98000C115D /* KeyStore.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				1434F671168DFF98000C115D /* KeyStore.xcdatamodel */,
+			);
+			currentVersion = 1434F671168DFF98000C115D /* KeyStore.xcdatamodel */;
+			path = KeyStore.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = B4E5EC95153AF65E00BD514D /* Project object */;
 }

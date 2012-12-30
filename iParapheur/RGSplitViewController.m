@@ -52,19 +52,6 @@
 @synthesize bureauView;
 
 - (void)viewDidLoad {
-
-   /* ADLIParapheurWall *wall = [[ADLIParapheurWall alloc] init];
-    
-    NSDictionary *args = [[NSDictionary alloc] initWithObjectsAndKeys:@"eperalta",@"username",
-                          @"secret", @"password", nil];
-    
-    ADLCollectivityDef *collDef = [[ADLCollectivityDef alloc] init];
-    
-    [collDef setHost:@"localhost:5150"];
-    [collDef setUsername:@"eperalta"];
-    [wall setDelegate:self];
-    [wall request:LOGIN_API withArgs:args andCollectivity:collDef];*/
-  /*[[self view] setBackgroundColor:[UIColor colorWithPatternImage:[UIImage imageNamed:@"TableViewPaperBackground.png"]]];*/
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

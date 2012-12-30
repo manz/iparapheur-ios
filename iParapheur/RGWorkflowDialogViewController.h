@@ -40,8 +40,9 @@
 
 #import <UIKit/UIKit.h>
 #import "ADLParapheurWallDelegateProtocol.h"
+#import "PrivateKey.h"
 
-@interface RGWorkflowDialogViewController : UIViewController<ADLParapheurWallDelegateProtocol>
+@interface RGWorkflowDialogViewController : UIViewController<ADLParapheurWallDelegateProtocol, UITableViewDataSource, UITableViewDelegate>
 
 @property (retain, nonatomic) NSString *dossierRef;
 @property (retain, nonatomic) NSString *action;
@@ -51,5 +52,11 @@
 @property (retain, nonatomic) IBOutlet UIButton *finishButton;
 
 @property (retain, nonatomic) NSString *bureauCourant;
+
+@property (retain, nonatomic) NSArray *pkeys;
+@property (retain, nonatomic) IBOutlet UILabel *certificateLabel;
+@property (retain, nonatomic) IBOutlet UITableView *certificatesTableView;
+
+@property (retain, nonatomic) PrivateKey *currentPKey;
 
 @end

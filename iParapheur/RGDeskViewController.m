@@ -49,7 +49,7 @@
 #import "RGMasterViewController.h"
 #import "LGViewHUD.h"
 #import "RGFileCell.h"
-#import "ISO8601DateFormatter.h"
+#import <ISO8601DateFormatter/ISO8601DateFormatter.h>
 #import "ADLNotifications.h"
 #import "ADLSingletonState.h"
 #import "ADLRequester.h"
@@ -105,10 +105,10 @@
     ADLRequester *requester = [ADLRequester sharedRequester];
     [requester setDelegate:self];
     
-    /*
+    
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
     [wall setDelegate:self];
-    */
+    
     NSString *pageStr = @"0";
     
     NSDictionary *args = [[NSDictionary alloc]
@@ -119,14 +119,15 @@
                           nil];
     
     [pageStr release];
-    [requester request:GETDOSSIERSHEADERS_API andArgs:args];
-    /*
+ //   [requester request:GETDOSSIERSHEADERS_API andArgs:args];
+  //  [args release];
+    
     ADLCollectivityDef *collDef = [ADLCollectivityDef copyDefaultCollectity];
     
     [wall request:GETDOSSIERSHEADERS_API withArgs:args andCollectivity:collDef];
     [args release];
     [collDef release];
-    */
+    
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
@@ -134,6 +135,7 @@
     hud.bottomText=@"Chargement ...";
     hud.activityIndicatorOn=YES;
     [hud showInView:self.view];
+    
     
 }
 
@@ -192,26 +194,10 @@
 
 -(void) tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     NSDictionary *file = [[self filesArray] objectAtIndex:[indexPath row]];
-    NSLog(@"Selected File = %@", [file objectForKey:@"dossierRef"]);
-    /* [[self splitViewController] ]
-     RGMasterViewController *controller = [[self storyboard] instantiateViewControllerWithIdentifier:@"FileViewController"];*/
-    
     NSString *dossierRef = [file objectForKey:@"dossierRef"];
-    
     [[ADLSingletonState sharedSingletonState] setDossierCourant:dossierRef];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:kDossierSelected object:dossierRef];
-    
-    /*
-    UINavigationController *nav = (UINavigationController*)[[[self splitViewController] viewControllers] lastObject];
-    
-    
-    [[[nav viewControllers] objectAtIndex:0] setDossierRef:dossierRef];
-    */
-    //[[[[nav viewControllers] objectAtIndex:0] textView] setText:dossierRef];
-    
-    // [[self navigationController] pushViewController:controller animated:YES];
-    /* wrooong */
 }
 
 
@@ -220,10 +206,6 @@
 #pragma mark - Wall delegate
 
 -(void) didEndWithRequestAnswer:(NSDictionary *)answer {
-    NSLog(@"Dossiers Headers Recieved ?");
-    /*
-    [self setFilesArray:[[answer objectForKey:@"data"] objectForKey:@"dossiers"]];*/
-    
     _loading = NO;
     
     [_refreshHeaderView egoRefreshScrollViewDataSourceDidFinishedLoading:self.tableView];
@@ -264,34 +246,20 @@
    
     ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
     [wall setDelegate:self];
-    //{"bureauRef":bureauRef, "page":page, "pageSize":pageSize}
-    NSString *pageStr = @"0" ;//[NSString stringWithFormat:@"%d", page];
+    
+    NSString *pageStr = @"0";
     NSDictionary *args = nil;
+   
     if ([searchText isEqualToString:@""]) {
-        // NSDictionary *filters = [[NSDictionary alloc] initWithObjectsAndKeys:[NSString stringWithFormat:@"*%@*",searchText], @"cm:name", nil];
-        
         args = [[NSDictionary alloc]
                 initWithObjectsAndKeys:
                 deskRef, @"bureauCourant",
-                //filters , @"filters",
                 [NSNumber numberWithInteger:0], @"page",
                 @"15", @"pageSize",
                 nil];
         
     }
     else {
-      
-        /*
-         NSDictionary *filters = [[NSDictionary alloc] initWithObjectsAndKeys:
-                                 [NSArray arrayWithObjects:
-                                  [[NSDictionary alloc] initWithObjectsAndKeys:
-                                   [NSString stringWithFormat:@"*%@*",searchText], @"cm:name",nil],
-                                  [[NSDictionary alloc] initWithObjectsAndKeys:
-                                   [NSString stringWithFormat:@"%@",searchText], @"cm:name", nil],
-                                  nil],
-                                 "or", nil];
-         */
-        
         NSDictionary *filters = [[NSDictionary alloc] initWithObjectsAndKeys:
          [NSString stringWithFormat:@"*%@*",searchText], @"cm:name",nil];
                 

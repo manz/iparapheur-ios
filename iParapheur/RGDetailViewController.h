@@ -42,7 +42,7 @@
 #import "ADLParapheurWallDelegateProtocol.h"
 #import "JSONKit.h"
 #import "RGDeskViewController.h"
-#import "EGORefreshTableHeaderView.h"
+#import <EGORefreshTableHeaderView.h>
 
 @interface RGDetailViewController : UITableViewController <EGORefreshTableHeaderDelegate ,UISplitViewControllerDelegate, ADLParapheurWallDelegateProtocol, UITableViewDataSource> {
 }
