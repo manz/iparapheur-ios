@@ -110,6 +110,11 @@
         [_certificateLabel setHidden:YES];
         [_certificatesTableView setHidden:YES];
     }
+    else if ([action isEqualToString:@"signature"]) {
+        [finishButton setTitle:@"Signer" forState:UIControlStateNormal];
+        [finishButton setEnabled:NO];
+        
+    }
     ADLKeyStore *keystore = [((RGAppDelegate*)[[UIApplication sharedApplication] delegate]) keyStore];
     
     self.pkeys = [keystore listPrivateKeys];
@@ -258,7 +263,7 @@
     _currentPKey = [_pkeys objectAtIndex:[indexPath row]];
     
     // now we have a pkey we can activate Sign Button
-    
+    [finishButton setEnabled:YES];
 }
 
 #pragma mark - UIAlertView delegate

@@ -608,6 +608,9 @@
                     </tableView>
                     <connections>
                         <outlet property="tableView" destination="5VH-q2-sNA" id="T7k-HO-69g"/>
+                        <segue destination="zs0-y1-eAs" kind="modal" identifier="viser" modalPresentationStyle="formSheet" id="f7O-db-eHh"/>
+                        <segue destination="zs0-y1-eAs" kind="modal" identifier="signature" modalPresentationStyle="formSheet" id="frU-Qg-PoU"/>
+                        <segue destination="zs0-y1-eAs" kind="modal" identifier="reject" modalPresentationStyle="formSheet" id="5jE-mb-c2S"/>
                     </connections>
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="suM-iA-DAb" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -771,6 +774,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="vDE-ze-7Ea"/>
+        <segue reference="f7O-db-eHh"/>
     </inferredMetricsTieBreakers>
 </document>
