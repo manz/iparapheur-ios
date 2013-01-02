@@ -178,6 +178,8 @@
     
     [hud showInView:self.view];
     
+    _isDocumentPrincipal = index == 0;
+    
     ADLRequester *requester = [ADLRequester sharedRequester];
     
     requester.delegate = self;
@@ -278,9 +280,14 @@
     
     ReaderDocument *readerDocument = [[ReaderDocument alloc] initWithFilePath:filePath password:nil];
     
+
+    
     _readerViewController = [[ReaderViewController alloc] initWithReaderDocument:readerDocument];
     
     [_readerViewController setDataSource:self];
+    
+    
+    [_readerViewController setAnnotationsEnabled:_isDocumentPrincipal];
     
     [readerDocument release];
     

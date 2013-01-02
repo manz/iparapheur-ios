@@ -67,6 +67,8 @@
 
 @property (nonatomic, readonly, strong) NSDate *lastHideTime;
 
+@property (nonatomic, assign) BOOL annotationsEnabled;
+
 - (id)initWithReaderDocument:(ReaderDocument *)object;
 
 - (void)didAddContentView:(ReaderContentView *)aContentView forPage:(NSInteger)pageNumber;

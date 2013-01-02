@@ -64,4 +64,6 @@
 
 @property (retain, nonatomic) NSString* signatureFormat;
 
+@property (assign, nonatomic) BOOL isDocumentPrincipal;
+
 @end

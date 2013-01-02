@@ -161,8 +161,11 @@
                 contentView.contentPage.superScrollView = theScrollView;
                 
                 contentView.contentPage.dataSource = _dataSource;
+                contentView.contentPage.enabled = self.annotationsEnabled;
                 
-                [contentView.contentPage refreshAnnotations];
+                if (self.annotationsEnabled) {
+                    [contentView.contentPage refreshAnnotations];
+                }
                 
 				[self didAddContentView:contentView forPage:number];
 				[theScrollView addSubview:contentView];
@@ -329,7 +332,7 @@
 			[object updateProperties];
 			self.document = object;
 			self.title = [document.fileName stringByDeletingPathExtension];
-			
+			self.annotationsEnabled = NO;
 			//[ReaderThumbCache touchThumbCacheWithGUID:object.guid]; // Touch the document thumb cache directory
 			reader = self; // Return an initialized ReaderViewController object
 		}
