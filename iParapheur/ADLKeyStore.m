@@ -398,7 +398,6 @@ err:
         *error = nil;
     NSArray *array = [self.managedObjectContext executeFetchRequest:request error:error];
 
-    [request release];
     if (*error) {
         NSLog(@"Error fetching keys: %@", [*error localizedDescription]);
         return NO;
