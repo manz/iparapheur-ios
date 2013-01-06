@@ -51,7 +51,7 @@
 #import "RGAppDelegate.h"
 #import "RGDocumentsView.h"
 
-#import "ADLIParapheurWall.h"
+#import "ADLRequester.h"
 #import "ADLCredentialVault.h"
 #import "ADLCollectivityDef.h"
 #import "ADLCircuitCell.h"
@@ -165,17 +165,12 @@
 
 - (void) setDossierRef:(NSString *)_dossierRef {
     dossierRef = [_dossierRef retain];
-    
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
+    ADLRequester *requester = [ADLRequester sharedRequester];
     
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:_dossierRef,
                           @"dossierRef", nil];
     
-    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-    
-    [wall request:GETDOSSIER_API withArgs:args andCollectivity:def];
-    [def release];
+    [requester request:GETDOSSIER_API andArgs:args delegate:self];
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
@@ -319,16 +314,12 @@
 }*/
 
 - (void) getCircuit {
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
+    ADLRequester *requester = [ADLRequester sharedRequester];
     
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:dossierRef,
                           @"dossier", nil];
     
-    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-    
-    [wall request:@"getCircuit" withArgs:args andCollectivity:def];
-    [def release];
+    [requester request:@"getCircuit" andArgs:args delegate:self];
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];

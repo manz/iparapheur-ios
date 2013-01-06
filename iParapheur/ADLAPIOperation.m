@@ -47,26 +47,27 @@
     
     return _networkRequestThread;
 }
-
--(id)initWithDocumentPath:(NSString *)documentPath andCollectivityDef:(ADLCollectivityDef*)def {
+ 
+-(id)initWithDocumentPath:(NSString *)documentPath andCollectivityDef:(ADLCollectivityDef*)def delegate:(id<ADLParapheurWallDelegateProtocol>)delegate {
     if (self = [super init]) {
         _documentPath = documentPath;
         downloadingDocument = YES;
         _collectivityDef = def;
         _isExecuting = NO;
         _isFinished = NO;
+        self.delegate = delegate;
     }
     
     return self;
 }
 
--(id)initWithRequest:(NSString *)request withArgs:(NSDictionary *)args andCollectivityDef:(ADLCollectivityDef*)def {
+-(id)initWithRequest:(NSString *)request withArgs:(NSDictionary *)args andCollectivityDef:(ADLCollectivityDef*)def delegate:(id<ADLParapheurWallDelegateProtocol>)delegate {
     if (self = [super init]) {
         _request = request;
         self.args = args;
         self.collectivityDef = def;
         downloadingDocument = NO;
-        
+        self.delegate = delegate;
         _isExecuting = NO;
         _isFinished = NO;
     }
@@ -112,8 +113,10 @@
         }
         else {
             //login or programming error
-            requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://%@/parapheur/api/%@", [_collectivityDef host], _request]];
+            requestURL = [[NSURL alloc] initWithString:[NSString stringWithFormat:@"https://m.%@/parapheur/api/%@", [_collectivityDef host], _request]];
         }
+        
+        NSLog(@"%@", requestURL);
                 
         NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:requestURL];
         [requestURL release];
@@ -137,7 +140,7 @@
         _receivedData= [[NSMutableData data] retain];
         
         [_connection start];
-        
+        [_connection release];
         [request release];
         
     }
@@ -164,8 +167,8 @@
     
     [self setIsExecuting: NO];
     [self setIsFinished: YES];
-    [_connection cancel];
-    [_connection release];
+    [connection cancel];
+    [connection release];
     [_receivedData release];
     
 }
@@ -244,8 +247,8 @@
         [_receivedData setLength:0];
         [self setIsExecuting: NO];
         [self setIsFinished: YES];
-        [_connection cancel];
-        [_connection release];
+        [connection cancel];
+        [connection release];
         [_receivedData release];
     }
     else {
@@ -262,8 +265,8 @@
     else {
         [self setIsExecuting: NO];
         [self setIsFinished: YES];
-        [_connection cancel];
-        [_connection release];
+        [connection cancel];
+        [connection release];
         [_receivedData release];
     }
 }
@@ -284,7 +287,8 @@
     }
     [self setIsExecuting: NO];
     [self setIsFinished: YES];
-    [_connection release];
+    [connection release];
+    //[_connection release];
     //[_receivedData release];
 }
 
@@ -312,5 +316,11 @@
     return NO;
 }
 
+- (void)dealloc {
+    if (_receivedData != nil) {
+        [_receivedData release];
+    }
+    [super dealloc];
+}
 
 @end

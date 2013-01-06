@@ -203,9 +203,9 @@
         _currentAnnotView = [[ADLAnnotationView alloc] initWithFrame:annotFrame];
         [_currentAnnotView setContentScaleFactor:[_parentScrollView contentScaleFactor]];
         
-        [_currentAnnotView refreshModel];
+        [(ADLAnnotationView*)_currentAnnotView refreshModel];
         
-        [self addAnnotation:[_currentAnnotView annotationModel]];
+        [self addAnnotation:[(ADLAnnotationView*)_currentAnnotView annotationModel]];
         
         [self addSubview:_currentAnnotView];
     }

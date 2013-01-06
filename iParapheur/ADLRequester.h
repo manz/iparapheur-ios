@@ -8,22 +8,20 @@
 
 #import <Foundation/Foundation.h>
 #import "ADLParapheurWallDelegateProtocol.h"
+#import "ADLAPIRequests.h"
 
 @interface ADLRequester : NSObject {
     NSOperationQueue *downloadQueue;
     NSOperationQueue *apiQueue;
-    
-    
 }
-
-@property (nonatomic, retain, strong) id<ADLParapheurWallDelegateProtocol> delegate;
 
 @property (nonatomic, retain) NSRecursiveLock* lockApi;
 @property (nonatomic, retain) NSRecursiveLock* lockDoc;
 
--(void) downloadDocumentAt:(NSString*)path;
--(void) request:(NSString*)request andArgs:(NSDictionary*)args;
++(ADLRequester *) sharedRequester;
+
+-(void) downloadDocumentAt:(NSString*)path delegate:(id<ADLParapheurWallDelegateProtocol>)delegate;
+-(void) request:(NSString*)request andArgs:(NSDictionary*)args delegate:(id<ADLParapheurWallDelegateProtocol>)delegate;
 -(NSData *) downloadDocumentNow: (NSString*)path;
 
-+(ADLRequester *) sharedRequester;
 @end

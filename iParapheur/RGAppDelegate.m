@@ -45,7 +45,6 @@
 //
 
 #import "RGAppDelegate.h"
-#import "ADLIParapheurWall.h"
 #import "ADLCredentialVault.h"
 #import "ADLKeyStore.h"
 #import "PrivateKey.h"
@@ -143,7 +142,7 @@
 
 
 - (void)application:(UIApplication *)app didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-    NSString *base64DeviceToken = [deviceToken dataToBase64String];
+    NSString *base64DeviceToken = [deviceToken base64EncodedString];
     NSLog(@"%@", base64DeviceToken);
    // self.registered = YES;
     

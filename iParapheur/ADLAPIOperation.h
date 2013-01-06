@@ -18,7 +18,7 @@
 }
 @property (nonatomic, retain) NSString *documentPath;
 @property (nonatomic, retain) NSString *request;
-@property (nonatomic, retain, strong) NSDictionary *args;
+@property (nonatomic, retain) NSDictionary *args;
 
 @property(readonly) BOOL isExecuting;
 @property(readonly) BOOL isFinished;
@@ -31,8 +31,8 @@
 
 
 
--(id)initWithDocumentPath:(NSString *)documentPath andCollectivityDef:(ADLCollectivityDef*)def;
--(id)initWithRequest:(NSString*)request withArgs:(NSDictionary*)args andCollectivityDef:(ADLCollectivityDef*)def;
+-(id)initWithDocumentPath:(NSString *)documentPath andCollectivityDef:(ADLCollectivityDef*)def delegate:(id<ADLParapheurWallDelegateProtocol>)delegate;
+-(id)initWithRequest:(NSString*)request withArgs:(NSDictionary*)args andCollectivityDef:(ADLCollectivityDef*)def delegate:(id<ADLParapheurWallDelegateProtocol>)delegate;
 
 /*
 -(BOOL) isConcurrent;

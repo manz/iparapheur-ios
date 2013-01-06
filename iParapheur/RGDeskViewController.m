@@ -45,7 +45,6 @@
 //
 
 #import "RGDeskViewController.h"
-#import "ADLIParapheurWall.h"
 #import "RGMasterViewController.h"
 #import "LGViewHUD.h"
 #import "RGFileCell.h"
@@ -102,15 +101,11 @@
 }
 
 -(void)loadDossiersWithPage:(int)page {
+  /*
     ADLRequester *requester = [ADLRequester sharedRequester];
     [requester setDelegate:self];
     
-    
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
-    
-    NSString *pageStr = @"0";
-    
+  
     NSDictionary *args = [[NSDictionary alloc]
                           initWithObjectsAndKeys:
                           deskRef, @"bureauCourant",
@@ -118,15 +113,12 @@
                           @"15", @"pageSize",
                           nil];
     
-    [pageStr release];
- //   [requester request:GETDOSSIERSHEADERS_API andArgs:args];
-  //  [args release];
+
     
-    ADLCollectivityDef *collDef = [ADLCollectivityDef copyDefaultCollectity];
+    [requester request:GETDOSSIERSHEADERS_API andArgs:args];
+*/
+    API_GETDOSSIERHEADERS(deskRef, [NSNumber numberWithInteger:page], @"15");
     
-    [wall request:GETDOSSIERSHEADERS_API withArgs:args andCollectivity:collDef];
-    [args release];
-    [collDef release];
     
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
@@ -216,9 +208,10 @@
     else {
         [filesArray removeAllObjects];
     }
-    [filesArray addObjectsFromArray:[answer objectForKey:@"dossiers"]];
+    NSArray *dossiers = API_GETDOSSIERHEADERS_GET_DOSSIERS(answer);
+    [filesArray addObjectsFromArray:dossiers];
     
-    if ([[answer objectForKey:@"dossiers"] count] > 15) {
+    if ([dossiers count] > 15) {
         [[self loadMoreButton ] setHidden:NO];
     }
     else {
@@ -244,8 +237,7 @@
     currentPage = 0;
     NSString *searchText = [searchBarClicked text];
    
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
+    ADLRequester *requester = [ADLRequester sharedRequester];
     
     NSString *pageStr = @"0";
     NSDictionary *args = nil;
@@ -277,11 +269,9 @@
     
     
     [pageStr release];
-    ADLCollectivityDef *collDef = [ADLCollectivityDef copyDefaultCollectity];
     
-    [wall request:GETDOSSIERSHEADERS_API withArgs:args andCollectivity:collDef];
-    [args release];
-    [collDef release];
+    [requester request:GETDOSSIERSHEADERS_API andArgs:args delegate:self];
+    //[args release];
     
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];

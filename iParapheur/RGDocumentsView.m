@@ -46,7 +46,6 @@
 
 #import "RGDocumentsView.h"
 #import "ADLDocument.h"
-#import "ADLIParapheurWall.h"
 #import "ReaderDocument.h"
 #import "ReaderViewController.h"
 #import "ADLNotifications.h"

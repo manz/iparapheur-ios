@@ -46,7 +46,6 @@
 
 #import "ADLPDFViewController.h"
 #import "ReaderContentView.h"
-#import "ADLIParapheurWall.h"
 #import "LGViewHUD.h"
 #import "RGMasterViewController.h"
 #import "RGDocumentsView.h"
@@ -105,7 +104,7 @@
 - (void) dossierSelected: (NSNotification*) notification {
     NSString *dossierRef = [notification object];
     _dossierRef = dossierRef;
-    
+    /*
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:dossierRef,
                           @"dossier",
                           [[ADLSingletonState sharedSingletonState] bureauCourant], @"bureauCourant",
@@ -113,11 +112,17 @@
 
     
     
-    ADLRequester *requester = [[ADLRequester alloc] init];
+    
+    
+    ADLRequester *requester = [ADLRequester sharedRequester];
     [requester setDelegate:self];
     
     [requester request:GETDOSSIER_API andArgs:args];
     [requester request:GETANNOTATIONS_API andArgs:args];
+    */
+    
+    API_GETDOSSIER(dossierRef, [[ADLSingletonState sharedSingletonState] bureauCourant]);
+    API_GETANNOTATIONS(dossierRef, [[ADLSingletonState sharedSingletonState] bureauCourant]);
     
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
@@ -168,8 +173,6 @@
 -(void) displayDocumentAt: (NSInteger) index {
     NSDictionary *document = [[_dossier objectForKey:@"documents" ] objectAtIndex:index];
     
-    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-    
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
     hud.topText=@"";
@@ -181,18 +184,15 @@
     _isDocumentPrincipal = index == 0;
     
     ADLRequester *requester = [ADLRequester sharedRequester];
-    
-    requester.delegate = self;
-    
+        
     
     /* Si le document n'a pas de visuelPdf on suppose que le document est en PDF */
     if ([document objectForKey:@"visuelPdfUrl"] != nil) {
-        [requester downloadDocumentAt:[document objectForKey:@"visuelPdfUrl"]];
+        [requester downloadDocumentAt:[document objectForKey:@"visuelPdfUrl"] delegate:self];
     }
     else if ([document objectForKey:@"downloadUrl"] != nil) {
-        [requester downloadDocumentAt:[document objectForKey:@"downloadUrl"]];
+        [requester downloadDocumentAt:[document objectForKey:@"downloadUrl"] delegate:self];
     }
-    [def release];
 }
 
 -(void)didEndWithRequestAnswer:(NSDictionary*)answer {
@@ -209,8 +209,7 @@
         if ([[[_dossier objectForKey:@"actions"] objectForKey:@"sign"] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
             NSDictionary *signInfoArgs = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:_dossierRef], @"dossiers", nil];
             ADLRequester *requester = [ADLRequester sharedRequester];
-            requester.delegate = self;
-            [requester request:@"getSignInfo" andArgs:signInfoArgs];
+            [requester request:@"getSignInfo" andArgs:signInfoArgs delegate:self];
             //[signInfoArgs release];
         }
         
@@ -238,18 +237,15 @@
     }
 
     else if ([s isEqualToString:@"addAnnotation"]) {
-        ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-        [wall setDelegate:self];
+        ADLRequester *requester = [ADLRequester sharedRequester];
         
         NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                               _dossierRef,
                               @"dossier",
                               nil];
         
-        ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-        
-        [wall request:GETANNOTATIONS_API withArgs:args andCollectivity:def];
-        [def release];
+        [requester request:GETANNOTATIONS_API andArgs:args delegate:self];
+                
     }
     
 }
@@ -306,23 +302,15 @@
      
     [[LGViewHUD defaultHUD] setHidden:YES];
     
+    ADLRequester *requester = [ADLRequester sharedRequester];
     
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
-            
     NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:
                           _dossierRef,
                           @"dossier",
                           nil];
     
-    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-    
-    [wall request:GETANNOTATIONS_API withArgs:args andCollectivity:def];
-    
-    
-    [def release];
-    //[args release];
-    
+    [requester request:GETANNOTATIONS_API andArgs:args delegate:self];
+
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
     hud.topText=@"";
@@ -449,14 +437,8 @@
                          [[ADLSingletonState sharedSingletonState] dossierCourant], @"dossier"
                          , nil];
     
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
-    
-    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-
-    [wall request:@"updateAnnotation" withArgs:req andCollectivity:def];
-    [def release];
-    
+    ADLRequester *requester = [ADLRequester sharedRequester];
+    [requester request:@"updateAnnotation" andArgs:req delegate:self];
 }
 
 -(void) removeAnnotation:(ADLAnnotation*)annotation {
@@ -466,13 +448,10 @@
                          [[ADLSingletonState sharedSingletonState] dossierCourant], @"dossier"
                          , nil];
     
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
+    ADLRequester *requester = [ADLRequester sharedRequester];
     
-    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-    
-    [wall request:@"removeAnnotation" withArgs:req andCollectivity:def];
-    [def release];
+    [requester request:@"removeAnnotation" andArgs:req delegate:self];
+
 }
 
 -(void) addAnnotation:(ADLAnnotation*)annotation forPage:(NSUInteger)page {
@@ -484,13 +463,9 @@
                          [[ADLSingletonState sharedSingletonState] dossierCourant], @"dossier"
                          , nil];
     
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
+    ADLRequester *requester = [ADLRequester sharedRequester];
+    [requester request:@"addAnnotation" andArgs:req delegate:self];
     
-    ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-    
-    [wall request:@"addAnnotation" withArgs:req andCollectivity:def];
-    [def release];
     
 }
 

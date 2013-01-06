@@ -45,12 +45,12 @@
 //
 
 #import "RGDetailViewController.h"
-#import "ADLIParapheurWall.h"
 #import "ADLCredentialVault.h"
 #import "RGDeskCustomTableViewCell.h"
 #import "ADLNotifications.h"
 #import "ADLSingletonState.h"
-
+#import "ADLRequester.h"
+#import "ADLCollectivityDef.h"
 #import "LGViewHUD.h"
 
 @interface RGDetailViewController ()
@@ -132,17 +132,14 @@
     [super viewWillAppear:YES];
     
     if ([_deskArray count] == 0) {
-    //    _deskArray = [[NSMutableArray alloc] init];
-        
-        ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-        [wall setDelegate:self];
-        
+        API_LOGIN([[NSUserDefaults standardUserDefaults] stringForKey:@"login_preference"], [[NSUserDefaults standardUserDefaults] stringForKey:@"password_preference"]);
+                  /*
+        ADLRequester *requester = [ADLRequester sharedRequester];
+        [requester setDelegate:self];
+             
         NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:[[NSUserDefaults standardUserDefaults] stringForKey:@"login_preference"], @"username", [[NSUserDefaults standardUserDefaults] stringForKey:@"password_preference"], @"password", nil];
-        
-        ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-        
-        [wall request:LOGIN_API withArgs:args andCollectivity:def];
-        [def release];
+                
+        [requester request:LOGIN_API andArgs:args];*/
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:kSelectBureauAppeared object:nil];
 
@@ -151,13 +148,10 @@
 - (void)loadBureaux:(BOOL)displayHUD
 {
     _loading = YES;
-    
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
+
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
-    
-    NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:[def username], @"username", nil];
-    
+
+    API_GETBUREAUX([def username]);
     
     if (displayHUD == NO) {
         LGViewHUD *hud = [LGViewHUD defaultHUD];
@@ -168,8 +162,6 @@
         [hud showInView:self.view];
     }
     
-    [wall request:GETBUREAUX_API withArgs:args andCollectivity:def];
-    [def release];
 }
 
 - (void)viewDidUnload
@@ -217,14 +209,14 @@
         ADLCredentialVault *vault = [ADLCredentialVault sharedCredentialVault];
         ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
         
-        [vault addCredentialForHost:[def host] andLogin:[def username] withTicket:[[answer objectForKey:@"data"] objectForKey:@"ticket"]];
+        [vault addCredentialForHost:[def host] andLogin:[def username] withTicket:API_LOGIN_GET_TICKET(answer)];
         
         [self loadBureaux:YES];
 
         [def release];
     }
     else if ([s isEqual:GETBUREAUX_API]) {
-        NSArray *array = [answer objectForKey:@"bureaux"];
+        NSArray *array = API_GETBUREAUX_GET_BUREAUX(answer);
 
         [self setDeskArray:array];
           

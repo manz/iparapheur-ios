@@ -493,7 +493,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="57" sectionHeaderHeight="22" sectionFooterHeight="22" translatesAutoresizingMaskIntoConstraints="NO" id="yYh-fW-UKe">
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" rowHeight="57" id="9ow-14-BA6">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" indentationWidth="10" reuseIdentifier="CertificateCell" rowHeight="57" id="9ow-14-BA6">
                                         <rect key="frame" x="0.0" y="22" width="472" height="57"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
@@ -673,7 +673,6 @@
         <class className="ADLActionCell" superclassName="UITableViewCell">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/ADLActionCell.h"/>
             <relationships>
-                <relationship kind="outlet" name="aactionLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="actionLabel" candidateClass="UILabel"/>
                 <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
             </relationships>
@@ -736,7 +735,6 @@
         <class className="RGMasterViewController" superclassName="UIViewController">
             <source key="sourceIdentifier" type="project" relativePath="./Classes/RGMasterViewController.h"/>
             <relationships>
-                <relationship kind="action" name="showDocumentsViewController:"/>
                 <relationship kind="action" name="showVisuelPDF:"/>
                 <relationship kind="outlet" name="circuitTable" candidateClass="UITableView"/>
                 <relationship kind="outlet" name="documentsButtonItem" candidateClass="UIBarButtonItem"/>
@@ -774,6 +772,6 @@
         <simulatedScreenMetrics key="destination"/>
     </simulatedMetricsContainer>
     <inferredMetricsTieBreakers>
-        <segue reference="f7O-db-eHh"/>
+        <segue reference="vDE-ze-7Ea"/>
     </inferredMetricsTieBreakers>
 </document>

@@ -78,10 +78,8 @@
 		B4E5ECC8153AF65F00BD514D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5ECA2153AF65F00BD514D /* UIKit.framework */; };
 		B4E5ECC9153AF65F00BD514D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5ECA4153AF65F00BD514D /* Foundation.framework */; };
 		B4E5ECD4153AF65F00BD514D /* iParapheurTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECD3153AF65F00BD514D /* iParapheurTests.m */; };
-		B4E5ECFD153AF72200BD514D /* ADLIParapheurWall.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF4153AF72200BD514D /* ADLIParapheurWall.m */; };
 		B4E5ECFE153AF72200BD514D /* ADLCredentialVault.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF6153AF72200BD514D /* ADLCredentialVault.m */; };
 		B4E5ECFF153AF72200BD514D /* ADLCollectivityDef.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF8153AF72200BD514D /* ADLCollectivityDef.m */; };
-		B4E5ED05153AF77100BD514D /* ADLIParapheurWall.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF4153AF72200BD514D /* ADLIParapheurWall.m */; };
 		B4E5ED06153AF77600BD514D /* ADLCredentialVault.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF6153AF72200BD514D /* ADLCredentialVault.m */; };
 		B4E5ED08153AF83E00BD514D /* ADLCollectivityDef.m in Sources */ = {isa = PBXBuildFile; fileRef = B4E5ECF8153AF72200BD514D /* ADLCollectivityDef.m */; };
 		B4E5ED0A153AF87800BD514D /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B4E5ED09153AF87800BD514D /* SystemConfiguration.framework */; };
@@ -159,6 +157,7 @@
 		1483D1DD165E852C000C6D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		14BBBD971690EBB9007FFD9F /* ADLActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLActionCell.h; sourceTree = "<group>"; };
 		14BBBD981690EBB9007FFD9F /* ADLActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLActionCell.m; sourceTree = "<group>"; };
+		14F0C8551694B65800C0D720 /* ADLAPIRequests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADLAPIRequests.h; sourceTree = "<group>"; };
 		B4082A7E162D48CB000B0E26 /* logo-new5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-new5.png"; sourceTree = "<group>"; };
 		B41B609C15F0962100655827 /* ADLCircuitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLCircuitCell.h; sourceTree = "<group>"; };
 		B41B609D15F0962100655827 /* ADLCircuitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLCircuitCell.m; sourceTree = "<group>"; };
@@ -255,8 +254,6 @@
 		B4E5ECCE153AF65F00BD514D /* iParapheurTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "iParapheurTests-Info.plist"; sourceTree = "<group>"; };
 		B4E5ECD2153AF65F00BD514D /* iParapheurTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = iParapheurTests.h; sourceTree = "<group>"; };
 		B4E5ECD3153AF65F00BD514D /* iParapheurTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = iParapheurTests.m; sourceTree = "<group>"; };
-		B4E5ECF3153AF72200BD514D /* ADLIParapheurWall.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLIParapheurWall.h; sourceTree = "<group>"; };
-		B4E5ECF4153AF72200BD514D /* ADLIParapheurWall.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLIParapheurWall.m; sourceTree = "<group>"; };
 		B4E5ECF5153AF72200BD514D /* ADLCredentialVault.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLCredentialVault.h; sourceTree = "<group>"; };
 		B4E5ECF6153AF72200BD514D /* ADLCredentialVault.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLCredentialVault.m; sourceTree = "<group>"; };
 		B4E5ECF7153AF72200BD514D /* ADLCollectivityDef.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLCollectivityDef.h; sourceTree = "<group>"; };
@@ -552,8 +549,6 @@
 		B4E5ED02153AF74900BD514D /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				B4E5ECF3153AF72200BD514D /* ADLIParapheurWall.h */,
-				B4E5ECF4153AF72200BD514D /* ADLIParapheurWall.m */,
 				B4E5ECF5153AF72200BD514D /* ADLCredentialVault.h */,
 				B4E5ECF6153AF72200BD514D /* ADLCredentialVault.m */,
 				B4E5ECF7153AF72200BD514D /* ADLCollectivityDef.h */,
@@ -566,6 +561,7 @@
 				1469DFF01675D2C20064E8E7 /* ADLRequester.m */,
 				1469DFF31675D8960064E8E7 /* ADLAPIOperation.h */,
 				1469DFF41675D8960064E8E7 /* ADLAPIOperation.m */,
+				14F0C8551694B65800C0D720 /* ADLAPIRequests.h */,
 			);
 			name = Network;
 			sourceTree = "<group>";
@@ -817,7 +813,6 @@
 				B4E5ECB3153AF65F00BD514D /* RGAppDelegate.m in Sources */,
 				B4E5ECBC153AF65F00BD514D /* RGMasterViewController.m in Sources */,
 				B4E5ECBF153AF65F00BD514D /* RGDetailViewController.m in Sources */,
-				B4E5ED05153AF77100BD514D /* ADLIParapheurWall.m in Sources */,
 				B4E5ED06153AF77600BD514D /* ADLCredentialVault.m in Sources */,
 				B4E5ED08153AF83E00BD514D /* ADLCollectivityDef.m in Sources */,
 				B42D54E9153B10970033E95B /* RGSplitViewController.m in Sources */,
@@ -871,7 +866,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				B4E5ECD4153AF65F00BD514D /* iParapheurTests.m in Sources */,
-				B4E5ECFD153AF72200BD514D /* ADLIParapheurWall.m in Sources */,
 				B4E5ECFE153AF72200BD514D /* ADLCredentialVault.m in Sources */,
 				B4E5ECFF153AF72200BD514D /* ADLCollectivityDef.m in Sources */,
 				B4FF33D515473325006F7BF3 /* ReaderConstants.m in Sources */,

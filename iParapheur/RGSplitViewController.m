@@ -46,7 +46,8 @@
 
 #import "RGSplitViewController.h"
 #import "ADLCredentialVault.h"
-#import "ADLIParapheurWall.h"
+#import "ADLRequester.h"
+#import "ADLCollectivityDef.h"
 
 @implementation RGSplitViewController
 @synthesize bureauView;

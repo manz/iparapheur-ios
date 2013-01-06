@@ -103,6 +103,10 @@
 
 -(CGRect)clipRectInView:(CGRect)rect;
 
+-(void) updateAnnotation:(ADLAnnotation*)annotation;
+-(void) addAnnotation:(ADLAnnotation*)annotation;
+-(void) removeAnnotation:(ADLAnnotation*) annotation;
+-(NSArray*) annotationsForPage:(NSUInteger)page;
 
 
 @end

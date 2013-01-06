@@ -45,7 +45,6 @@
 //
 
 #import "RGWorkflowDialogViewController.h"
-#import "ADLIParapheurWall.h"
 #import "ADLCollectivityDef.h"
 #import "ADLNotifications.h"
 #import "ADLSingletonState.h"
@@ -127,9 +126,7 @@
 }
 
 - (IBAction)finish:(id)sender {
-    
-    ADLIParapheurWall *wall = [ADLIParapheurWall sharedWall];
-    [wall setDelegate:self];
+    ADLRequester *requester = [ADLRequester sharedRequester];
 
     NSMutableDictionary *args = [[NSMutableDictionary alloc]
                           initWithObjectsAndKeys:
@@ -139,19 +136,17 @@
                           [[ADLSingletonState sharedSingletonState] bureauCourant], @"bureauCourant",
                           nil];
     
-    ADLCollectivityDef *collDef = [ADLCollectivityDef copyDefaultCollectity];
     
 
     if ([action isEqualToString:@"viser"]) {
-        [wall request:@"visa" withArgs:args andCollectivity:collDef];
+        [requester request:@"visa" andArgs:args delegate:self];
     }
     else if ([action isEqualToString:@"reject"]) {
-        [wall request:@"reject" withArgs:args andCollectivity:collDef];
+        [requester request:@"reject" andArgs:args delegate:self];
     }
     else if ([action isEqualToString:@"signature"]) {
         // create signatures array
         PrivateKey *pkey = _currentPKey;
-        NSData *documentPrincipal = nil;
         
         /* Ask for pkey password */
         
@@ -167,36 +162,11 @@
         
         [alertView show];
         [alertView release];
-        
-        // download document
-        // sign document
-        // send request
 
 
     }
     
-    [args release];
-    [collDef release];
-    /*
-    {
-        "annotPriv": "Annotation publique",
-        "signatures": [
-                       "123456789123456789123456789"
-                       ],
-        "annotPub": "Annotation publique",
-        "dossiers": [
-                     "workspace://SpacesStore/53cdfbf9-3686-4a82-8363-641ede773a1e"
-                     ],
-        "bureauCourant": "workspace://SpacesStore/3430a510-51dc-4b7a-bf6c-2c48ce443769"
-    }*/
-    
-    /*
-    LGViewHUD *hud = [LGViewHUD defaultHUD];
-    hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
-    hud.topText=@"";
-    hud.bottomText=@"Chargement ...";
-    hud.activityIndicatorOn=YES;
-    [hud showInView:self.view];*/
+   // [args release];
     
 }
 
@@ -273,7 +243,7 @@
         UITextField *passwordTextField = [alertView textFieldAtIndex:0];
         
         ADLRequester *requester = [ADLRequester sharedRequester];
-        [requester setDelegate:nil];
+
         NSData *documentPrincipal = [requester downloadDocumentNow:[[ADLSingletonState sharedSingletonState] currentPrincipalDocPath]];
         ADLKeyStore *keystore = [((RGAppDelegate*)[[UIApplication sharedApplication] delegate]) keyStore];
         PrivateKey *pkey = _currentPKey;
@@ -302,11 +272,7 @@
         
         [args setObject:[NSArray arrayWithObject:b64sign] forKey:@"signatures"];
         
-        [requester setDelegate:self];
-        [requester request:@"signature" andArgs:args];
-        
-        //[wall request:@"signature" withArgs:args andCollectivity:collDef];
-        
+        [requester request:@"signature" andArgs:args delegate:self];
         
     }
 }
