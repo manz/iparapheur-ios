@@ -132,15 +132,14 @@
             
         }
         
-        _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
+        NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self startImmediately:NO];
         
-        [_connection scheduleInRunLoop:[NSRunLoop currentRunLoop]
+        [connection scheduleInRunLoop:[NSRunLoop currentRunLoop]
                                forMode:NSDefaultRunLoopMode];
         
         _receivedData= [[NSMutableData data] retain];
         
-        [_connection start];
-        [_connection release];
+        [connection start];
         [request release];
         
     }
@@ -170,6 +169,7 @@
     [connection cancel];
     [connection release];
     [_receivedData release];
+    _receivedData = nil;
     
 }
 
@@ -250,6 +250,7 @@
         [connection cancel];
         [connection release];
         [_receivedData release];
+        _receivedData = nil;
     }
     else {
         
@@ -268,6 +269,7 @@
         [connection cancel];
         [connection release];
         [_receivedData release];
+        _receivedData = nil;
     }
 }
 
