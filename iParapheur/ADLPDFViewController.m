@@ -85,6 +85,10 @@
                                              selector:@selector(selectBureauAppeared:)
                                                  name:kSelectBureauAppeared object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self
+                                             selector:@selector(dossierActionComplete:)
+                                                 name:kDossierActionComplete object:nil];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(showDocumentWithIndex:) name:kshowDocumentWithIndex object:nil];
     
     self.navigationItem.rightBarButtonItem = nil;
@@ -99,7 +103,31 @@
     // Dispose of any resources that can be recreated.
 }
 
+#pragma mark - Reset view state
+- (void) resetViewState {
+    for(UIView *subview in [self.view subviews]) {
+        [subview removeFromSuperview];
+    }
+    
+    [[self navigationController] popToRootViewControllerAnimated:YES];
+    
+    //self.navigationItem.rightBarButtonItem = nil;
+    self.navigationItem.rightBarButtonItems = nil;
+    self.navigationItem.leftBarButtonItem = nil;
+    
+    [_actionPopover dismissPopoverAnimated:YES];
+    [_documentsPopover dismissPopoverAnimated:YES];
+    _documentsPopover = nil;
+    _actionPopover = nil;
+    _readerViewController = nil;
+
+}
+
 #pragma mark - selector for observer
+
+- (void) dossierActionComplete: (NSNotification*) notification {
+    [self resetViewState];
+}
 
 - (void) dossierSelected: (NSNotification*) notification {
     NSString *dossierRef = [notification object];
@@ -147,17 +175,7 @@
 }
 
 -(void) selectBureauAppeared:(NSNotification*) notification {
-    for(UIView *subview in [self.view subviews]) {
-        [subview removeFromSuperview];
-    }
-    
-    [[self navigationController] popToRootViewControllerAnimated:YES];
-
-    self.navigationItem.rightBarButtonItem = nil;
-    self.navigationItem.leftBarButtonItem = nil;
-    
-   // [[self readerViewController] release];
-    _readerViewController = nil;
+    [self resetViewState];
 }
 
 -(void) showDocumentWithIndex:(NSNotification*) notification {
