@@ -209,6 +209,22 @@
         [filesArray removeAllObjects];
     }
     NSArray *dossiers = API_GETDOSSIERHEADERS_GET_DOSSIERS(answer);
+    
+    /* manualy filters the locked files out */
+    if ([dossiers count] > 0) {
+        NSMutableArray *lockedDossiers = [NSMutableArray arrayWithCapacity:[dossiers count]];
+        for (NSDictionary *dossier in dossiers) {
+            NSNumber *locked = [dossier objectForKey:@"locked"];
+            if (locked && [locked isEqualToNumber:[NSNumber numberWithBool:YES]]) {
+                [lockedDossiers addObject:dossier];
+            }
+        }
+        if ([lockedDossiers count] > 0) {
+            dossiers = [NSMutableArray arrayWithArray:dossiers];
+            [(NSMutableArray*)dossiers removeObjectsInArray:lockedDossiers];
+        }
+    }
+                 
     [filesArray addObjectsFromArray:dossiers];
     
     if ([dossiers count] > 15) {
