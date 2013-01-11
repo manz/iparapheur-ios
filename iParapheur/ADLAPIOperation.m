@@ -239,9 +239,6 @@
     }
     
     if ([(NSHTTPURLResponse*)response statusCode] != 200) {
-        [connection cancel];
-        [connection release];
-        
         [_delegate performSelectorOnMainThread:@selector(didEndWithUnReachableNetwork) withObject:nil waitUntilDone:YES];
         
         [_receivedData setLength:0];

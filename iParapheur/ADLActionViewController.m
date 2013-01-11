@@ -57,7 +57,7 @@
         [_actions addObject:@"signature"];
         [_labels addObject:@"Signer"];
     }
-    else {
+    else if (self.visaEnabled) {
         [_actions addObject:@"viser"];
         [_labels addObject:@"Viser"];
     }

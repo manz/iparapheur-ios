@@ -59,10 +59,11 @@
 
 #define API_GETDOSSIERHEADERS(bureauCourant, page, pageSize) \
 { \
-    NSDictionary *_args = [NSDictionary dictionaryWithObjectsAndKeys:bureauCourant, @"bureauCourant", \
+    NSDictionary *_args = [[NSDictionary alloc] initWithObjectsAndKeys:bureauCourant, @"bureauCourant", \
                             page, @"page", \
                             pageSize, @"pageSize", nil]; \
     API_REQUEST(GETDOSSIERSHEADERS_API, _args); \
+    [_args release]; \
 }
 
 #define API_GETDOSSIERHEADERS_GET_DOSSIERS(answer) \

@@ -63,6 +63,7 @@
 @property (retain, nonatomic) NSArray* annotations;
 
 @property (retain, nonatomic) NSString* signatureFormat;
+@property (assign, nonatomic) BOOL visaEnabled;
 
 @property (assign, nonatomic) BOOL isDocumentPrincipal;
 

@@ -223,12 +223,18 @@
         
         NSString *documentPrincipal = [[[_dossier objectForKey:@"documents"] objectAtIndex:0] objectForKey:@"downloadUrl"];
         [[ADLSingletonState sharedSingletonState] setCurrentPrincipalDocPath:documentPrincipal];
+        NSLog(@"%@", [_dossier objectForKey:@"actions"]);
         
         if ([[[_dossier objectForKey:@"actions"] objectForKey:@"sign"] isEqualToNumber:[NSNumber numberWithBool:YES]]) {
-            NSDictionary *signInfoArgs = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:_dossierRef], @"dossiers", nil];
-            ADLRequester *requester = [ADLRequester sharedRequester];
-            [requester request:@"getSignInfo" andArgs:signInfoArgs delegate:self];
-            //[signInfoArgs release];
+            if ([[_dossier objectForKey:@"actionDemandee"] isEqualToString:@"SIGNATURE"]) {
+                NSDictionary *signInfoArgs = [NSDictionary dictionaryWithObjectsAndKeys:[NSArray arrayWithObject:_dossierRef], @"dossiers", nil];
+                ADLRequester *requester = [ADLRequester sharedRequester];
+                [requester request:@"getSignInfo" andArgs:signInfoArgs delegate:self];
+            }
+            else {
+                _visaEnabled = YES;
+                _signatureFormat = nil;
+            }
         }
         
         LGViewHUD *hud = [LGViewHUD defaultHUD];
@@ -404,6 +410,9 @@
         // do something usefull there
         if ([_signatureFormat isEqualToString:@"CMS"]) {
             [((ADLActionViewController*)[_actionPopover contentViewController]) setSignatureEnabled:YES];
+        }
+        else if (_visaEnabled) {
+            [((ADLActionViewController*)[_actionPopover contentViewController]) setVisaEnabled:YES];
         }
         
         [_actionPopover setDelegate:self];
