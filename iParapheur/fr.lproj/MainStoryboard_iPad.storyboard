@@ -508,7 +508,7 @@
                                     <outlet property="delegate" destination="zs0-y1-eAs" id="oSm-3Y-IEc"/>
                                 </connections>
                             </tableView>
-                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Séléction du certificat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rVu-0w-Fhk">
+                            <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" text="Sélection du certificat" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rVu-0w-Fhk">
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
                                 <nil key="highlightedColor"/>
@@ -528,7 +528,6 @@
                             <constraint firstAttribute="bottom" secondItem="4nw-pn-a9l" secondAttribute="bottom" constant="20" symbolic="YES" type="default" id="VEk-S6-rj3"/>
                             <constraint firstItem="yl3-xf-Iit" firstAttribute="leading" secondItem="QR5-du-X1i" secondAttribute="leading" constant="20" symbolic="YES" type="default" id="Wjj-9i-CdB"/>
                             <constraint firstItem="Gh8-sQ-Ge1" firstAttribute="top" secondItem="yl3-xf-Iit" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="ZYi-hC-RYM"/>
-                            <constraint firstItem="hls-Vj-TVc" firstAttribute="baseline" secondItem="4nw-pn-a9l" secondAttribute="baseline" type="default" id="aMd-PW-lA7"/>
                             <constraint firstItem="yYh-fW-UKe" firstAttribute="top" secondItem="rVu-0w-Fhk" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="aTi-AW-pqr"/>
                             <constraint firstItem="hls-Vj-TVc" firstAttribute="top" secondItem="yYh-fW-UKe" secondAttribute="bottom" constant="8" symbolic="YES" type="default" id="afs-nm-jue"/>
                             <constraint firstAttribute="trailing" secondItem="rVu-0w-Fhk" secondAttribute="trailing" constant="20" symbolic="YES" type="default" id="cpr-n2-gFG"/>
