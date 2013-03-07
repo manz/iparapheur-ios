@@ -12,7 +12,6 @@
 #import "ADLCredentialVault.h"
 #import <AJNotificationView/AJNotificationView.h>
 
-
 @interface ADLAPIOperation ()
 @property(assign) BOOL isExecuting;
 @property(assign) BOOL isFinished;
@@ -69,7 +68,7 @@
         downloadingDocument = NO;
         self.delegate = delegate;
         _isExecuting = NO;
-        _isFinished = NO;
+        _isFinished = NO; 
     }
     return self;
 }
@@ -94,7 +93,7 @@
     Reachability *reachability = [Reachability reachabilityForInternetConnection];
     
     if ([reachability currentReachabilityStatus] == NotReachable) {
-        if (_delegate)
+        if (_delegate && [_delegate respondsToSelector:@selector(didEndWithUnReachableNetwork:)])
             [_delegate didEndWithUnReachableNetwork];
     }
     else {
@@ -151,7 +150,7 @@
 
 - (void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error {
     if (!self.isCancelled) {
-        if (_delegate && [_delegate respondsToSelector:@selector(didEndWithUnReachableNetwork)]) {
+        if (false && _delegate && [_delegate respondsToSelector:@selector(didEndWithUnReachableNetwork:)]) {
             [_delegate performSelectorOnMainThread:@selector(didEndWithUnReachableNetwork:) withObject:nil waitUntilDone:YES];
         }
         else {
@@ -184,7 +183,7 @@
 - (void)connection:(NSURLConnection *)connection willSendRequestForAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge; {
 #ifndef DEBUG_NO_SERVER_TRUST
     SecTrustRef trust = challenge.protectionSpace.serverTrust;
-    NSString *adullact_mobile_path = [[NSBundle mainBundle] pathForResource:@"ca_mobiles_chaine" ofType:@"der"];
+    NSString *adullact_mobile_path = [[NSBundle mainBundle] pathForResource:@"acmobile" ofType:@"der"];
     
     SecCertificateRef adullact_mobile = [self certificateFromFile:adullact_mobile_path];
     

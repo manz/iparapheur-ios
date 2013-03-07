@@ -5,6 +5,7 @@
 
 #import "LGViewHUD.h"
 #import <QuartzCore/QuartzCore.h>
+#import "ADLCloseButton.h";
 
 static LGViewHUD* defaultHUD = nil;
 
@@ -17,6 +18,7 @@ static LGViewHUD* defaultHUD = nil;
 
 @synthesize displayDuration;
 @synthesize topLabel, bottomLabel;
+@synthesize delegate;
 
 #define kHUDDefaultAlphaValue 0.65
 #define kHUDDefaultDisplayDuration 2
@@ -52,6 +54,11 @@ static LGViewHUD* defaultHUD = nil;
 		backgroundView.layer.cornerRadius=10;
 		backgroundView.backgroundColor=[UIColor blackColor];
 		backgroundView.alpha=kHUDDefaultAlphaValue;
+        
+/*
+        closeButton = [[ADLCloseButton alloc] initWithFrame:CGRectMake(5, 5, 25, 25)];
+        [closeButton addTarget:self action:@selector(closeButtonHitted) forControlEvents:UIControlEventTouchDown];
+*/
 		
 		//offset=frame.size.width/3.0;
 		imageView = [[UIImageView alloc] initWithFrame:CGRectMake(frame.size.width/4.0, frame.size.height/4.0, 
@@ -68,11 +75,18 @@ static LGViewHUD* defaultHUD = nil;
 		[self addSubview:imageView];
 		[self addSubview:topLabel];
 		[self addSubview:bottomLabel];
-		self.userInteractionEnabled=NO;
+        [self addSubview:closeButton];
+		self.userInteractionEnabled=YES;
 		displayDuration=kHUDDefaultDisplayDuration;
 		
     }
     return self;
+}
+
+-(void)closeButtonHitted {
+    if (delegate != nil && [delegate respondsToSelector:@selector(shallDismissHUD:)]) {
+        [delegate shallDismissHUD:self];
+    }
 }
 
 - (void)dealloc {
@@ -88,8 +102,10 @@ static LGViewHUD* defaultHUD = nil;
 }
 
 +(LGViewHUD*) defaultHUD {
-	if (defaultHUD==nil)
-		defaultHUD=[[LGViewHUD alloc] initWithFrame:CGRectMake(0, 0, 160, 160)];
+	if (defaultHUD==nil) {
+		defaultHUD=[[LGViewHUD alloc] initWithFrame:CGRectMake(0, 0, 160, 160)]; //50 height for small
+        [defaultHUD setActivityIndicatorOn:NO];
+    }
 	return defaultHUD;
 }
 

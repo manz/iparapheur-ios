@@ -132,38 +132,24 @@
 - (void) dossierSelected: (NSNotification*) notification {
     NSString *dossierRef = [notification object];
     _dossierRef = dossierRef;
-    /*
-    NSDictionary *args = [NSDictionary dictionaryWithObjectsAndKeys:dossierRef,
-                          @"dossier",
-                          [[ADLSingletonState sharedSingletonState] bureauCourant], @"bureauCourant",
-                          nil];
-
     
     
-    
-    
-    ADLRequester *requester = [ADLRequester sharedRequester];
-    [requester setDelegate:self];
-    
-    [requester request:GETDOSSIER_API andArgs:args];
-    [requester request:GETANNOTATIONS_API andArgs:args];
-    */
-    
-    API_GETDOSSIER(dossierRef, [[ADLSingletonState sharedSingletonState] bureauCourant]);
-    API_GETANNOTATIONS(dossierRef, [[ADLSingletonState sharedSingletonState] bureauCourant]);
-    
+    for(UIView *subview in [self.view subviews]) {
+        [subview removeFromSuperview];
+    }
     
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
     hud.topText=@"";
     hud.bottomText=@"Chargement ...";
     hud.activityIndicatorOn=YES;
-    
+    [hud setDelegate:self];
     [hud showInView:self.view];
-    /*
-    UIBarButtonItem *action = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(test)];
-    */
-     
+    
+    API_GETDOSSIER(dossierRef, [[ADLSingletonState sharedSingletonState] bureauCourant]);
+    API_GETANNOTATIONS(dossierRef, [[ADLSingletonState sharedSingletonState] bureauCourant]);
+    
+    
     NSArray *buttons = [[NSArray alloc] initWithObjects:_actionButton, _detailsButton, nil];
     
     self.navigationItem.leftBarButtonItem = _documentsButton;
@@ -494,6 +480,10 @@
     [requester request:@"addAnnotation" andArgs:req delegate:self];
     
     
+}
+
+-(void)shallDismissHUD:(LGViewHUD*)hud {
+    [hud hideWithAnimation:YES];
 }
 
 @end

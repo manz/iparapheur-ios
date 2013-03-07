@@ -13,4 +13,4 @@
     #import <Foundation/Foundation.h>
 #endif
 
-#define DEBUG_NO_SERVER_TRUST
+#undef DEBUG_NO_SERVER_TRUST

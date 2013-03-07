@@ -4,13 +4,15 @@
 //
 
 #import <UIKit/UIKit.h>
-
+#import "ADLCloseButton.h"
 typedef enum {
 	HUDAnimationNone,
 	HUDAnimationShowZoom,
 	HUDAnimationHideZoom,
 	HUDAnimationHideFadeOut
 } HUDAnimation;
+
+@protocol LGViewHUDDelegate;
 
 /**
  A HUD that mimics the native one used in iOS (when you press volume up or down 
@@ -24,11 +26,16 @@ typedef enum {
 	UILabel* bottomLabel;
 	UILabel* topLabel;
 	UIView* backgroundView;
+    
+    ADLCloseButton* closeButton;
 	NSTimeInterval displayDuration;
 	NSTimer* displayTimer;
 	BOOL activityIndicatorOn;
 	UIActivityIndicatorView* activityIndicator;
+    
+    
 }
+
 /** The image displayed at the center of the HUD. Default is nil. */
 @property (readwrite, retain) UIImage* image;
 /** The top text of the HUD. Shortcut to the text of the topLabel property. */
@@ -44,6 +51,7 @@ typedef enum {
 /** Diplays a large white activity indicator instead of the image if set to YES. 
  Default is NO. */ 
 @property (readwrite) BOOL activityIndicatorOn;
+@property (retain, nonatomic) NSObject<LGViewHUDDelegate> *delegate;
 
 /** Returns the default HUD singleton instance. */
 +(LGViewHUD*) defaultHUD;
@@ -61,3 +69,7 @@ typedef enum {
 -(void) hideWithAnimation:(HUDAnimation)animation;
 
 @end
+
+@protocol LGViewHUDDelegate<NSObject>
+    -(void)shallDismissHUD:(LGViewHUD*)hud;
+@end    

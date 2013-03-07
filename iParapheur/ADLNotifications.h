@@ -45,3 +45,5 @@
 #define kSelectedBureau @"selectedBureau"
 #define kshowDocumentWithIndex @"showDocumentWithIndex"
 #define kDossierActionComplete @"actionOnDossierComplete"
+#define kFilterChanged @"filterChanged"
+#define kFilterPopoverShouldClose @"filterPopoverShouldClose"

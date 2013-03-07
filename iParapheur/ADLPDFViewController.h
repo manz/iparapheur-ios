@@ -41,10 +41,10 @@
 #import <UIKit/UIKit.h>
 #import "ADLParapheurWallDelegateProtocol.h"
 #import "ReaderViewController.h"
-
+#import "LGViewHUD.h"
 #import "ADLDrawingView.h"
 
-@interface ADLPDFViewController : UIViewController<ADLParapheurWallDelegateProtocol, ReaderViewControllerDelegate, UIPopoverControllerDelegate, ADLDrawingViewDataSource>
+@interface ADLPDFViewController : UIViewController<ADLParapheurWallDelegateProtocol, ReaderViewControllerDelegate, UIPopoverControllerDelegate, ADLDrawingViewDataSource, LGViewHUDDelegate>
 
 @property (retain, nonatomic) IBOutlet UIView *container;
 @property (retain, nonatomic) NSDictionary *dossier;

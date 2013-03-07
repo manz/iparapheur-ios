@@ -45,7 +45,7 @@
 #import <EGORefreshTableHeaderView.h>
 
 @interface RGDeskViewController : UITableViewController <EGORefreshTableHeaderDelegate,
-    UISplitViewControllerDelegate, ADLParapheurWallDelegateProtocol, UITableViewDataSource, UISearchBarDelegate> {
+    UISplitViewControllerDelegate, ADLParapheurWallDelegateProtocol, UITableViewDataSource, UISearchBarDelegate, UIPopoverControllerDelegate> {
     NSMutableArray *filesArray;
     NSString *deskRef;
     int currentPage;
@@ -61,6 +61,7 @@
 
 @property (strong, nonatomic) EGORefreshTableHeaderView *refreshHeaderView;
 @property (nonatomic) BOOL loading;
+@property (retain, nonatomic) UIPopoverController *filtersPopover;
 
 - (IBAction)loadNextResultsPage:(id)sender;
 

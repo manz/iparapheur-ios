@@ -71,10 +71,10 @@ static ADLRequester *sharedRequester = nil;
 
 -(void) request:(NSString*)request andArgs:(NSDictionary*)args delegate:(id<ADLParapheurWallDelegateProtocol>)delegate {
     [_lockApi lock];
-    /*
+    
     NSLog(@"%@", request);
     NSLog(@"%@", args);
-    */
+    
     ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
     ADLAPIOperation *apiRequestOperation = [[ADLAPIOperation alloc] initWithRequest:request withArgs:args andCollectivityDef:def delegate:delegate];
 

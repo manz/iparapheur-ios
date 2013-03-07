@@ -52,11 +52,11 @@
 /**
  * When a network error, or reachability error happens ADLParpaheurWall calls this method.
  */
+
+@optional
 - (void)didEndWithUnReachableNetwork;
 
 - (void)didEndWithUnAuthorizedAccess;
-
-@optional
 
 - (void)didEndWithDocument:(ADLDocument*)document;
 @end

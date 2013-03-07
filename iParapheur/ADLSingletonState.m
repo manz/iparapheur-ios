@@ -51,6 +51,7 @@
 @synthesize bureauCourant;
 @synthesize dossierCourant;
 @synthesize currentPrincipalDocPath;
+@synthesize currentFilter;
 
 #pragma mark -
 #pragma mark Singleton Wizardry

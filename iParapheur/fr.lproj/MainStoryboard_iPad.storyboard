@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="2844" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="5">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="2.0" toolsVersion="3084" systemVersion="12C3006" targetRuntime="iOS.CocoaTouch.iPad" propertyAccessControl="none" useAutolayout="YES" initialViewController="5">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="1930"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="2083"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -314,7 +314,9 @@
                             <outlet property="delegate" destination="TGh-sj-pLc" id="MLC-l8-tCd"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Bureaux" id="PxO-wH-GeW"/>
+                    <navigationItem key="navigationItem" title="Bureaux" id="PxO-wH-GeW">
+                        <barButtonItem key="leftBarButtonItem" title="Settings" id="pHU-b5-E2f"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="yeg-xR-bYl" kind="push" identifier="showBureau" id="vpv-XF-h7P"/>
                     </connections>
@@ -333,7 +335,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
                         <view key="tableHeaderView" contentMode="scaleToFill" id="fb1-Ic-AcF">
-                            <rect key="frame" x="0.0" y="0.0" width="320" height="36"/>
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <subviews>
                                 <searchBar contentMode="redraw" translatesAutoresizingMaskIntoConstraints="NO" id="ywX-QY-Qyr">
@@ -346,13 +348,13 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                             <constraints>
-                                <constraint firstItem="ywX-QY-Qyr" firstAttribute="trailing" secondItem="fb1-Ic-AcF" secondAttribute="trailing" type="default" id="Bvn-tt-6kP"/>
+                                <constraint firstItem="ywX-QY-Qyr" firstAttribute="trailing" secondItem="fb1-Ic-AcF" secondAttribute="trailing" type="default" id="6qy-ij-aoo"/>
+                                <constraint firstItem="ywX-QY-Qyr" firstAttribute="top" secondItem="fb1-Ic-AcF" secondAttribute="top" type="default" id="P6N-sI-UAH"/>
                                 <constraint firstItem="ywX-QY-Qyr" firstAttribute="leading" secondItem="fb1-Ic-AcF" secondAttribute="leading" type="default" id="UBF-AY-AXb"/>
-                                <constraint firstItem="ywX-QY-Qyr" firstAttribute="bottom" secondItem="fb1-Ic-AcF" secondAttribute="bottom" type="default" id="ulC-v9-jD5"/>
                             </constraints>
                         </view>
                         <button key="tableFooterView" hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="tpX-u5-kGi">
-                            <rect key="frame" x="0.0" y="139" width="320" height="44"/>
+                            <rect key="frame" x="0.0" y="147" width="320" height="44"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                             <fontDescription key="fontDescription" type="boldSystem" pointSize="15"/>
                             <state key="normal" title="Charger plus d'entrées">
@@ -368,7 +370,7 @@
                         </button>
                         <prototypes>
                             <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="FileCell" rowHeight="81" id="4mp-NS-Gga" customClass="RGFileCell">
-                                <rect key="frame" x="0.0" y="58" width="320" height="81"/>
+                                <rect key="frame" x="0.0" y="66" width="320" height="81"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
                                     <rect key="frame" x="0.0" y="0.0" width="320" height="80"/>
@@ -417,7 +419,15 @@
                             <outlet property="delegate" destination="yeg-xR-bYl" id="Zv8-s9-dsV"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" id="KZD-cg-m0R"/>
+                    <navigationItem key="navigationItem" id="KZD-cg-m0R">
+                        <barButtonItem key="rightBarButtonItem" title="Filtrer" id="0nh-nM-mak">
+                            <connections>
+                                <segue destination="Le0-mD-ty1" kind="popover" identifier="showFilterPopover" popoverAnchorBarButtonItem="0nh-nM-mak" id="9Ip-CI-nBE">
+                                    <popoverArrowDirection key="popoverArrowDirection" up="YES" down="YES" left="YES" right="YES"/>
+                                </segue>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="loadMoreButton" destination="tpX-u5-kGi" id="y8S-1e-sKB"/>
                         <outlet property="searchBar" destination="ywX-QY-Qyr" id="9LI-Wk-UOK"/>
@@ -635,6 +645,96 @@
             </objects>
             <point key="canvasLocation" x="1458" y="196"/>
         </scene>
+        <!--Filter Type Table View Controller - Choix du type-->
+        <scene sceneID="hhD-s9-MVV">
+            <objects>
+                <tableViewController id="2f0-Ov-Lde" customClass="ADLFilterTypeTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="xDj-nq-E9Y">
+                        <rect key="frame" x="0.0" y="64" width="250" height="250"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" accessoryType="disclosureIndicator" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="TypeCell" id="lSQ-Co-o0X">
+                                <rect key="frame" x="0.0" y="22" width="250" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="230" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                                <connections>
+                                    <segue destination="sfF-J8-Fzf" kind="push" identifier="showSubtypeFilter" id="Wdh-Y1-Ujs"/>
+                                </connections>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Choix du type" id="Yx4-UO-FU9">
+                        <barButtonItem key="rightBarButtonItem" title="Reinitialiser" id="7Ch-Wa-O8f">
+                            <connections>
+                                <action selector="resetFilters:" destination="2f0-Ov-Lde" id="Y2I-we-ebH"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="7qg-cX-BFh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2266" y="1272"/>
+        </scene>
+        <!--Filter Sub Type Table View Controller-->
+        <scene sceneID="zfc-ol-1yV">
+            <objects>
+                <tableViewController id="sfF-J8-Fzf" customClass="ADLFilterSubTypeTableViewController" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="wgN-ir-p6m">
+                        <rect key="frame" x="0.0" y="64" width="250" height="186"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="subTypeCell" id="Pao-EH-VM3">
+                                <rect key="frame" x="0.0" y="22" width="250" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                    <rect key="frame" x="0.0" y="0.0" width="250" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                    <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                </view>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="sfF-J8-Fzf" id="dow-D5-1r9"/>
+                            <outlet property="delegate" destination="sfF-J8-Fzf" id="Mq4-S9-tLt"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" id="L6I-TR-HMj">
+                        <barButtonItem key="rightBarButtonItem" title="Fermer" id="48i-TK-Ui8">
+                            <connections>
+                                <action selector="closeFilterPopover:" destination="sfF-J8-Fzf" id="hY0-O2-uzp"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="EUa-jR-FiT" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2639" y="1304"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="wVl-Ql-uKk">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="Le0-mD-ty1" sceneMemberID="viewController">
+                    <simulatedStatusBarMetrics key="simulatedStatusBarMetrics" statusBarStyle="blackTranslucent"/>
+                    <simulatedOrientationMetrics key="simulatedOrientationMetrics"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="3je-Ps-9Gl">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="2f0-Ov-Lde" kind="relationship" relationship="rootViewController" id="uDi-ZZ-OBx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h2z-Dt-xiE" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="989" y="1242"/>
+        </scene>
         <!--Split View Controller-->
         <scene sceneID="18">
             <objects>
@@ -668,103 +768,6 @@
             <point key="canvasLocation" x="-398" y="248"/>
         </scene>
     </scenes>
-    <classes>
-        <class className="ADLActionCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ADLActionCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="actionLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="imageView" candidateClass="UIImageView"/>
-            </relationships>
-        </class>
-        <class className="ADLActionViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ADLActionViewController.h"/>
-        </class>
-        <class className="ADLCircuitCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ADLCircuitCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="etapeTypeIcon" candidateClass="UIImageView"/>
-                <relationship kind="outlet" name="parapheurName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="validateurName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="validationDate" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="ADLPDFViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/ADLPDFViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="actionButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="container" candidateClass="UIView"/>
-                <relationship kind="outlet" name="detailsButton" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="documentsButton" candidateClass="UIBarButtonItem"/>
-            </relationships>
-        </class>
-        <class className="NSLayoutConstraint" superclassName="NSObject">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/NSLayoutConstraint.h"/>
-        </class>
-        <class className="RGDeskCustomTableViewCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RGDeskCustomTableViewCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="bureauNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="latePlaceHolder" candidateClass="UIView"/>
-                <relationship kind="outlet" name="todoPlaceHolder" candidateClass="UIView"/>
-            </relationships>
-        </class>
-        <class className="RGDeskViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RGDeskViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="loadNextResultsPage:"/>
-                <relationship kind="outlet" name="detailViewController" candidateClass="RGMasterViewController"/>
-                <relationship kind="outlet" name="loadMoreButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="searchBar" candidateClass="UISearchBar"/>
-            </relationships>
-        </class>
-        <class className="RGDetailViewController" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RGDetailViewController.h"/>
-        </class>
-        <class className="RGDocumentsView" superclassName="UITableViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RGDocumentsView.h"/>
-        </class>
-        <class className="RGFileCell" superclassName="UITableViewCell">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RGFileCell.h"/>
-            <relationships>
-                <relationship kind="outlet" name="filenameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="retardPlaceHolder" candidateClass="UIView"/>
-                <relationship kind="outlet" name="typeLabel" candidateClass="UILabel"/>
-            </relationships>
-        </class>
-        <class className="RGMasterViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RGMasterViewController.h"/>
-            <relationships>
-                <relationship kind="action" name="showVisuelPDF:"/>
-                <relationship kind="outlet" name="circuitTable" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="documentsButtonItem" candidateClass="UIBarButtonItem"/>
-                <relationship kind="outlet" name="dossierName" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="dossierNameLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="rejectButton" candidateClass="UIButton"/>
-                <relationship kind="outlet" name="sousTypeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="sousTypeValueLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="textView" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="typeLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="typeValueLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="viserButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-        <class className="RGSplitViewController" superclassName="UISplitViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RGSplitViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="bureauView"/>
-            </relationships>
-        </class>
-        <class className="RGWorkflowDialogViewController" superclassName="UIViewController">
-            <source key="sourceIdentifier" type="project" relativePath="./Classes/RGWorkflowDialogViewController.h"/>
-            <relationships>
-                <relationship kind="outlet" name="annotationPrivee" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="annotationPublique" candidateClass="UITextView"/>
-                <relationship kind="outlet" name="certificateLabel" candidateClass="UILabel"/>
-                <relationship kind="outlet" name="certificatesTableView" candidateClass="UITableView"/>
-                <relationship kind="outlet" name="finishButton" candidateClass="UIButton"/>
-            </relationships>
-        </class>
-    </classes>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar" statusBarStyle="blackTranslucent"/>
         <simulatedOrientationMetrics key="orientation"/>

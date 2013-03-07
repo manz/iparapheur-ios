@@ -51,6 +51,7 @@
 @property (retain, nonatomic) NSString* bureauCourant;
 @property (retain, nonatomic) NSString* dossierCourant;
 @property (retain, nonatomic) NSString* currentPrincipalDocPath;
+@property (retain, nonatomic) NSMutableDictionary *currentFilter;
 
 + (ADLSingletonState *)sharedSingletonState;
 

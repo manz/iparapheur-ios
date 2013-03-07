@@ -153,6 +153,7 @@
 
     API_GETBUREAUX([def username]);
     
+   
     if (displayHUD == NO) {
         LGViewHUD *hud = [LGViewHUD defaultHUD];
         hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
@@ -162,6 +163,7 @@
         [hud showInView:self.view];
     }
     
+    [def release];
 }
 
 - (void)viewDidUnload

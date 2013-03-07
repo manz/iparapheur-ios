@@ -7,6 +7,7 @@
 //
 
 #import "ADLRequester.h"
+#import "ADLCollectivityDef.h"
 
 #pragma mark - API Keys
 /* Login / logout */
@@ -18,6 +19,7 @@
 #define GETDOSSIERSHEADERS_API  @"getDossiersHeaders"
 #define GETDOSSIER_API          @"getDossier"
 #define GETANNOTATIONS_API      @"getAnnotations"
+#define GETTYPOLOGIE_API        @"￼￼getTypologie"
 
 /* editing api */
 #define APPROVE_API             @"approve"
@@ -62,6 +64,17 @@
     NSDictionary *_args = [[NSDictionary alloc] initWithObjectsAndKeys:bureauCourant, @"bureauCourant", \
                             page, @"page", \
                             pageSize, @"pageSize", nil]; \
+    API_REQUEST(GETDOSSIERSHEADERS_API, _args); \
+    [_args release]; \
+}
+
+#define API_GETDOSSIERHEADERS_FILTERED(bureauCourant, page, pageSize, _filters) \
+{ \
+    NSDictionary *_args = [[NSDictionary alloc] initWithObjectsAndKeys: \
+        bureauCourant, @"bureauCourant", \
+        page, @"page", \
+        _filters, @"filters", \
+        pageSize, @"pageSize", nil]; \
     API_REQUEST(GETDOSSIERSHEADERS_API, _args); \
     [_args release]; \
 }

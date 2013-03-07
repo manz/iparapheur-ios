@@ -51,6 +51,7 @@
 #import "ADLPasswordAlertView.h"
 #import <AJNotificationView/AJNotificationView.h>
 #import <NSData+Base64/NSData+Base64.h>
+#import "ADLAPIRequests.h"
 
 @implementation RGAppDelegate
 
@@ -175,6 +176,8 @@
 - (void)applicationDidBecomeActive:(UIApplication *)application
 {
     // Restart any tasks that were paused (or not yet started) while the application was inactive. If the application was previously in the background, optionally refresh the user interface.
+  //  API_LOGIN([[NSUserDefaults standardUserDefaults] stringForKey:@"login_preference"], [[NSUserDefaults standardUserDefaults] stringForKey:@"password_preference"]);
+
 }
 
 - (void)applicationWillTerminate:(UIApplication *)application
@@ -307,6 +310,22 @@
     
     return retval;
     
+}
+
+
+#pragma mark - Api requests delegate
+
+- (void)didEndWithRequestAnswer:(NSDictionary*)answer {
+    NSString *s = [answer objectForKey:@"_req"];
+  
+    if ([s isEqual:LOGIN_API]) {
+        
+        ADLCredentialVault *vault = [ADLCredentialVault sharedCredentialVault];
+        ADLCollectivityDef *def = [ADLCollectivityDef copyDefaultCollectity];
+        
+        [vault addCredentialForHost:[def host] andLogin:[def username] withTicket:API_LOGIN_GET_TICKET(answer)];
+    }
+
 }
 
 

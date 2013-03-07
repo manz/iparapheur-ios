@@ -8,6 +8,9 @@
 
 /* Begin PBXBuildFile section */
 		14175727168DD63500E4FB4D /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14175726168DD63500E4FB4D /* CoreData.framework */; };
+		142B020816D61AF200EF3B8F /* acmobile.der in Resources */ = {isa = PBXBuildFile; fileRef = 142B020716D61AF200EF3B8F /* acmobile.der */; };
+		142B021716D6580200EF3B8F /* ADLFilterTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142B021616D6580200EF3B8F /* ADLFilterTypeTableViewController.m */; };
+		142B021A16D6581400EF3B8F /* ADLFilterSubTypeTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142B021916D6581400EF3B8F /* ADLFilterSubTypeTableViewController.m */; };
 		142CDD8D1640260B009F4F84 /* ADLPostItButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 142CDD8C1640260B009F4F84 /* ADLPostItButton.m */; };
 		1434F66E168DFDD2000C115D /* ADLKeyStore.m in Sources */ = {isa = PBXBuildFile; fileRef = 1434F66A168DFDD2000C115D /* ADLKeyStore.m */; };
 		1434F66F168DFDD2000C115D /* PrivateKey.m in Sources */ = {isa = PBXBuildFile; fileRef = 1434F66C168DFDD2000C115D /* PrivateKey.m */; };
@@ -18,6 +21,7 @@
 		1469DFFA1675F72C0064E8E7 /* ca_mobiles_chaine.der in Resources */ = {isa = PBXBuildFile; fileRef = 1469DFF91675F72C0064E8E7 /* ca_mobiles_chaine.der */; };
 		1483D1DE165E852C000C6D0D /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1483D1DD165E852C000C6D0D /* Security.framework */; };
 		14BBBD991690EBB9007FFD9F /* ADLActionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 14BBBD981690EBB9007FFD9F /* ADLActionCell.m */; };
+		14EF518C16DF72A7003C2FB3 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 14EF518B16DF72A7003C2FB3 /* Settings.storyboard */; };
 		B4082A7F162D48CB000B0E26 /* logo-new5.png in Resources */ = {isa = PBXBuildFile; fileRef = B4082A7E162D48CB000B0E26 /* logo-new5.png */; };
 		B41B609E15F0962100655827 /* ADLCircuitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B41B609D15F0962100655827 /* ADLCircuitCell.m */; };
 		B41B60AD15F09D5300655827 /* ip-mailsec.jpg in Resources */ = {isa = PBXBuildFile; fileRef = B41B609F15F09D5200655827 /* ip-mailsec.jpg */; };
@@ -140,6 +144,11 @@
 
 /* Begin PBXFileReference section */
 		14175726168DD63500E4FB4D /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		142B020716D61AF200EF3B8F /* acmobile.der */ = {isa = PBXFileReference; lastKnownFileType = file; path = acmobile.der; sourceTree = "<group>"; };
+		142B021516D6580200EF3B8F /* ADLFilterTypeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLFilterTypeTableViewController.h; sourceTree = "<group>"; };
+		142B021616D6580200EF3B8F /* ADLFilterTypeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLFilterTypeTableViewController.m; sourceTree = "<group>"; };
+		142B021816D6581400EF3B8F /* ADLFilterSubTypeTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLFilterSubTypeTableViewController.h; sourceTree = "<group>"; };
+		142B021916D6581400EF3B8F /* ADLFilterSubTypeTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLFilterSubTypeTableViewController.m; sourceTree = "<group>"; };
 		142CDD8B1640260B009F4F84 /* ADLPostItButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLPostItButton.h; sourceTree = "<group>"; };
 		142CDD8C1640260B009F4F84 /* ADLPostItButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLPostItButton.m; sourceTree = "<group>"; };
 		1434F669168DFDD2000C115D /* ADLKeyStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLKeyStore.h; sourceTree = "<group>"; };
@@ -157,6 +166,7 @@
 		1483D1DD165E852C000C6D0D /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		14BBBD971690EBB9007FFD9F /* ADLActionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLActionCell.h; sourceTree = "<group>"; };
 		14BBBD981690EBB9007FFD9F /* ADLActionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ADLActionCell.m; sourceTree = "<group>"; };
+		14EF518B16DF72A7003C2FB3 /* Settings.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
 		14F0C8551694B65800C0D720 /* ADLAPIRequests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ADLAPIRequests.h; sourceTree = "<group>"; };
 		B4082A7E162D48CB000B0E26 /* logo-new5.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "logo-new5.png"; sourceTree = "<group>"; };
 		B41B609C15F0962100655827 /* ADLCircuitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ADLCircuitCell.h; sourceTree = "<group>"; };
@@ -394,6 +404,10 @@
 				B488312615EE0F2900EC5BB3 /* ADLPDFViewController.m */,
 				B4A221A916299E9B00474A18 /* ADLActionViewController.h */,
 				B4A221AA16299E9B00474A18 /* ADLActionViewController.m */,
+				142B021516D6580200EF3B8F /* ADLFilterTypeTableViewController.h */,
+				142B021616D6580200EF3B8F /* ADLFilterTypeTableViewController.m */,
+				142B021816D6581400EF3B8F /* ADLFilterSubTypeTableViewController.h */,
+				142B021916D6581400EF3B8F /* ADLFilterSubTypeTableViewController.m */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -493,6 +507,7 @@
 				B4E5ECB2153AF65F00BD514D /* RGAppDelegate.m */,
 				B4E5ECB4153AF65F00BD514D /* MainStoryboard_iPhone.storyboard */,
 				B4E5ECB7153AF65F00BD514D /* MainStoryboard_iPad.storyboard */,
+				14EF518B16DF72A7003C2FB3 /* Settings.storyboard */,
 				B4E5ECA9153AF65F00BD514D /* Supporting Files */,
 				B4DF365C15F723D1007B4CD5 /* ADLNotifications.h */,
 			);
@@ -502,6 +517,7 @@
 		B4E5ECA9153AF65F00BD514D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				142B020716D61AF200EF3B8F /* acmobile.der */,
 				1469DFF91675F72C0064E8E7 /* ca_mobiles_chaine.der */,
 				B4082A7E162D48CB000B0E26 /* logo-new5.png */,
 				B41B609F15F09D5200655827 /* ip-mailsec.jpg */,
@@ -761,6 +777,8 @@
 				B4D2F89B162AADF700D8A1DE /* MainStoryboard_iPad.storyboard in Resources */,
 				B4082A7F162D48CB000B0E26 /* logo-new5.png in Resources */,
 				1469DFFA1675F72C0064E8E7 /* ca_mobiles_chaine.der in Resources */,
+				142B020816D61AF200EF3B8F /* acmobile.der in Resources */,
+				14EF518C16DF72A7003C2FB3 /* Settings.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -858,6 +876,8 @@
 				1434F672168DFF98000C115D /* KeyStore.xcdatamodeld in Sources */,
 				1434F681168E087A000C115D /* ADLPasswordAlertView.m in Sources */,
 				14BBBD991690EBB9007FFD9F /* ADLActionCell.m in Sources */,
+				142B021716D6580200EF3B8F /* ADLFilterTypeTableViewController.m in Sources */,
+				142B021A16D6581400EF3B8F /* ADLFilterSubTypeTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

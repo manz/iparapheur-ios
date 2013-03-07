@@ -61,6 +61,7 @@
 @synthesize loadMoreButton;
 @synthesize searchBar;
 
+
 #pragma mark - UIViewController delegate
 -(void)viewDidLoad {
     [super viewDidLoad];
@@ -81,12 +82,21 @@
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:kDossierActionComplete object:nil];
     
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(refresh) name:kFilterChanged object:nil];
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(closeFilterPopover) name:kFilterPopoverShouldClose object:nil];
+    
 	//  update the last update date
 	[_refreshHeaderView refreshLastUpdatedDate];
     
 }
 
+-(void)closeFilterPopover {
+     [self popoverControllerDidDismissPopover:_filtersPopover];
+}
+
 -(void) refresh {
+   
     [self loadDossiersWithPage:0];
 }
 
@@ -117,10 +127,14 @@
     
     [requester request:GETDOSSIERSHEADERS_API andArgs:args];
 */
-    API_GETDOSSIERHEADERS(deskRef, [NSNumber numberWithInteger:page], @"15");
-    
-    
-    
+    //
+    NSDictionary *currentFilter = [[ADLSingletonState sharedSingletonState] currentFilter];
+    if (currentFilter != nil) {
+        API_GETDOSSIERHEADERS_FILTERED(deskRef, [NSNumber numberWithInteger:page], @"15", currentFilter);
+    }
+    else {
+        API_GETDOSSIERHEADERS(deskRef, [NSNumber numberWithInteger:page], @"15");
+    }
     LGViewHUD *hud = [LGViewHUD defaultHUD];
     hud.image=[UIImage imageNamed:@"rounded-checkmark.png"];
     hud.topText=@"";
@@ -268,10 +282,12 @@
         
     }
     else {
-        NSDictionary *filters = [[NSDictionary alloc] initWithObjectsAndKeys:
+        NSMutableDictionary *filters = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
          [NSString stringWithFormat:@"*%@*",searchText], @"cm:name",nil];
-                
-
+        
+        NSDictionary *currentFilter = [[ADLSingletonState sharedSingletonState] currentFilter];
+        [filters addEntriesFromDictionary:currentFilter];
+        
         args = [[NSDictionary alloc]
                 initWithObjectsAndKeys:
                 deskRef, @"bureauCourant",
@@ -336,6 +352,22 @@
     
 }
 
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if (_filtersPopover != nil) {
+        [_filtersPopover dismissPopoverAnimated:NO];
+    }
+    
+    _filtersPopover = [(UIStoryboardPopoverSegue *)segue popoverController];
+    [_filtersPopover setDelegate:self];
+}
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+    if (_filtersPopover != nil && popoverController == _filtersPopover) {
+        [_filtersPopover dismissPopoverAnimated:YES];
+        _filtersPopover = nil;
+    }
+}
 
 - (void)dealloc {
     [loadMoreButton release];
